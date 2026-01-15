@@ -1,0 +1,105 @@
+---
+/**
+ * Custom 404 Page - Page Not Found
+ */
+
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { ArrowLeftIcon, HomeIcon } from "@lucide/astro";
+---
+
+<Layout title="404 - Page Not Found" description="The page you're looking for doesn't exist or has been moved.">
+  <Header />
+
+  <main class="min-h-[calc(100vh-200px)] flex items-center justify-center relative overflow-hidden">
+    <!-- Background gradient effect -->
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-purple/5 via-transparent to-brand-blue/5 pointer-events-none"></div>
+    
+    <!-- Decorative elements -->
+    <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-brand-purple/10 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    
+    <div class="relative z-10 text-center px-6 py-16 max-w-2xl mx-auto">
+      <!-- 404 Number -->
+      <div class="relative mb-8">
+        <h1 class="text-[10rem] md:text-[14rem] font-bold leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-brand-purple via-brand-blue to-brand-green select-none">
+          404
+        </h1>
+        <div class="absolute inset-0 text-[10rem] md:text-[14rem] font-bold leading-none tracking-tighter text-brand-purple/5 blur-xl select-none" aria-hidden="true">
+          404
+        </div>
+      </div>
+
+      <!-- Message -->
+      <h2 class="text-2xl md:text-3xl font-semibold text-foreground mb-4">
+        Page not found
+      </h2>
+      <p class="text-muted-foreground text-lg mb-10 max-w-md mx-auto font-mono">
+        The page you're looking for doesn't exist or has been moved to a new location.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all h-12 px-8 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"
+        >
+          <HomeIcon class="w-4 h-4" />
+          Back to Home
+        </a>
+        <button
+          onclick="history.back()"
+          class="inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium border border-primary bg-transparent hover:bg-primary/5 transition-all h-12 px-8"
+        >
+          <ArrowLeftIcon class="w-4 h-4" />
+          Go Back
+        </button>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="mt-16 pt-10 border-t border-border">
+        <p class="text-sm text-muted-foreground mb-6">Or explore our products:</p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="/products/infra"
+            class="px-4 py-2 text-sm font-medium rounded-full border border-border hover:border-brand-blue hover:bg-brand-blue/5 transition-colors"
+          >
+            Y_Infra
+          </a>
+          <a
+            href="/products/app"
+            class="px-4 py-2 text-sm font-medium rounded-full border border-border hover:border-brand-green hover:bg-brand-green/5 transition-colors"
+          >
+            Y_App
+          </a>
+          <a
+            href="/products/ai"
+            class="px-4 py-2 text-sm font-medium rounded-full border border-border hover:border-brand-orange hover:bg-brand-orange/5 transition-colors"
+          >
+            Y_AI
+          </a>
+          <a
+            href="/products/ede"
+            class="px-4 py-2 text-sm font-medium rounded-full border border-border hover:border-brand-yellow hover:bg-brand-yellow/5 transition-colors"
+          >
+            Y_EDE
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+</style>
