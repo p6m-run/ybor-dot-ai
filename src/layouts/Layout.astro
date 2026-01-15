@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import { Toaster } from "@/components/ui/toaster";
+import StructuredData from "@/components/StructuredData.astro";
 import "../styles/global.css";
 import DefaultOgImage from "@/assets/default-og-image.jpg";
 
@@ -12,6 +13,7 @@ interface Props {
 
 const { title, description, image = DefaultOgImage.src } = Astro.props as Props;
 const siteName = "Ybor Technology";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -21,16 +23,38 @@ const siteName = "Ybor Technology";
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
+    
+    <!-- Primary Meta Tags -->
     <title>{title ?? siteName}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title ?? siteName} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
-    <meta property="og:url" content={Astro.url.toString()} />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Ybor Technology" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="en_US" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title ?? siteName} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Structured Data for Google Sitelinks -->
+    <StructuredData 
+      title={title ?? siteName} 
+      description={description} 
+      url={canonicalURL.toString()} 
+    />
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">

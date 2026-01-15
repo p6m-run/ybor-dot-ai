@@ -1,0 +1,173 @@
+---
+/**
+ * StructuredData component for SEO and Google Sitelinks
+ * 
+ * This component adds JSON-LD structured data to help search engines
+ * understand the site structure and display rich results (sitelinks).
+ */
+
+interface Props {
+  title?: string;
+  description?: string;
+  url?: string;
+}
+
+const { title, description, url } = Astro.props;
+
+const siteUrl = 'https://ybor.ai';
+const siteName = 'Ybor Technology';
+const logoUrl = `${siteUrl}/favicon.ico`;
+
+// Main navigation links that should appear as sitelinks
+const navigationLinks = [
+  {
+    name: 'Products',
+    url: `${siteUrl}/products/infra`,
+    description: 'Enterprise platform solutions including Y_Infra, Y_App, Y_AI, and Y_EDE'
+  },
+  {
+    name: 'Y_Infra',
+    url: `${siteUrl}/products/infra`,
+    description: 'Provision Clusters + Infrastructure'
+  },
+  {
+    name: 'Y_App',
+    url: `${siteUrl}/products/app`,
+    description: 'Build & ship apps faster'
+  },
+  {
+    name: 'Y_AI',
+    url: `${siteUrl}/products/ai`,
+    description: 'Flexible, ownable AI workflows'
+  },
+  {
+    name: 'Y_EDE',
+    url: `${siteUrl}/products/ede`,
+    description: 'Enterprise Development Environments'
+  },
+  {
+    name: 'Culture & Careers',
+    url: `${siteUrl}/culture-and-careers`,
+    description: 'Join our team and learn about our culture'
+  },
+  {
+    name: 'Contact',
+    url: `${siteUrl}/contact`,
+    description: 'Get in touch with Ybor Technology'
+  }
+];
+
+// WebSite schema - helps with sitelinks search box
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${siteUrl}/#website`,
+  name: siteName,
+  url: siteUrl,
+  description: description || 'Ybor Technology - Enterprise Platform Solutions',
+  publisher: {
+    '@id': `${siteUrl}/#organization`
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${siteUrl}/?s={search_term_string}`
+    },
+    'query-input': 'required name=search_term_string'
+  }
+};
+
+// Organization schema - establishes brand identity
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: siteName,
+  url: siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: logoUrl,
+    width: 512,
+    height: 512
+  },
+  sameAs: [
+    'https://www.linkedin.com/company/ybor-technology-llc'
+  ],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    url: `${siteUrl}/contact`
+  }
+};
+
+// SiteNavigationElement schema - hints Google about main navigation
+const navigationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': `${siteUrl}/#navigation`,
+  name: 'Main Navigation',
+  itemListElement: navigationLinks.map((link, index) => ({
+    '@type': 'SiteNavigationElement',
+    position: index + 1,
+    name: link.name,
+    description: link.description,
+    url: link.url
+  }))
+};
+
+// BreadcrumbList schema for the current page (if not homepage)
+const currentUrl = url || Astro.url.toString();
+const isHomepage = currentUrl === siteUrl || currentUrl === `${siteUrl}/`;
+
+// Generate breadcrumb based on URL path
+const generateBreadcrumb = () => {
+  if (isHomepage) return null;
+  
+  const pathname = new URL(currentUrl).pathname;
+  const segments = pathname.split('/').filter(Boolean);
+  
+  const breadcrumbItems = [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteUrl
+    }
+  ];
+  
+  let currentPath = siteUrl;
+  segments.forEach((segment, index) => {
+    currentPath += `/${segment}`;
+    const name = segment
+      .split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: index + 2,
+      name: name,
+      item: currentPath
+    });
+  });
+  
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbItems
+  };
+};
+
+const breadcrumbSchema = generateBreadcrumb();
+
+// Combine all schemas
+const schemas = [websiteSchema, organizationSchema, navigationSchema];
+if (breadcrumbSchema) {
+  schemas.push(breadcrumbSchema);
+}
+---
+
+{schemas.map((schema) => (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+))}

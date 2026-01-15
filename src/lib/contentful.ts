@@ -3,11 +3,21 @@ import { createClient } from 'contentful';
 
 
 // Contentful configuration
+const spaceId = import.meta.env.CONTENTFUL_SPACE_ID;
+const previewToken = import.meta.env.CONTENTFUL_PREVIEW_TOKEN;
+const deliveryToken = import.meta.env.CONTENTFUL_DELIVERY_TOKEN;
+
+// Debug: Check if env vars are loaded
+console.log('🔐 Contentful env check:', {
+  hasSpaceId: !!spaceId,
+  hasPreviewToken: !!previewToken,
+  hasDeliveryToken: !!deliveryToken,
+  isDev: import.meta.env.DEV,
+});
+
 const config = {
-  space: import.meta.env.CONTENTFUL_SPACE_ID,
-  accessToken: import.meta.env.DEV
-    ? import.meta.env.CONTENTFUL_PREVIEW_TOKEN
-    : import.meta.env.CONTENTFUL_DELIVERY_TOKEN,
+  space: spaceId,
+  accessToken: import.meta.env.DEV ? previewToken : deliveryToken,
   host: import.meta.env.DEV ? "preview.contentful.com" : "cdn.contentful.com",
 };
 
