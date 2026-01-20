@@ -1,6 +1,5 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import PostHogLayout from '@/layouts/PostHogLayout.astro';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import SectionRenderer from '@/components/SectionRenderer.astro';
@@ -27,20 +26,18 @@ if (!page) {
 }
 ---
 
-<PostHogLayout>
-  <Layout 
-    title={page.title}
-    description={page.metaDescription}
-    image={page.metaImage}
-  >
-    <Header />
+<Layout 
+  title={page.title}
+  description={page.metaDescription}
+  image={page.metaImage}
+>
+  <Header />
 
-    {page.sections.map((section) => (
-      <SectionRenderer section={section} slug={slug} color="brand-orange" />
-    ))}
+  {page.sections.map((section) => (
+    <SectionRenderer section={section} slug={slug} color="brand-orange" />
+  ))}
 
-    <GradientBg client:only="react" color="brand-orange" />
-    <Footer />
-  </Layout>
-</PostHogLayout>
+  <GradientBg client:only="react" color="brand-orange" />
+  <Footer />
+</Layout>
 

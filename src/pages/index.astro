@@ -7,7 +7,6 @@
  */
 
 import Layout from "@/layouts/Layout.astro";
-import PostHogLayout from "@/layouts/PostHogLayout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import SectionRenderer from "@/components/SectionRenderer.astro";
@@ -35,21 +34,19 @@ if (!homepage) {
 }
 ---
 
-<PostHogLayout>
-  <Layout title={homepage.title} description={homepage.metaDescription} image={homepage.metaImage}>
-    <Header />
+<Layout title={homepage.title} description={homepage.metaDescription} image={homepage.metaImage}>
+  <Header />
 
-    <!-- Render all sections dynamically -->
-    {
-      homepage.sections.map((section) => (
-        <SectionRenderer section={section} slug="/" color="brand-purple" />
-      ))
-    }
+  <!-- Render all sections dynamically -->
+  {
+    homepage.sections.map((section) => (
+      <SectionRenderer section={section} slug="/" color="brand-purple" />
+    ))
+  }
 
-    <GradientBg client:only="react" />
-    <Footer />
-  </Layout>
-</PostHogLayout>
+  <GradientBg client:only="react" />
+  <Footer />
+</Layout>
 
 <style is:global>
   /* Add any page-specific styles here */
