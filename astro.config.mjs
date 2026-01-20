@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ybor.ai',
+  site: 'https://www.ybor.ai',
   base: '',
 
   vite: {
@@ -26,7 +26,7 @@ export default defineConfig({
       // Customize priority for important pages
       serialize: (item) => {
         // Homepage gets highest priority
-        if (item.url === 'https://ybor.ai/') {
+        if (item.url === 'https://www.ybor.ai/') {
           item.priority = 1.0;
         }
         // Product pages get high priority

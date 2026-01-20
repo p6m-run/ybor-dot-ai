@@ -14,6 +14,10 @@ interface Props {
 const { title, description, image = DefaultOgImage.src } = Astro.props as Props;
 const siteName = "Ybor Technology";
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Default meta description for SEO when none is provided
+const defaultDescription = "Ybor Technology delivers enterprise-grade platform engineering solutions including Y-Infra, Y-App, Y-AI, and Y-EDE to accelerate your digital transformation.";
+const metaDescription = description || defaultDescription;
 ---
 
 <!doctype html>
@@ -26,12 +30,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     
     <!-- Primary Meta Tags -->
     <title>{title ?? siteName}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={metaDescription} />
     <link rel="canonical" href={canonicalURL} />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title ?? siteName} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={metaDescription} />
     <meta property="og:image" content={image} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
@@ -41,7 +45,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title ?? siteName} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={image} />
     
     <!-- Additional SEO Meta Tags -->
@@ -50,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <!-- Structured Data for Google Sitelinks -->
     <StructuredData 
       title={title ?? siteName} 
-      description={description} 
+      description={metaDescription} 
       url={canonicalURL.toString()} 
     />
     
