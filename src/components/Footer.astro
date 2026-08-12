@@ -1,100 +1,71 @@
 ---
-import LinuxImage from "../assets/linux-foundation.svg";
-import CloudImage from "../assets/cncf-member-silver.svg";
-import { Image } from "astro:assets";
-import BrandIcon from "./BrandIcon.astro";
+// Site footer: brand column, link columns, newsletter, and legal bar.
+const year = new Date().getFullYear();
 ---
-
-<footer class="py-8 px-8 text-sm bg-dark-gradient text-white">
-  <!-- Top Section: Logo and Social/Partner Logos -->
-  <div class="flex flex-col md:flex-row md:justify-between items-center py-8">
-    <div class="mb-6 md:mb-0">
-      <BrandIcon />
-    </div>
-    
-    <div class="flex items-center gap-6">
-      <!-- LinkedIn Logo -->
-      <a
-        href="https://www.linkedin.com/company/ybor-technology-llc"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="p-2 rounded"
-      >
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g clip-path="url(#clip0_0_1)">
-            <path
-              d="M22.2234 0H1.77187C0.792187 0 0 0.773438 0 1.72969V22.2656C0 23.2219 0.792187 24 1.77187 24H22.2234C23.2031 24 24 23.2219 24 22.2703V1.72969C24 0.773438 23.2031 0 22.2234 0ZM7.12031 20.4516H3.55781V8.99531H7.12031V20.4516ZM5.33906 7.43438C4.19531 7.43438 3.27188 6.51094 3.27188 5.37187C3.27188 4.23281 4.19531 3.30937 5.33906 3.30937C6.47813 3.30937 7.40156 4.23281 7.40156 5.37187C7.40156 6.50625 6.47813 7.43438 5.33906 7.43438ZM20.4516 20.4516H16.8937V14.8828C16.8937 13.5563 16.8703 11.8453 15.0422 11.8453C13.1906 11.8453 12.9094 13.2938 12.9094 14.7891V20.4516H9.35625V8.99531H12.7687V10.5609H12.8156C13.2891 9.66094 14.4516 8.70938 16.1813 8.70938C19.7859 8.70938 20.4516 11.0813 20.4516 14.1656V20.4516V20.4516Z"
-              fill="currentColor"></path>
-          </g>
-          <defs>
-            <clipPath id="clip0_0_1">
-              <rect width="24" height="24" fill="white"></rect>
-            </clipPath>
-          </defs>
-        </svg>
-      </a>
-      
-      <!-- Linux Foundation Logo -->
-      <a href="https://www.linuxfoundation.org/about/members" target="_blank">
-        <Image
-          class="h-6 w-auto"
-          src={LinuxImage}
-          alt="Linux Foundation"
-        />
-      </a>
-      
-      <!-- Cloud Native Computing Foundation Logo -->
-      <a href="https://www.cncf.io/about/members/" target="_blank">
-        <Image
-          class="h-6 w-auto"
-          src={CloudImage}
-          alt="Cloud Native Computing Foundation"
-        />
-      </a>
-    </div>
-  </div>
-
-  <!-- Middle Section: Navigation -->
-  <div class="py-6">
-    <nav class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6">
-      <!-- Products Section -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
       <div>
-        <h3 class="text-white font-medium mb-3">Products</h3>
-        <ul class="space-y-2">
-          <li><a href="/products/infra" class="hover:opacity-100 text-white transition-opacity opacity-75">Y_Infra</a></li>
-          <li><a href="/products/app" class="hover:opacity-100 text-white transition-opacity opacity-75">Y_App</a></li>
-          <li><a href="/products/ai" class="hover:opacity-100 text-white transition-opacity opacity-75">Y_AI</a></li>
-          <li><a href="/products/ede" class="hover:opacity-100 text-white transition-opacity opacity-75">Y_EDE</a></li>
-        </ul>
+        <div class="footer-mark"><img src="/assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor"></div>
+        <p class="footer-tagline">Production-grade platform engineering, for enterprises that ship.</p>
+        <div class="footer-badges">
+          <span class="logo-chip"><img src="/assets/logos/linux-foundation.png" alt="Linux Foundation"></span>
+          <span class="logo-chip"><img src="/assets/logos/cncf.svg" alt="CNCF"></span>
+        </div>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/ybor-technology-llc" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 9.5H5.67V18.5h2.67V9.5zM7 5.75a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM18.33 18.5v-4.93c0-2.64-1.41-3.87-3.29-3.87-1.52 0-2.2.84-2.58 1.43V9.5h-2.67c.04.75 0 9 0 9h2.67v-5.02c0-.27.02-.54.1-.73.21-.54.7-1.1 1.53-1.1 1.08 0 1.51.82 1.51 2.02v4.83h2.67z"/></svg></a>
+          {/* HIDDEN — this icon pointed at href="#" and went nowhere. Restore by
+              uncommenting and replacing the href with the real Ybor GitHub org URL.
+          <a href="#" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.91 0 1.38-.01 2.49-.01 2.83 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+          */}
+        </div>
       </div>
-      
-      <!-- Contact and Careers -->
-      <div class="flex flex-col md:flex-row gap-6">
-        <a href="/culture-and-careers" class="text-white hover:opacity-100 transition-opacity opacity-75">Culture / Careers</a>
-        <a href="/contact" class="text-white hover:opacity-100 transition-opacity opacity-75">Contact</a>
+      <div>
+        <h4>Platform</h4>
+        <div class="footer-links">
+          <a href="/platform#infrastructure">Platform Infrastructure</a>
+          <a href="/platform#delivery">Application Delivery</a>
+          <a href="/how-it-works">How it Works</a>
+          {/* HIDDEN — Pricing is parked for now. Restore by uncommenting.
+          <a href="/pricing">Pricing</a>
+          */}
+          <a href="/platform#integrations">Integrations</a>
+        </div>
       </div>
-    </nav>
-  </div>
-
-  <!-- Separator Line -->
-  <hr class="border-white opacity-10 w-full" />
-
-  <!-- Bottom Section: Copyright and Legal Links -->
-  <div class="flex flex-col md:flex-row md:justify-between items-center py-6 text-gray-300 text-xs">
-    <div class="mb-4 md:mb-0">
-      Copyright {new Date().getFullYear()} &copy; Ybor Technology LLC.
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="/about">About</a>
+          {/* HIDDEN — Customers is parked for now. Restore by uncommenting.
+          <a href="/customers">Customers</a>
+          */}
+          <a href="/careers">Careers</a>
+          <a href="/contact">Contact</a>
+          <a href="/security">Security</a>
+          <a href="/blog">Blog</a>
+        </div>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <div class="footer-links">
+          <a class="ext" href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
+          <a class="ext" href="https://platform.p6m.dev" target="_blank" rel="noopener">Platform Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
+          <a class="ext" href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
+        </div>
+        <form class="newsletter" data-newsletter style="margin-top:18px">
+          <input class="input" type="email" placeholder="you@company.com" aria-label="Email for newsletter">
+          <button class="btn btn-primary btn-sm" type="submit">Subscribe</button>
+        </form>
+      </div>
     </div>
-    
-    <nav class="flex md:flex-row flex-col items-center md:items-start text-center md:text-left gap-6">
-      <a href="https://security.ybor.ai" target="_blank" rel="noopener noreferrer" class="hover:opacity-100 text-white transition-opacity opacity-75">Security Trust Center</a>
-      <a href="/privacy-policy" class="hover:opacity-100 text-white transition-opacity opacity-75">Privacy Policy</a>
-      <a href="/terms-of-service" class="hover:opacity-100 text-white transition-opacity opacity-75">Terms of Service</a>
-    </nav>
+    <div class="footer-bottom">
+      <div>© 2024–{year} Ybor Technology LLC. All rights reserved.</div>
+      <div class="footer-bottom-links">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/trust-center">Security Trust Center</a>
+        <span>// soc 2 type ii</span>
+      </div>
+    </div>
   </div>
 </footer>
-

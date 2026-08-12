@@ -1,119 +1,55 @@
-# Ybor.ai - Enterprise Cloud Platform
+# Ybor.ai Marketing Site
 
-> **Build and deploy enterprise-grade applications faster than ever**
+The Ybor.ai marketing website, built with [Astro](https://astro.build/). Static output,
+no client framework — just Astro components, a shared design-system stylesheet, and a small
+vanilla-JS interaction layer.
 
-Ybor.ai is a modern cloud platform that provides end-to-end automation and orchestration for the entire Software Development Lifecycle (SDLC) process. Our platform helps organizations manage new and existing workloads to optimize costs while unlocking the full potential of cloud infrastructure.
+## Getting started
 
-## 🚀 Features
-
-- **End-to-End SDLC Automation**: Complete orchestration of your development lifecycle
-- **Multi-Cloud Deployment**: Deploy to any cloud provider seamlessly
-- **Cost Optimization**: Manage and optimize cloud workloads for maximum efficiency
-- **Enterprise Security**: Built with enterprise-grade security standards
-- **Modern Tech Stack**: Built with Astro, React, and TypeScript
-
-## 🛠️ Tech Stack
-
-- **Framework**: [Astro](https://astro.build/) - Modern static site generator
-- **UI Library**: [React](https://reactjs.org/) - Component-based UI
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- **Forms**: [React Hook Form](https://react-hook-form.com/) - Performant forms
-- **Validation**: [Zod](https://zod.dev/) - TypeScript-first schema validation
-- **Deployment**: [Vercel](https://vercel.com/) - Cloud platform for static sites
-- **Analytics**: [Vercel Analytics](https://vercel.com/analytics) - Web analytics
-
-## 📦 Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-org/ybor-dot-dev.git
-   cd ybor-dot-dev
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:4321`
-
-## 🧞 Available Scripts
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-
-## 🏗️ Project Structure
-
-```
-ybor-dot-dev/
-├── public/                 # Static assets
-├── src/
-│   ├── components/         # React and Astro components
-│   │   ├── ui/            # Reusable UI components
-│   │   ├── Brand.tsx      # Ybor.ai logo component
-│   │   ├── Form.tsx       # Contact form component
-│   │   └── Terminal.astro # Terminal-style landing page
-│   ├── hooks/             # Custom React hooks
-│   ├── layouts/           # Page layouts
-│   ├── pages/             # Astro pages and API routes
-│   │   └── api/           # API endpoints
-│   └── styles/            # Global styles
-├── astro.config.mjs       # Astro configuration
-└── package.json           # Dependencies and scripts
+```bash
+npm install
+npm run dev        # dev server at http://localhost:4321
+npm run build      # static build to dist/
+npm run preview    # serve the built dist/ locally
 ```
 
-## 🌐 Deployment
+Node 18+ recommended (developed on Node 24).
 
-This application is deployed on [Vercel](https://vercel.com/upsight-llc/ybor-dot-dev) and automatically builds from the main branch.
+## Project structure
 
-### Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# Add your environment variables here
-NOTION_API_KEY=your_notion_api_key
-NOTION_DATABASE_ID=your_notion_database_id
-RESEND_API_KEY=your_resend_api_key
+```
+src/
+  layouts/
+    Base.astro          # <head>, theme script, header/footer chrome, named slots
+  components/
+    Header.astro        # primary nav + dropdowns (accepts `active` prop)
+    MobileMenu.astro     # mobile nav drawer
+    Footer.astro         # footer columns, newsletter, legal bar
+  pages/                 # one .astro file per route (index, about, pricing, …)
+  styles/
+    site.css             # the full Ybor design system (tokens, components)
+public/
+  assets/                # images and logos
+  fonts/                 # Manrope + JetBrains Mono (self-hosted)
+  js/
+    site.js              # shared interactions (theme, nav, tabs, forms, reveals)
+    lucide.min.js        # vendored Lucide icon library (no CDN)
+design-reference/        # original HTML/CSS/JS prototypes (Claude Design handoff)
 ```
 
-## 🤝 Contributing
+## Pages
 
-We welcome contributions! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+`/` · `/about` · `/ashley-furniture` · `/blog` · `/blog-crossplane` · `/careers` ·
+`/contact` · `/customers` · `/how-it-works` · `/pricing` · `/privacy` · `/security` ·
+`/terms` · `/trust-center` · `/y-app` · `/y-infra`
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## Notes
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
-
-- **Website**: [ybor.ai](https://ybor.ai)
-- **Email**: security@ybor.ai
-- **Demo**: Schedule a demo through our [contact form](https://ybor.ai)
-
-## 🙏 Acknowledgments
-
-- Built with [Astro](https://astro.build/) for blazing fast performance
-- Styled with [Tailwind CSS](https://tailwindcss.com/) for beautiful, responsive design
-- Deployed on [Vercel](https://vercel.com/) for seamless hosting
-
----
-
-**Unlock the cloud, schedule a demo today!** 🚀
+- **Design system** — `src/styles/site.css` holds all tokens and component styles, ported
+  verbatim from the design handoff. Page-specific CSS lives in each page's `<style slot="head">`.
+- **Icons** — [Lucide](https://lucide.dev/) is vendored at `public/js/lucide.min.js` and
+  initialized by `site.js`; markup uses `<i data-lucide="…">`. The site loads no external hosts.
+- **Theme** — light/dark is set before first paint by an inline script in `Base.astro` and
+  persisted to `localStorage` (`ybor-theme`); a toggle is injected into the header by `site.js`.
+- **design-reference/** — the original prototypes, kept for visual reference. Excluded from the
+  Astro build; not part of the shipped site.

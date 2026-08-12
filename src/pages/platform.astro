@@ -1,0 +1,444 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="The Ybor Platform — one platform, from infrastructure to production | Ybor" description="One platform, two layers. Ybor provisions production Kubernetes on every cloud and delivers your applications onto it — commit to production in minutes, governed by default." active="platform">
+<style slot="head">
+  /* Stacked layers (delivery on foundation) */
+  .platform-stack { display: flex; flex-direction: column; }
+  .layer { position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: 32px 40px; align-items: start; border-color: var(--stroke-dark); }
+  .layer-main { display: flex; flex-direction: column; }
+  .layer-list { align-self: center; }
+  .layer-tag { font-size: 12px; color: var(--neutral-500); letter-spacing: .06em; margin-bottom: 6px; }
+  .layer-delivery { border-top: 2px solid var(--green); background: rgba(124,228,131,.035); }
+  .layer-foundation { border-top: 2px solid var(--orange); background: rgba(255,131,69,.035); }
+  .layer-joint { display: flex; align-items: center; gap: 16px; padding: 14px 0; }
+  .layer-joint-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--stroke-dark), transparent); }
+  .layer-joint-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--neutral-300); border: 1px solid var(--stroke-dark); border-radius: 999px; padding: 7px 16px; background: var(--ink); white-space: nowrap; }
+  .layer-joint-pill svg { width: 14px; height: 14px; color: var(--green); }
+  @media (max-width: 760px) { .layer { grid-template-columns: 1fr; gap: 20px; } .layer-list { align-self: start; } }
+
+  /* Hero combined visual — dark, layered: delivery pipeline lands on foundation clusters */
+  .combo-glow { position:absolute; inset:24px 12px auto 12px; height:170px; border-radius:var(--r-xl); box-shadow:var(--shadow-glow); z-index:0; }
+  .combo-card { position:relative; z-index:1; }
+  .combo-tag { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:13px; display:flex; align-items:center; gap:8px; }
+  .combo-tag.d { color:#8FE39A; } .combo-tag.f { color:#FF9F6B; }
+  .combo-tag .ct-dot { width:7px; height:7px; border-radius:999px; background:currentColor; box-shadow:0 0 8px currentColor; }
+  .combo-pipe { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
+  .combo-node { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border:1px solid var(--stroke-dark); border-radius:var(--r-md); background:rgba(255,255,255,.035); font-family:var(--font-mono); font-size:11.5px; color:var(--neutral-300); }
+  .combo-node svg { width:13px; height:13px; color:#8FE39A; filter:drop-shadow(0 0 5px rgba(124,228,131,.55)); }
+  .combo-sep { display:inline-flex; color:var(--neutral-500); }
+  .combo-sep svg { width:12px; height:12px; }
+  @keyframes combo-pulse { 0%,100%{opacity:.45} 50%{opacity:1} }
+  @keyframes combo-pod { 0%,100%{opacity:.3} 50%{opacity:.95} }
+  @media (prefers-reduced-motion:no-preference){
+    .combo-node svg { animation:combo-pulse 2.2s ease-in-out infinite; }
+    .combo-node:nth-of-type(2) svg{animation-delay:.25s} .combo-node:nth-of-type(3) svg{animation-delay:.5s} .combo-node:nth-of-type(4) svg{animation-delay:.75s} .combo-node:nth-of-type(5) svg{animation-delay:1s} .combo-node:nth-of-type(6) svg{animation-delay:1.25s}
+    .combo-cloud .pods span { animation:combo-pod 1.9s ease-in-out infinite; }
+    .combo-cloud:nth-child(2) .pods span{animation-delay:.3s} .combo-cloud:nth-child(3) .pods span{animation-delay:.6s}
+  }
+  .combo-seam { display:flex; align-items:center; justify-content:center; gap:12px; padding:14px 0; position:relative; z-index:1; }
+  .combo-seam .ln { flex:1; height:1px; background:var(--stroke-dark); }
+  .combo-seam .pill { display:inline-flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--purple); border-radius:999px; padding:7px 15px; box-shadow:0 0 20px rgba(140,100,218,.55); }
+  .combo-seam .pill svg { width:13px; height:13px; }
+  .combo-clouds { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .combo-cloud { border:1px solid var(--stroke-dark); border-radius:var(--r-lg); padding:13px 8px 12px; text-align:center; background:rgba(255,255,255,.025); }
+  .combo-cloud .cn { display:block; font-family:var(--font-mono); font-weight:600; font-size:15px; color:#FF9F6B; }
+  .combo-cloud img { height:15px; width:auto; max-width:60px; object-fit:contain; margin:7px auto 0; display:block; }
+  .combo-cloud .pods { display:flex; gap:4px; justify-content:center; margin-top:10px; }
+  .combo-cloud .pods span { width:9px; height:9px; border-radius:2px; background:var(--orange); opacity:.4; }
+
+  /* section accent tints for the two layer-detail bands */
+  .lay-detail .icon-chip { background: var(--tint); color: var(--accent); }
+  .lay-d { --tint: #E9F9EA; --accent: var(--green-dark); }
+  .lay-f { --tint: #FBEDE4; --accent: var(--orange-dark); }
+  :global([data-theme="dark"]) .lay-d .icon-chip { background: rgba(124,228,131,.16); color: #8FE39A; }
+  :global([data-theme="dark"]) .lay-f .icon-chip { background: rgba(255,131,69,.16); color: #FF9F6B; }
+  .lay-detail .step-ic { background: var(--tint); color: var(--accent); }
+  .runs-band { text-align: center; }
+  .runs-band .rb-pill { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 13px; letter-spacing: .04em; color: #fff; background: var(--purple); border-radius: 999px; padding: 12px 22px; }
+  .runs-band .rb-pill svg { width: 16px; height: 16px; }
+</style>
+
+<!-- HERO -->
+<section class="hero bg-tint-soft">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="slash">//</span> the platform</span>
+        <h1 class="display-lg balance">One platform, from infrastructure to production.</h1>
+        <p class="body-lg muted pretty" style="max-width:600px">Ybor is one platform with two layers. It provisions production Kubernetes on every cloud, then delivers your applications onto it — commit to production in minutes, governed by default. Your team owns the source code, the clusters, and the data, on open foundations you can walk away with.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-glow" href="/contact?intent=demo">Book a Demo <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-secondary" href="#model">See how it fits together <i data-lucide="arrow-down" class="ic"></i></a>
+        </div>
+        <p class="hero-note">AWS <span class="dot">·</span> Azure <span class="dot">·</span> GCP <span class="dot">·</span> Built on open source <span class="dot">·</span> SOC 2 report</p>
+      </div>
+      <div class="hero-copy">
+        <div class="ui-stack reveal">
+          <div class="combo-glow"></div>
+          <div class="ui-card combo-card" style="box-shadow:var(--shadow-lg)">
+            <div class="ui-card-head"><i data-lucide="rocket" style="width:15px;height:15px"></i> delivery · pipeline</div>
+            <div class="ui-card-body">
+              <div class="combo-tag d"><span class="ct-dot"></span>delivery layer</div>
+              <div class="combo-pipe">
+                <span class="combo-node"><i data-lucide="git-branch"></i>commit</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="play-circle"></i>ci</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="package"></i>build</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="shield-check"></i>scan</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="rocket"></i>deploy</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="check-circle-2"></i>live</span>
+              </div>
+              <div class="kv" style="margin-top:16px"><span class="k">status</span><span class="status-pill status-healthy"><span class="led"></span>Deployed to prod · a3f9c12</span></div>
+            </div>
+          </div>
+          <div class="combo-seam"><span class="ln"></span><span class="pill"><i data-lucide="arrow-down"></i> runs on the foundation</span><span class="ln"></span></div>
+          <div class="ui-card combo-card">
+            <div class="ui-card-head"><i data-lucide="server" style="width:15px;height:15px"></i> foundation · clusters</div>
+            <div class="ui-card-body">
+              <div class="combo-tag f"><span class="ct-dot"></span>foundation layer</div>
+              <div class="combo-clouds">
+                <div class="combo-cloud"><span class="cn">EKS</span><img src="/assets/logos/aws.png" alt="AWS"><div class="pods"><span></span><span></span><span></span></div></div>
+                <div class="combo-cloud"><span class="cn">AKS</span><img src="/assets/logos/azure.webp" alt="Microsoft Azure"><div class="pods"><span></span><span></span><span></span></div></div>
+                <div class="combo-cloud"><span class="cn">GKE</span><img src="/assets/logos/gcp.png" alt="Google Cloud"><div class="pods"><span></span><span></span><span></span></div></div>
+              </div>
+              <div class="kv" style="margin-top:16px"><span class="k">control plane</span><span class="status-pill status-healthy"><span class="led"></span>reconciling · 12/12 in sync</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE MODEL — stacked layers -->
+<section class="section bg-ink-grad" id="model">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> one platform, two layers</span>
+      <h2 class="display-md balance" style="color:#fff">Delivery runs on the foundation. Both are Ybor.</h2>
+      <p class="body-lg muted-d pretty">The delivery layer moves your code from commit to production. The foundation layer runs the clusters, policies, and secrets it lands on. You don't buy them separately and you don't wire them together — they're two layers of one platform, priced and operated as one.</p>
+    </div>
+    <div class="platform-stack" style="margin-top:56px">
+      <div class="card dark product-card layer layer-delivery">
+        <div class="layer-main">
+          <p class="mono layer-tag">LAYER 02 · DELIVERY</p>
+          <p class="mono" style="font-size:14px;color:var(--green);letter-spacing:.04em;margin-bottom:16px">APPLICATION DELIVERY</p>
+          <h3 class="heading-lg" style="color:#fff;margin-bottom:14px">From commit to production in minutes.</h3>
+          <p class="body muted-d" style="margin-bottom:22px">Ybor scaffolds a service from a vetted archetype, wires it into CI/CD, and ships it through ArgoCD and Kargo to staging and prod. Secret injection, service mesh, and policy enforcement come along for the ride.</p>
+          <a class="link-arrow" href="#delivery" style="color:#8FE39A">Explore the delivery layer <i data-lucide="arrow-down"></i></a>
+        </div>
+        <ul class="checklist layer-list">
+          <li><i data-lucide="check" class="ck"></i><span>7 archetype families: Java, .NET, Python, Rust, TypeScript, Data/AI, Shared</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>CI/CD on GitHub Actions, deploy via ArgoCD + Kargo</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Secret injection via Vault (cloud-native)</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Audit trail and rollback built-in</span></li>
+        </ul>
+      </div>
+
+      <div class="layer-joint" aria-hidden="true">
+        <span class="layer-joint-line"></span>
+        <span class="layer-joint-pill"><i data-lucide="arrow-down"></i> delivery runs on the foundation</span>
+        <span class="layer-joint-line"></span>
+      </div>
+
+      <div class="card dark product-card layer layer-foundation">
+        <div class="layer-main">
+          <p class="mono layer-tag">LAYER 01 · FOUNDATION</p>
+          <p class="mono" style="font-size:14px;color:var(--orange);letter-spacing:.04em;margin-bottom:16px">PLATFORM INFRASTRUCTURE</p>
+          <h3 class="heading-lg" style="color:#fff;margin-bottom:14px">Production infrastructure on day one.</h3>
+          <p class="body muted-d" style="margin-bottom:22px">Ybor provisions EKS, AKS, and GKE clusters from a single API. Crossplane and Cluster API under the hood. Istio, Kyverno, RBAC, mTLS, and observability wired in by default.</p>
+          <a class="link-arrow" href="#infrastructure" style="color:#FF9F6B">Explore the foundation layer <i data-lucide="arrow-down"></i></a>
+        </div>
+        <ul class="checklist layer-list">
+          <li><i data-lucide="check" class="ck"></i><span>Multi-cloud: AWS, Azure, GCP</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Built on Crossplane, Cluster API, Istio, Kyverno</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Object model: Enterprise → Organization → Solution → Application → Environment → Cluster</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2 controls enforced at the platform layer</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY LAYER DETAIL -->
+<section class="section bg-white lay-detail lay-d" id="delivery">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow green"><span class="slash">//</span> delivery layer</span>
+      <h2 class="display-md balance">Less wiring. More shipping.</h2>
+      <p class="body muted pretty">Everything a service needs to reach production — scaffolding, pipelines, secrets — generated once and enforced on every commit.</p>
+    </div>
+    <div class="grid grid-3" style="margin-top:56px">
+      <div class="card">
+        <span class="icon-chip"><i data-lucide="layout-template"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// archetypes</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Production-ready scaffolds, in seven languages.</h3>
+        <p class="body muted">Spring Boot, .NET, Python (FastAPI), Rust (Axum), TypeScript (Next.js), Data/AI, and Shared libraries. One <code class="mono" style="font-size:13px">archetect</code> command creates the repo, CI workflow, manifests, and platform integration.</p>
+        <p class="tech-row">Java · .NET · Python · Rust · TypeScript · Data/AI</p>
+      </div>
+      <div class="card">
+        <span class="icon-chip"><i data-lucide="git-pull-request-arrow"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// ci/cd orchestration</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Pipelines that pass your security review.</h3>
+        <p class="body muted">GitHub Actions workflows generated per archetype. Image signing, SBOM generation, container scanning, policy checks. ArgoCD for the deploy, Kargo for the promotion.</p>
+        <p class="tech-row">GitHub Actions · ArgoCD · Kargo · Sigstore</p>
+      </div>
+      <div class="card">
+        <span class="icon-chip"><i data-lucide="key-round"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// secret injection</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Two lines of YAML. Done.</h3>
+        <p class="body muted">Drop a <code class="mono" style="font-size:13px">vault:</code> block into your manifest. Ybor fetches the secret at deploy time, injects it as an env var, and rotates it on schedule. No secrets in Git. Ever.</p>
+        <p class="tech-row">Vault · Kubernetes ESO · Audit-logged</p>
+      </div>
+    </div>
+    <div class="steps" style="margin-top:64px">
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="layout-template"></i></span><span class="step-num">01</span></div><h4>Scaffold</h4><p><code class="mono" style="font-size:12px">archetect render spring-boot-rest</code> generates the repo, CI workflow, and Application manifest.</p></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="package"></i></span><span class="step-num">02</span></div><h4>Build</h4><p>Every commit triggers a generated GitHub Actions workflow. Tests run, image is built, signed, and scanned.</p></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="git-merge"></i></span><span class="step-num">03</span></div><h4>Promote</h4><p>Kargo enforces promotion policy: staging green for N hours, on-call approves, policy must pass.</p></div>
+      <div class="step"><div class="step-top"><span class="step-ic"><i data-lucide="rocket"></i></span><span class="step-num">04</span></div><h4>Deploy</h4><p>ArgoCD syncs the Application to the target Environment — onto the foundation clusters below.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RUNS ON BAND -->
+<section class="section-tight bg-tint runs-band">
+  <div class="container">
+    <span class="rb-pill"><i data-lucide="arrow-down"></i> every deploy above lands on the foundation below</span>
+  </div>
+</section>
+
+<!-- FOUNDATION LAYER DETAIL -->
+<section class="section bg-white lay-detail lay-f" id="infrastructure">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow orange"><span class="slash">//</span> foundation layer</span>
+      <h2 class="display-md balance">Provision once. Govern forever.</h2>
+      <p class="body muted pretty">The clusters, policies, and secrets every delivery lands on — declared in Git, reconciled by operators, defensible in an audit.</p>
+    </div>
+    <div class="grid grid-3" style="margin-top:56px">
+      <div class="card">
+        <span class="icon-chip"><i data-lucide="cloud"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// multi-cloud provisioning</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Clusters in any cloud, with one API.</h3>
+        <p class="body muted">Define a <code class="mono" style="font-size:13px">PlatformCluster</code> resource and the operator provisions an EKS, AKS, or GKE workload cluster — wired into the control plane, installables applied, network and policies in place.</p>
+        <p class="tech-row">EKS · AKS · GKE · Cluster API · Crossplane</p>
+      </div>
+      <div class="card">
+        <span class="icon-chip"><i data-lucide="layers"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// object model</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Built for multi-tenant scale.</h3>
+        <p class="body muted">Enterprise → Organization → Solution → Application → Environment → Cluster. Every resource is scoped to the model, every RBAC rule maps to it, every audit log references it.</p>
+        <p class="tech-row">Kubernetes Operators · CRDs · ArgoCD</p>
+      </div>
+      <div class="card">
+        <span class="icon-chip"><i data-lucide="shield-check"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// policy &amp; security</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Compliance enforced at the platform.</h3>
+        <p class="body muted">Kyverno policies, Istio mTLS, Vault secret injection, RBAC scoped to the object model, audit logs to your SIEM. Audit-mode default; enforce-mode when you're ready.</p>
+        <p class="tech-row">Kyverno · Istio · Vault · SIEM-ready</p>
+      </div>
+    </div>
+    <div class="steps" style="margin-top:64px">
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="refresh-cw"></i></span><span class="step-num">05</span></div><h4>Reconcile</h4><p><code class="mono" style="font-size:12px">platform-cluster-operator</code> dispatches Crossplane + Cluster API to provision cloud resources.</p></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="cloud-download"></i></span><span class="step-num">06</span></div><h4>Bootstrap</h4><p><code class="mono" style="font-size:12px">installation-operator</code> installs the addon catalog: Istio, Kyverno, ArgoCD, Vault, OTel, Grafana.</p></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="calendar-clock"></i></span><span class="step-num">07</span></div><h4>Schedule</h4><p>Environments are scheduled onto the cluster. Each Application gets a dedicated namespace per environment.</p></div>
+      <div class="step"><div class="step-top"><span class="step-ic"><i data-lucide="shield-check"></i></span><span class="step-num">08</span></div><h4>Govern</h4><p>RBAC, audit logs, mTLS, and policy enforcement are active from the first deploy. SOC 2 controls apply.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECT MODEL — the bridge -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> the connective tissue</span>
+      <h2 class="display-md balance">One object model ties the two layers together.</h2>
+      <p class="body muted pretty">The same primitives the delivery layer scaffolds are the primitives the foundation layer schedules. An Application deploys to Environments; Environments are scheduled onto Clusters. Enterprise to Cluster, it's one model.</p>
+    </div>
+    <div class="om">
+      <div class="om-nest">
+        <div class="om-col-h">Ownership — what <b>contains</b> what</div>
+        <div class="om-level lvl-ent">
+          <span class="om-contains">contains ↓</span>
+          <span class="om-tag"><span class="om-ic"><i data-lucide="building-2"></i></span>Enterprise</span>
+          <span class="om-note">Top-level tenancy boundary.</span>
+          <div class="om-level lvl-org">
+            <span class="om-contains">owns ↓</span>
+            <span class="om-tag"><span class="om-ic"><i data-lucide="users"></i></span>Organization</span>
+            <span class="om-note">Owns Solutions and Clusters. RBAC scope.</span>
+            <div class="om-level lvl-sol">
+              <span class="om-contains">groups ↓</span>
+              <span class="om-tag"><span class="om-ic"><i data-lucide="layers"></i></span>Solution</span>
+              <span class="om-note">Maps to a product or business line.</span>
+              <div class="om-level lvl-app">
+                <span class="om-tag"><span class="om-ic"><i data-lucide="box"></i></span>Application</span>
+                <span class="om-note">A deployable unit. Owns archetype source, CI workflow, manifests.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="om-runtime">
+        <div class="om-col-h">Runtime — where it <b>runs</b></div>
+        <div class="om-bridge"><i data-lucide="git-branch"></i> Application deploys to environments</div>
+        <div class="om-envs">
+          <span class="om-env"><span class="om-env-k">ENV</span>dev</span>
+          <span class="om-env"><span class="om-env-k">ENV</span>staging</span>
+          <span class="om-env"><span class="om-env-k">ENV</span>prod</span>
+        </div>
+        <div class="om-sched"><span><i data-lucide="arrow-down"></i> scheduled onto</span></div>
+        <div class="om-clusters">
+          <div class="om-cluster"><div class="om-c-name">EKS</div><img class="om-c-logo" src="/assets/logos/aws.png" alt="AWS"><div class="om-c-pods"><span></span><span></span><span></span></div></div>
+          <div class="om-cluster"><div class="om-c-name">AKS</div><img class="om-c-logo" src="/assets/logos/azure.webp" alt="Microsoft Azure"><div class="om-c-pods"><span></span><span></span><span></span></div></div>
+          <div class="om-cluster"><div class="om-c-name">GKE</div><img class="om-c-logo" src="/assets/logos/gcp.png" alt="Google Cloud"><div class="om-c-pods"><span></span><span></span><span></span></div></div>
+        </div>
+        <p class="om-runtime-note">// each Application × Environment gets its own namespace, provisioned by platform-cluster-operator.</p>
+      </div>
+    </div>
+    <p class="center" style="margin-top:32px"><a class="link-arrow" href="https://platform.p6m.dev/docs/architecture/object-models" target="_blank" rel="noopener">Read the object model docs <i data-lucide="arrow-up-right"></i></a></p>
+  </div>
+</section>
+
+<!-- INTEGRATIONS -->
+<section class="section bg-white" id="integrations">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> integrations</span>
+      <h2 class="display-md balance">Built on open source. Plays with what you already run.</h2>
+    </div>
+    <div class="tabs" data-tabs style="margin-top:48px">
+      <div class="tablist" role="tablist">
+        <button class="tab active" data-target="t-cloud" role="tab" aria-selected="true">Cloud Providers</button>
+        <button class="tab" data-target="t-lang" role="tab" aria-selected="false">Languages</button>
+        <button class="tab" data-target="t-cicd" role="tab" aria-selected="false">CI/CD</button>
+        <button class="tab" data-target="t-net" role="tab" aria-selected="false">Networking &amp; Security</button>
+        <button class="tab" data-target="t-obs" role="tab" aria-selected="false">Observability</button>
+      </div>
+      <div class="tabpanel active" id="t-cloud">
+        <div class="intgrid" style="grid-template-columns:repeat(3,1fr);max-width:760px;margin:0 auto">
+          <div class="intcard"><span class="int-logo"><img src="/assets/logos/aws.png" alt="AWS"></span><span class="ic-name">AWS</span><span class="ic-sub">EKS</span></div>
+          <div class="intcard"><span class="int-logo"><img src="/assets/logos/azure.webp" alt="Microsoft Azure"></span><span class="ic-name">Azure</span><span class="ic-sub">AKS</span></div>
+          <div class="intcard"><span class="int-logo"><img src="/assets/logos/gcp.png" alt="Google Cloud"></span><span class="ic-name">GCP</span><span class="ic-sub">GKE</span></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="t-lang">
+        <div class="intgrid" style="grid-template-columns:repeat(5,1fr)">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="coffee"></i></span><span class="ic-name">Java</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="hash"></i></span><span class="ic-name">.NET</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="braces"></i></span><span class="ic-name">Python</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="cog"></i></span><span class="ic-name">Rust</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="file-code-2"></i></span><span class="ic-name">TypeScript</span></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="t-cicd">
+        <div class="intgrid">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="play"></i></span><span class="ic-name">GitHub Actions</span><span class="ic-sub">CI</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="git-branch"></i></span><span class="ic-name">ArgoCD</span><span class="ic-sub">GitOps deploy</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="git-merge"></i></span><span class="ic-name">Kargo</span><span class="ic-sub">promotion</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="container"></i></span><span class="ic-name">Harbor</span><span class="ic-sub">registry</span></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="t-net">
+        <div class="intgrid">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="waypoints"></i></span><span class="ic-name">Istio</span><span class="ic-sub">service mesh</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="shield-check"></i></span><span class="ic-name">Kyverno</span><span class="ic-sub">policy</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="key-round"></i></span><span class="ic-name">Vault</span><span class="ic-sub">secrets</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="badge-check"></i></span><span class="ic-name">cert-manager</span><span class="ic-sub">certificates</span></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="t-obs">
+        <div class="intgrid">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="activity"></i></span><span class="ic-name">OpenTelemetry</span><span class="ic-sub">traces</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="line-chart"></i></span><span class="ic-name">Grafana</span><span class="ic-sub">dashboards</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="gauge"></i></span><span class="ic-name">Prometheus</span><span class="ic-sub">metrics</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="radar"></i></span><span class="ic-name">Datadog</span><span class="ic-sub">optional</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="center" style="margin-top:40px;max-width:680px;margin-inline:auto">
+      <p class="body muted">Don't see your tool? Ybor is extensible by design — add a Crossplane composition for any cloud resource, register a custom installable for any cluster addon, generate an archetype for any stack.</p>
+      <p style="margin-top:16px"><a class="link-arrow" href="https://platform.p6m.dev/docs/reference/installables" target="_blank" rel="noopener">See the full reference <i data-lucide="arrow-up-right"></i></a></p>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER STORY -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="split split-7-5">
+      <div>
+        <span class="quote-mark">"</span>
+        <blockquote class="display-md balance" style="margin:8px 0 28px;font-weight:700">Working with Ybor has been a turning point for Ashley. The platform gave us the structure to modernize confidently, without disrupting operations — and laid the groundwork for an AI-first roadmap.</blockquote>
+        <div style="margin-bottom:24px"><div class="heading-sm">Rich Teachout</div><div class="body-sm muted">CTO, Ashley Furniture Industries</div></div>
+        {/* HIDDEN — the case study page is parked (src/pages/_ashley-furniture.astro).
+            The quote above stays; restore this link when the page comes back.
+        <a class="link-arrow" href="/ashley-furniture">Read the Ashley case study <i data-lucide="arrow-right"></i></a>
+        */}
+      </div>
+      <div>
+        <img class="testi-photo" src="/assets/img/rich-teachout.jpg" alt="Rich Teachout, CTO, Ashley Furniture">
+        <img class="logo-img tall" src="/assets/logos/ashley.png" alt="Ashley Furniture" style="margin-top:18px;filter:none;opacity:1">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY TEASER -->
+<section class="section bg-ink">
+  <div class="container">
+    <div class="split split-6-6">
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> security</span>
+        <h2 class="display-md balance" style="color:#fff;margin-bottom:22px">Compliance is a platform feature.</h2>
+        <p class="body-lg muted-d">SOC 2 Type II report. Every deploy is signed, scanned, and logged; every cluster runs Kyverno policies; every service speaks mTLS; every secret comes through Vault; every API call is RBAC-scoped to the object model. Your security team reviews the platform once — then it enforces the rules on every commit.</p>
+      </div>
+      <div>
+        <ul class="checklist" style="margin-bottom:28px">
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2 Type II audit report on request</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Image signing with Sigstore + SBOM generation</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>mTLS via Istio, Kyverno policy, Vault-backed secrets</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>RBAC scoped to the object model, audit logs to your SIEM</span></li>
+        </ul>
+        <a class="btn btn-primary" href="/security">Read the Security overview <i data-lucide="arrow-right" class="ic"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ONE PLATFORM BAND -->
+<section class="section-tight bg-white">
+  <div class="container">
+    <div class="oneplatform">
+      <div class="op-head">
+        <span class="eyebrow"><span class="slash">//</span> one platform</span>
+        <h2>Every capability, one Ybor platform.</h2>
+      </div>
+      <div class="op-grid">
+        <a class="op-cap" href="#infrastructure"><span class="op-ic"><i data-lucide="server"></i></span><span class="op-name">Infrastructure</span><span class="op-desc">Kubernetes on every cloud</span></a>
+        <a class="op-cap" href="#delivery"><span class="op-ic"><i data-lucide="rocket"></i></span><span class="op-name">Delivery</span><span class="op-desc">Commit to production</span></a>
+        <a class="op-cap" href="/security"><span class="op-ic"><i data-lucide="shield-check"></i></span><span class="op-name">Security &amp; Compliance</span><span class="op-desc">SOC 2, mTLS, audit</span></a>
+        <a class="op-cap" href="/trust-center"><span class="op-ic"><i data-lucide="scale"></i></span><span class="op-name">Governance</span><span class="op-desc">Guardrails &amp; RBAC</span></a>
+        <a class="op-cap" href="/how-it-works"><span class="op-ic"><i data-lucide="activity"></i></span><span class="op-name">Operations</span><span class="op-desc">Monitoring &amp; day-2</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:680px;margin-inline:auto">See the whole platform reconcile a cluster and ship a service.</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:640px;margin:20px auto 0">Bring your stack. We'll walk the object model, bring a real cluster up live, ship a service onto it commit-to-prod, and let your security team grill us.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="/contact?intent=demo">Book a Demo <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg" href="https://platform.p6m.dev/docs/architecture" target="_blank" rel="noopener">Open the Architecture Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+</Base>

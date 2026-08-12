@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Blog — Ybor" description="Platform engineering patterns from the Ybor team. Kubernetes, multi-cloud, operators, and SOC 2® — written builder-to-builder." active="resources">
+<style slot="head">
+  /* Blog-only compositions, built from system tokens */
+  .post-visual { aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .post-visual .glyph-big { font-family: var(--font-mono); font-weight: 700; line-height: 1; user-select: none; }
+  .post-visual.sm .glyph-big { font-size: 84px; }
+  .post-visual.lg { aspect-ratio: auto; height: 100%; min-height: 320px; }
+  .post-visual.lg .glyph-big { font-size: 180px; }
+  .tint-purple { background: var(--purple-tint); } .tint-purple .glyph-big { color: var(--purple); }
+  .tint-green  { background: #E9F9EA; }            .tint-green .glyph-big { color: var(--green-dark); }
+  .tint-orange { background: #FBEDE4; }            .tint-orange .glyph-big { color: var(--orange-dark); }
+  .tint-ink    { background: var(--ink); }         .tint-ink .glyph-big { color: #C0A8EF; }
+
+  .post-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+  .post-body { padding: 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .post-title { font-weight: 600; font-size: 19px; line-height: 1.34; letter-spacing: -0.01em; }
+  .post-excerpt { font-size: 14px; color: var(--neutral-700); line-height: 1.55; flex: 1; }
+  .post-meta { font-family: var(--font-mono); font-size: 12px; color: var(--neutral-500); display: flex; gap: 9px; align-items: center; }
+  .post-meta .sep { color: var(--neutral-200); }
+
+  .feat-card { padding: 0; overflow: hidden; display: grid; grid-template-columns: 6fr 5fr; }
+  .feat-body { padding: 44px; display: flex; flex-direction: column; align-items: flex-start; }
+  @media (max-width: 860px) { .feat-card { grid-template-columns: 1fr; } .feat-body { padding: 32px; } .post-visual.lg { min-height: 200px; } .post-visual.lg .glyph-big { font-size: 120px; } }
+
+  .filterbar { display: flex; flex-wrap: wrap; gap: 8px; }
+  .post-hidden { display: none !important; }
+</style>
+
+<!-- HERO -->
+<section class="hero bg-white">
+  <div class="container" style="position:relative;z-index:1;padding-block:80px 48px">
+    <div style="max-width:760px">
+      <span class="eyebrow"><span class="slash">//</span> blog</span>
+      <h1 class="display-lg balance">Platform engineering, written down.</h1>
+      <p class="body-lg muted pretty" style="max-width:620px;margin:22px 0 0">Field notes from building the platform layer — Kubernetes, multi-cloud, operators, and the compliance plumbing underneath. Builder-to-builder, no marketing varnish.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="section-tight bg-white" style="padding-top:0">
+  <div class="container">
+    <a class="card card-interactive feat-card" href="/blog-crossplane">
+      <div class="post-visual lg tint-ink"><span class="glyph-big">~~</span></div>
+      <div class="feat-body">
+        <span class="badge badge-purple" style="margin-bottom:16px">Platform Engineering</span>
+        <h2 class="heading-lg balance" style="margin-bottom:14px">What we learned running Crossplane in production for 18 months</h2>
+        <p class="body muted pretty" style="margin-bottom:22px">Composition functions, provider upgrades, and the reconciliation edge cases nobody warns you about. The architecture we'd recommend — and the two patterns we'd skip.</p>
+        <div class="post-meta" style="margin-bottom:22px"><span>Platform Team</span><span class="sep">·</span><span>May 21, 2026</span><span class="sep">·</span><span>11 min read</span></div>
+        <span class="link-arrow">Read the post <i data-lucide="arrow-right"></i></span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- POST GRID -->
+<section class="section bg-white">
+  <div class="container">
+    <div style="margin-bottom:32px">
+      <span class="eyebrow" style="margin-bottom:0"><span class="slash">//</span> latest</span>
+    </div>
+
+    <div class="grid grid-3" id="postGrid">
+      <a class="card card-interactive post-card" href="/blog-crossplane" data-cat="platform">
+        <div class="post-visual sm tint-ink"><span class="glyph-big">~~</span></div>
+        <div class="post-body">
+          <span class="badge badge-purple">Platform Engineering</span>
+          <h3 class="post-title">What we learned running Crossplane in production for 18 months</h3>
+          <p class="post-excerpt">Composition functions, provider upgrades, and the reconciliation edge cases nobody warns you about — plus the two patterns we'd skip.</p>
+          <div class="post-meta"><span>May 21, 2026</span><span class="sep">·</span><span>11 min</span></div>
+        </div>
+      </a>
+    </div>
+
+    <p class="center mono" style="font-size:13px;color:var(--neutral-500);margin-top:32px">// more field notes on the way — subscribe below to get them first</p>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="section bg-ink">
+  <div class="container">
+    <div class="split split-6-6">
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> subscribe</span>
+        <h2 class="display-md balance" style="color:#fff">New posts, no noise.</h2>
+        <p class="body-lg muted-d pretty" style="margin-top:18px;max-width:440px">One email when we publish. Platform engineering patterns, the occasional teardown, and release notes worth reading. Unsubscribe in one click.</p>
+      </div>
+      <div style="align-self:center">
+        <form class="newsletter" data-newsletter style="gap:10px">
+          <input class="input" type="email" placeholder="you@company.com" aria-label="Email for newsletter" style="height:48px">
+          <button class="btn btn-primary" type="submit" style="height:48px">Subscribe</button>
+        </form>
+        <p class="mono" style="font-size:12px;color:var(--neutral-500);margin-top:14px">// ~2 emails a month · no third-party tracking</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script slot="scripts" is:inline>
+  (function () {
+    var bar = document.getElementById("blogFilter");
+    var grid = document.getElementById("postGrid");
+    var empty = document.getElementById("postEmpty");
+    if (!bar || !grid) return;
+    var cards = Array.prototype.slice.call(grid.querySelectorAll(".post-card"));
+    bar.addEventListener("click", function (e) {
+      var btn = e.target.closest(".tab");
+      if (!btn) return;
+      bar.querySelectorAll(".tab").forEach(function (t) {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+      btn.classList.add("active");
+      btn.setAttribute("aria-selected", "true");
+      var cat = btn.dataset.cat;
+      var shown = 0;
+      cards.forEach(function (card) {
+        var match = cat === "all" || card.dataset.cat === cat;
+        card.classList.toggle("post-hidden", !match);
+        if (match) shown++;
+      });
+      if (empty) empty.style.display = shown === 0 ? "block" : "none";
+    });
+  })();
+</script>
+</Base>

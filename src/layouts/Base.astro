@@ -1,0 +1,46 @@
+---
+import '../styles/site.css';
+import Header from '../components/Header.astro';
+import MobileMenu from '../components/MobileMenu.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Optional body class, e.g. "yinfra" or "yapp" — drives the hero backdrop accent. */
+  bodyClass?: string;
+  /** Which top-level nav item to mark active. */
+  active?: 'platform' | 'customers' | 'pricing' | 'security' | 'resources' | 'company';
+}
+
+const { title, description = '', bodyClass = '', active } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+{description && <meta name="description" content={description} />}
+<link rel="icon" href="/assets/logos/Ybor_mark_blk.svg" type="image/svg+xml">
+<!-- Set theme before first paint to avoid a flash of the wrong theme. -->
+<script is:inline>(function(){try{var t=localStorage.getItem("ybor-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script is:inline src="/js/lucide.min.js"></script>
+<slot name="head" />
+</head>
+<body class={bodyClass}>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<Header active={active} />
+<MobileMenu />
+
+<main id="main">
+  <slot />
+</main>
+
+<Footer />
+
+<script is:inline src="/js/site.js"></script>
+<slot name="scripts" />
+</body>
+</html>

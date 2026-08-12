@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Ashley Furniture case study — Ybor" description="How Ashley Furniture standardized platform engineering on Platform Infrastructure and Application Delivery — from snowflake clusters to evidence on demand." active="customers">
+
+<!-- HERO -->
+<section class="section-sm bg-tint-soft">
+  <div class="container">
+    <p class="mono" style="font-size:13px;color:var(--neutral-500);margin-bottom:24px"><a href="/customers" style="color:var(--purple)">Customers</a> / ashley-furniture</p>
+    <div class="split split-7-5" style="align-items:center">
+      <div>
+        <div class="eyebrow-row" style="margin-bottom:20px">
+          <img class="logo-img tall" src="/assets/logos/ashley.png" alt="Ashley Furniture" style="filter:none;opacity:1">
+          <span class="badge badge-purple">Platform Infrastructure · Application Delivery</span>
+          <span class="badge badge-outline">Manufacturing</span>
+          <span class="badge badge-outline">6 min read</span>
+        </div>
+        <h1 class="display-md balance" style="margin-bottom:24px">Ashley Furniture standardizes platform engineering.</h1>
+        <p class="body-lg muted pretty">"Working with Ybor has been a turning point for Ashley. The platform gave us the structure to modernize confidently, without disrupting operations — and laid the groundwork for an AI-first roadmap."</p>
+        <p class="mono" style="font-size:13px;color:var(--neutral-700);margin-top:16px">— Rich Teachout, CTO</p>
+      </div>
+      <div><img class="testi-photo" src="/assets/img/rich-teachout.jpg" alt="Rich Teachout, CTO, Ashley Furniture"></div>
+    </div>
+  </div>
+</section>
+
+<!-- AT A GLANCE -->
+<section class="section-tight bg-white">
+  <div class="container">
+    <div class="grid grid-3">
+      <div class="card center"><div class="num mono" style="font-size:24px;font-weight:600;color:var(--purple)">From quarters to weeks</div><div class="label" style="color:var(--neutral-500);margin-top:10px">Time to production</div></div>
+      <div class="card center"><div class="num mono" style="font-size:24px;font-weight:600;color:var(--purple)">100% policy compliance</div><div class="label" style="color:var(--neutral-500);margin-top:10px">Cluster consistency</div></div>
+      <div class="card center"><div class="num mono" style="font-size:24px;font-weight:600;color:var(--purple)">3× faster</div><div class="label" style="color:var(--neutral-500);margin-top:10px">Developer onboarding</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BODY -->
+<section class="section bg-white" style="padding-top:24px">
+  <div class="container">
+    <div class="cs-prose mx-auto">
+
+      <h2>The Challenge</h2>
+      <p>Ashley Furniture's engineering organization had grown faster than its platform. Clusters were spun up by hand. Each environment had its own quirks. Onboarding a new developer meant days of access requests, tribal knowledge, and undocumented shortcuts.</p>
+      <p>The pressure to adopt AI made the situation worse — modern workloads assumed a modern platform. Ashley didn't have one.</p>
+      <h2>The Solution</h2>
+      <p>Ashley adopted Platform Infrastructure and Application Delivery over a two-quarter rollout. Production clusters moved to AKS, provisioned by <code class="mono" style="font-size:0.92em">platform-cluster-operator</code> from a single <code class="mono" style="font-size:0.92em">PlatformCluster</code> resource per region. Kyverno policies enforced security defaults. Vault-backed secret injection replaced the old ad-hoc credential rotation process.</p>
+      <div class="cs-callout"><p class="body-sm" style="margin:0;color:var(--purple-dark)"><strong>Products used:</strong> Platform Infrastructure for cluster provisioning and policy; Application Delivery for CI/CD scaffolding across Spring Boot, .NET, and Python services.</p></div>
+      <p>On the application side, Application Delivery generated CI/CD workflows for every new service. Spring Boot, .NET, and Python services scaffolded from archetypes. ArgoCD and Kargo ran the promotions. Engineers stopped writing pipeline YAML.</p>
+      <h2>The Results</h2>
+      <ul class="bul">
+        <li><i data-lucide="check" class="ck"></i><span>New cluster provisioning: from weeks to under an hour.</span></li>
+        <li><i data-lucide="check" class="ck"></i><span>Onboarding: from a week of access requests to a same-day start.</span></li>
+        <li><i data-lucide="check" class="ck"></i><span>Policy compliance: 100% across production environments.</span></li>
+        <li><i data-lucide="check" class="ck"></i><span>AI readiness: foundation in place for the first Ashley AI workloads in Q2 2026.</span></li>
+      </ul>
+      <p>The platform team's posture shifted from "ticket resolution" to "platform engineering." The audit team's posture shifted from "manual sampling" to "evidence on demand."</p>
+    </div>
+
+    <!-- PULL QUOTE -->
+    <div class="mx-auto" style="max-width:760px;margin-top:48px;padding:40px;background:var(--purple-tint);border-radius:var(--r-xl)">
+      <span class="quote-mark">"</span>
+      <blockquote class="heading-lg balance" style="margin:8px 0 24px">Working with Ybor has been a turning point for Ashley. The platform gave us the structure to modernize confidently, without disrupting operations — and laid the groundwork for an AI-first roadmap.</blockquote>
+      <div style="display:flex;align-items:center;gap:14px">
+        <img class="testi-photo" src="/assets/img/rich-teachout.jpg" alt="Rich Teachout" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
+        <div><div class="heading-sm" style="font-size:16px">Rich Teachout</div><div class="body-sm muted">CTO, Ashley Furniture Industries</div></div>
+      </div>
+    </div>
+
+    <!-- RELATED PRODUCTS -->
+    <div class="mx-auto" style="max-width:760px;margin-top:40px">
+      <p class="label" style="color:var(--neutral-500);margin-bottom:16px">// related products</p>
+      <div class="grid grid-2">
+        <a class="card card-interactive" href="/platform#infrastructure"><p class="mono" style="font-size:13px;color:var(--purple);margin-bottom:8px">Foundation layer</p><p class="body-sm muted">Production Kubernetes on every cloud, from one API.</p></a>
+        <a class="card card-interactive" href="/platform#delivery"><p class="mono" style="font-size:13px;color:var(--purple);margin-bottom:8px">Delivery layer</p><p class="body-sm muted">From commit to production in minutes.</p></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:640px;margin-inline:auto">See what Ybor can do for your platform.</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:580px;margin:20px auto 0">30 minutes with a platform engineer. Bring your stack.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="/contact?intent=demo">Book a Demo <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg" href="https://developer.p6m.dev" target="_blank" rel="noopener">View the Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+</Base>

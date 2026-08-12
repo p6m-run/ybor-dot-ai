@@ -1,24 +1,19 @@
 # build output
 dist/
-
-# generated types
-.astro/
-
 # dependencies
 node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment variables
+# generated types
+.astro/
+# macOS
+.DS_Store
+# env
 .env
 .env.production
-
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
-.idea/
+# logs
+npm-debug.log*
+# design prototypes — local reference only, ~54MB of HTML exports and screenshots.
+# The live site is built from src/; these are the Figma-side handoff artifacts.
+# Delete a line here if you want that folder tracked in the repo instead.
+design-reference/
+design-reference-v08/
+ybor-website-v-01.zip

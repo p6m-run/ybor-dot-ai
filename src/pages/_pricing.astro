@@ -1,0 +1,164 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Pricing — Ybor" description="Three pricing tiers, scoped to your platform scale. Starter, Scale, and Enterprise. SOC 2® report across all tiers. Annual contracts." active="pricing">
+
+<!-- HERO + TIERS share one continuous background -->
+<div class="price-top bg-tint-soft">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container center" style="position:relative;z-index:1;padding-block:88px 56px">
+    <div style="max-width:760px;margin:0 auto">
+      <span class="eyebrow"><span class="slash">//</span> pricing</span>
+      <h1 class="display-lg balance">Priced for the size of your platform.</h1>
+      <p class="body-lg muted pretty" style="max-width:640px;margin:22px auto 0">Three tiers, scoped to clusters, environments, and developer seats. Pick the tier that maps to your stage. We'll handle the rest in a 30-minute sales conversation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="section-tight" style="padding-top:0">
+  <div class="container">
+    <div class="price-grid">
+      <div class="card price-card">
+        <div class="price-name">Starter</div>
+        <p class="price-sub">For teams running their first platform.</p>
+        <div class="price-amt">Custom</div>
+        <p class="price-fine">Annual contract. Talk to sales.</p>
+        <ul class="price-feats">
+          <li><i data-lucide="check" class="ck"></i><span>Up to 3 workload clusters</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Up to 25 Applications</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>1 cloud provider (AWS, Azure, or GCP)</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2 controls included</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Email + Slack support, 24h response</span></li>
+        </ul>
+        <a class="btn btn-secondary btn-block" href="/contact?intent=pricing">Talk to Sales</a>
+      </div>
+      <div class="card price-card featured">
+        <span class="price-tag">MOST POPULAR</span>
+        <div class="price-name">Scale</div>
+        <p class="price-sub">For platform teams running production at scale.</p>
+        <div class="price-amt">Custom</div>
+        <p class="price-fine">Annual contract. Talk to sales.</p>
+        <ul class="price-feats">
+          <li><i data-lucide="check" class="ck"></i><span>Up to 25 workload clusters</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Up to 250 Applications</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>All 3 cloud providers</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2 audit report on request</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Dedicated platform engineer, 4h response</span></li>
+        </ul>
+        <a class="btn btn-primary btn-block" href="/contact?intent=pricing">Talk to Sales</a>
+      </div>
+      <div class="card price-card">
+        <div class="price-name">Enterprise</div>
+        <p class="price-sub">For multi-tenant, multi-region, regulated workloads.</p>
+        <div class="price-amt">Custom</div>
+        <p class="price-fine">Annual contract. Multi-year available.</p>
+        <ul class="price-feats">
+          <li><i data-lucide="check" class="ck"></i><span>Unlimited clusters and Applications</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Multi-cloud and hybrid (on-prem connectors)</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2, FedRAMP roadmap, custom reviews</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Co-designed reference architecture</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>24/7 named on-call, 1h critical response</span></li>
+        </ul>
+        <a class="btn btn-secondary btn-block" href="/contact?intent=pricing">Talk to Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.price-top -->
+
+<!-- COMPARISON MATRIX -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> compare</span>
+      <h2 class="display-md balance">Every feature, every tier.</h2>
+    </div>
+    <div class="matrix-wrap" style="margin-top:48px">
+      <table class="matrix">
+        <thead><tr><th>Feature</th><th class="tier">Starter</th><th class="tier">Scale</th><th class="tier">Enterprise</th></tr></thead>
+        <tbody>
+          <tr class="grouprow"><td colspan="4">Platform</td></tr>
+          <tr><td>Workload clusters</td><td>3</td><td>25</td><td>Unlimited</td></tr>
+          <tr><td>Applications</td><td>25</td><td>250</td><td>Unlimited</td></tr>
+          <tr><td>Environments per app</td><td>3</td><td>5</td><td>Unlimited</td></tr>
+          <tr><td>Cloud providers</td><td>1</td><td>3</td><td>3 + hybrid</td></tr>
+          <tr class="grouprow"><td colspan="4">Object Model</td></tr>
+          <tr><td>Multi-tenancy (Organizations)</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Solutions per Organization</td><td>5</td><td>25</td><td>Unlimited</td></tr>
+          <tr><td>RBAC scoped to object model</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Custom RBAC roles</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr class="grouprow"><td colspan="4">Security &amp; Compliance</td></tr>
+          <tr><td>SOC 2 Type II coverage</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>SOC 2 audit report on request</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>mTLS (Istio) by default</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Kyverno policy library</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Custom policy engineering</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>FedRAMP roadmap consultation</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr class="grouprow"><td colspan="4">Delivery</td></tr>
+          <tr><td>Generated CI workflows</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>ArgoCD + Kargo</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Image signing (Sigstore)</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Custom archetypes</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr class="grouprow"><td colspan="4">Support</td></tr>
+          <tr><td>Email + Slack</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Named platform engineer</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>24/7 on-call</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Quarterly architecture review</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Co-designed reference architecture</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> add-ons</span>
+      <h2 class="display-md balance">Extend the platform as you grow.</h2>
+    </div>
+    <div class="grid grid-2" style="margin-top:48px;max-width:760px;margin-inline:auto">
+      <div class="card"><h3 class="heading-sm" style="margin-bottom:8px">Dedicated control plane</h3><p class="body-sm muted" style="margin-bottom:12px">Single-tenant control plane in your VPC.</p><p class="mono" style="font-size:12px;color:var(--purple)">Enterprise only</p></div>
+      <div class="card"><h3 class="heading-sm" style="margin-bottom:8px">Custom archetypes</h3><p class="body-sm muted" style="margin-bottom:12px">Our team designs archetypes for your stack.</p><p class="mono" style="font-size:12px;color:var(--purple)">Scale &amp; Enterprise</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section bg-white">
+  <div class="container" style="max-width:840px">
+    <div class="sec-head center" style="margin-inline:auto">
+      <span class="eyebrow"><span class="slash">//</span> pricing faq</span>
+      <h2 class="display-md balance">The questions procurement asks.</h2>
+    </div>
+    <div class="accordion" style="margin-top:48px">
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">How is Ybor priced?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Annual contracts based on workload cluster count, environment count, and developer seats. We publish tiers, not list prices; spend depends on scale.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Do you have a free tier or sandbox?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Not today. We run a guided demo on a shared sandbox environment during the sales process. Reach out to walk through Platform Infrastructure and Application Delivery on real clusters.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Can we self-host?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Yes. The platform runs in your cloud accounts. We never store customer data outside your VPC.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">What does the SOC 2 audit report cover?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Security, availability, processing integrity, and confidentiality. Report available on request once a mutual NDA is in place.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">What if we need more clusters than the Scale tier allows?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Move to Enterprise, or scope a custom Scale tier with your sales contact. The tiers are starting points, not hard caps.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Do you charge per developer seat?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Seats are part of the package on Scale and Enterprise. Starter is sized for a single platform team.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">What's the implementation timeline?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Typical first cluster in week 1. First Application Delivery service deployed by end of week 2. Production rollout depends on the customer.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Can we keep our existing CI/CD?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Yes. Application Delivery generates GitHub Actions workflows, but the platform is workflow-agnostic. Existing CI integrates via the standard Application manifest.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:640px;margin-inline:auto">Ready to scope a tier?</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:600px;margin:20px auto 0">30 minutes with our team. We'll size your platform, walk through compliance, and give you a number.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="/contact?intent=pricing">Talk to Sales <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg" href="https://platform.p6m.dev/docs/architecture" target="_blank" rel="noopener">Read the Architecture Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+</Base>

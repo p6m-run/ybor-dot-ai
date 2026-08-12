@@ -1,53 +1,582 @@
 ---
-/**
- * Homepage using the NEW flexible Contentful architecture
- *
- * This demonstrates how to use the new Page -> Section -> Component structure.
- * Once you've migrated your content, replace index.astro with this file.
- */
-
-import Layout from "@/layouts/Layout.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
-import SectionRenderer from "@/components/SectionRenderer.astro";
-import { getHomepageData } from "@/lib/contentful-v2";
-import GradientBg from "@/components/GradientBg";
-
-// Fetch homepage data using new API
-const homepage = await getHomepageData();
-
-// Log status for debugging
-if (homepage) {
-  console.log("✅ Contentful v2 data loaded successfully");
-  console.log(`📄 Page: ${homepage.title}`);
-  console.log(`📦 Sections: ${homepage.sections.length}`);
-} else {
-  console.log("⚠️ No Contentful v2 data found");
-  console.log(
-    '💡 Make sure you have created a Page with slug "/" in Contentful'
-  );
-}
-
-// If no data, show helpful message
-if (!homepage) {
-  return Astro.redirect("/404");
-}
+import Base from '../layouts/Base.astro';
 ---
-
-<Layout title={homepage.title} description={homepage.metaDescription} image={homepage.metaImage}>
-  <Header />
-
-  <!-- Render all sections dynamically -->
-  {
-    homepage.sections.map((section) => (
-      <SectionRenderer section={section} slug="/" color="brand-purple" />
-    ))
+<Base
+  title="Ybor — The delivery system for enterprise software at AI speed"
+  description="AI writes code faster than most teams can ship it. Ybor closes the gap — production Kubernetes on AWS, Azure, and GCP, commit to live in minutes. SOC 2® report. Built on open source."
+>
+<style slot="head">
+  /* Outcomes metric cards — built from Ybor tokens */
+  .mstats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 56px; }
+  .mc { background: var(--white); border: 1px solid var(--neutral-100); border-radius: var(--r-xl); padding: 28px 26px 22px; display: flex; flex-direction: column; }
+  .mc-fig { font-size: 46px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; color: var(--ink); }
+  .mc-lbl { font-size: 15px; line-height: 1.45; color: var(--neutral-700); margin-top: 12px; font-weight: 500; }
+  .mc-src { font-family: var(--font-mono); font-size: 11.5px; color: var(--neutral-500); margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--stroke-light); }
+  .mc.c-purple { --mc-accent: var(--purple); --mc-tint: var(--purple-tint); }
+  .mc.c-green  { --mc-accent: var(--green-dark); --mc-tint: #E9F9EA; }
+  .mc.c-orange { --mc-accent: var(--orange-dark); --mc-tint: #FBEDE4; }
+  /* Dark mode: Astro scopes these page rules, raising their specificity enough to
+     override the design system's dark .mc treatment (leaving the cards white).
+     Re-apply the dark surfaces/text/accents so the stat cards read correctly. */
+  :global([data-theme="dark"]) .mc { background: var(--surface-2); border-color: var(--border-d); }
+  :global([data-theme="dark"]) .mc-fig { color: var(--text-0); }
+  :global([data-theme="dark"]) .mc-lbl { color: var(--text-1); }
+  :global([data-theme="dark"]) .mc-src { color: var(--text-2); border-top-color: var(--border-d); }
+  :global([data-theme="dark"]) .mc.c-purple { --mc-accent: #A98AE6; --mc-tint: rgba(140,100,218,0.22); }
+  :global([data-theme="dark"]) .mc.c-green  { --mc-accent: #3CCB86; --mc-tint: rgba(60,203,134,0.18); }
+  :global([data-theme="dark"]) .mc.c-orange { --mc-accent: #F08A47; --mc-tint: rgba(240,138,71,0.18); }
+  /* stat movement — animates once on scroll-in */
+  .mc-viz { height: 10px; display: flex; align-items: center; margin-bottom: 26px; }
+  .mc-bar { position: relative; width: 100%; height: 10px; border-radius: var(--r-full); background: var(--mc-tint); overflow: hidden; }
+  .mc-bar::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--mc-accent); border-radius: inherit; transition: width 1s cubic-bezier(.22,.61,.36,1); }
+  .mc.in .mc-bar::after { width: var(--to); }
+  .mc-seg { display: flex; gap: 7px; width: 100%; }
+  .mc-seg span { position: relative; flex: 1; height: 10px; border-radius: var(--r-full); background: var(--mc-tint); overflow: hidden; }
+  .mc-seg span::after { content: ""; position: absolute; inset: 0; width: 0; background: var(--mc-accent); border-radius: inherit; transition: width .55s cubic-bezier(.22,.61,.36,1); }
+  .mc.in .mc-seg span::after { width: 100%; }
+  .mc.in .mc-seg span:nth-child(2)::after { transition-delay: .15s; }
+  .mc.in .mc-seg span:nth-child(3)::after { transition-delay: .3s; }
+  @media (prefers-reduced-motion: reduce) {
+    .mc-bar::after { transition: none; width: var(--to); }
+    .mc-seg span::after { transition: none; width: 100%; }
   }
+  @media (max-width: 860px) { .mstats { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .mstats { grid-template-columns: 1fr; } }
 
-  <GradientBg client:only="react" />
-  <Footer />
-</Layout>
+  /* Product CTA buttons — Platform Infrastructure orange, Application Delivery green */
+  .btn-green  { background: #1E8A4C; color: #fff; }
+  .btn-green:hover  { background: #166B3A; }
+  .btn-orange { background: #B5551E; color: #fff; }
+  .btn-orange:hover { background: #99461A; }
+  /* keep both product CTAs on the same baseline regardless of copy length */
+  .product-card { display: flex; flex-direction: column; }
+  .product-card .btn { margin-top: auto; align-self: flex-start; }
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
-<style is:global>
-  /* Add any page-specific styles here */
+  /* animated SDLC verb — cycles building → testing → securing, resting on shipping.
+     The hero script creates each .verb span at runtime, so those nodes never carry
+     Astro's scope attribute; match them with :global() inside the scoped slot. */
+  .verb-cycle { display:inline-flex; }
+  .verb-slot { position:relative; display:inline-block; text-align:left; }
+  .verb-sizer { visibility:hidden; }
+  .verb-slot :global(.verb) { color:var(--purple); position:absolute; left:0; top:0; opacity:0; transform:translateY(7px); transition:opacity .5s cubic-bezier(.22,.61,.36,1), transform .5s cubic-bezier(.22,.61,.36,1); }
+  .verb-slot :global(.verb.is-on) { opacity:1; transform:translateY(0); }
+  .verb-slot :global(.verb.is-out) { opacity:0; transform:translateY(-7px); }
+  @media (prefers-reduced-motion: reduce) { .verb-slot :global(.verb) { transition:none; } }
+  .verb-replay { display:inline-flex; align-items:center; gap:8px; margin-top:22px; padding:8px 14px; background:transparent; border:1px solid var(--stroke-dark,#38373E); border-radius:var(--r-md,6px); color:var(--neutral-300,#A1A1AA); font-family:var(--font-mono); font-size:12px; letter-spacing:0.01em; cursor:pointer; transition:border-color .15s ease, color .15s ease, background-color .15s ease; }
+  .verb-replay:hover { border-color:var(--purple); color:#fff; background:rgba(140,100,218,0.08); }
+  .verb-replay:disabled { opacity:0.45; cursor:default; }
+  .verb-replay .vr-ic { width:14px; height:14px; transition:transform .5s cubic-bezier(.22,.61,.36,1); }
+  .verb-replay:not(:disabled):hover .vr-ic { transform:rotate(90deg); }
+  .verb-replay:disabled .vr-ic { animation:vr-spin 1.6s linear infinite; }
+  @keyframes vr-spin { to { transform:rotate(360deg); } }
+
+  /* Platform section — stacked layers (delivery on foundation) + capability row */
+  .platform-stack { display: flex; flex-direction: column; }
+  .layer { position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: 32px 40px; align-items: start; border-color: var(--stroke-dark); }
+  .layer-main { display: flex; flex-direction: column; }
+  .layer-list { align-self: center; }
+  .layer-tag { font-size: 12px; color: var(--neutral-500); letter-spacing: .06em; margin-bottom: 6px; }
+  /* the foundation reads as a base slab, the delivery layer as the slab resting on it */
+  .layer-delivery { border-top: 2px solid var(--green); background: rgba(124,228,131,.035); }
+  .layer-foundation { border-top: 2px solid var(--orange); background: rgba(255,131,69,.035); }
+  .layer-joint { display: flex; align-items: center; gap: 16px; padding: 14px 0; }
+  .layer-joint-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--stroke-dark), transparent); }
+  .layer-joint-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--neutral-300); border: 1px solid var(--stroke-dark); border-radius: 999px; padding: 7px 16px; background: var(--ink); white-space: nowrap; }
+  .layer-joint-pill svg { width: 14px; height: 14px; color: var(--green); }
+  @media (max-width: 760px) { .layer { grid-template-columns: 1fr; gap: 20px; } .layer-list { align-self: start; } }
+  .platform-caps { margin-top: 26px; padding-top: 24px; border-top: 1px solid var(--stroke-dark); }
+  .platform-caps-lead { display: block; font-size: 12px; letter-spacing: .04em; color: var(--neutral-500); margin-bottom: 16px; padding-left: 2px; }
+  .platform-caps-grid { gap: 14px; }
+  .cap-card { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid var(--stroke-dark); border-radius: var(--r-lg); background: rgba(255,255,255,.02); text-decoration: none; transition: border-color 160ms ease, background 160ms ease, transform 160ms ease; }
+  .cap-card:hover { border-color: var(--purple); background: rgba(140,100,218,.08); transform: translateY(-2px); }
+  .cap-ic { flex: none; width: 38px; height: 38px; border-radius: var(--r-md); display: inline-flex; align-items: center; justify-content: center; background: rgba(140,100,218,.16); color: #C0A8EF; }
+  .cap-ic svg { width: 18px; height: 18px; }
+  .cap-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .cap-title { font-weight: 600; font-size: 15px; color: #fff; letter-spacing: -.01em; }
+  .cap-desc { font-size: 12.5px; color: var(--neutral-400,#9aa0ab); line-height: 1.4; }
+  .cap-arrow { flex: none; width: 16px; height: 16px; color: var(--neutral-500); transition: transform 160ms ease, color 160ms ease; }
+  .cap-card:hover .cap-arrow { color: #C0A8EF; transform: translateX(3px); }
 </style>
+
+<!-- ===================== 1 · HERO ===================== -->
+<section class="hero bg-tint-soft">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="slash">//</span> enterprise software delivery</span>
+        <h1 class="display-lg" style="white-space:nowrap">The delivery system<br>for teams <span class="verb-cycle" aria-hidden="true"><span class="verb-slot"><span class="verb-sizer" aria-hidden="true">securing</span><span class="verb is-on" data-verb>building</span></span></span><span class="sr-only">shipping</span><br>at AI speed.</h1>
+        <p class="body-lg muted pretty" style="max-width:600px">AI writes code faster than most teams can ship it. Ybor closes the gap — production Kubernetes across AWS, Azure, and GCP, from commit to live in minutes, with the audit trail, rollbacks, and SOC 2 controls your security team already requires.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-glow" href="/contact?intent=model">Get started <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-secondary" href="/contact?intent=demo">Book a demo</a>
+        </div>
+        <p class="hero-note">SOC 2 Type II report <span class="dot">·</span> Multi-cloud <span class="dot">·</span> Built on open source</p>
+      </div>
+
+      <!-- product-UI composition -->
+      <div class="hero-copy">
+        <div class="ui-stack reveal">
+          <div style="position:absolute;inset:30px 8px auto 8px;height:180px;border-radius:var(--r-xl);box-shadow:var(--shadow-glow);z-index:0"></div>
+          <div class="ui-card" style="position:relative;z-index:1;box-shadow:var(--shadow-lg)">
+            <div class="ui-card-head"><i data-lucide="box" style="width:15px;height:15px"></i> platform · <span id="fleetCount">148</span> services</div>
+            <div class="ui-card-body">
+              {/* 12 identical service cells; the hero script lights them up on scroll-in. */}
+              <div class="fleet-grid" id="fleetGrid" style="display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-bottom:14px">
+                {Array.from({ length: 12 }).map(() => (
+                  <span class="fleet-cell" style="aspect-ratio:1;border-radius:5px;background:rgba(75,171,81,.16);border:1px solid rgba(75,171,81,.55);display:flex;align-items:center;justify-content:center"><span style="width:5px;height:5px;border-radius:999px;background:var(--green-dark);box-shadow:0 0 6px var(--green-dark)"></span></span>
+                ))}
+              </div>
+              <div class="kv"><span class="k">status</span><span class="status-pill status-healthy"><span class="led"></span><span id="fleetHealthy">148 / 148</span> in sync</span></div>
+              <div class="kv"><span class="k">clouds</span><span class="v mono" style="font-size:13px">aws · gcp · azure</span></div>
+              <div class="kv" style="border-top:1px solid var(--stroke-light);padding-top:12px"><span class="k">platform team</span><span class="v mono" style="font-size:13px;color:var(--green-dark)">unchanged</span></div>
+            </div>
+          </div>
+          <div class="ui-card" style="position:relative;z-index:1">
+            <div class="ui-card-body" style="padding-top:16px">
+              <div class="timeline">
+                <div class="tl-item"><span class="tl-mark"><i data-lucide="check"></i></span><span class="tl-line"></span><span class="tl-text">Image scanned — no critical CVEs <span class="when">3m ago</span></span></div>
+                <div class="tl-item"><span class="tl-mark"><i data-lucide="check"></i></span><span class="tl-line"></span><span class="tl-text">Kargo gate passed — staging stable 24h <span class="when">2m ago</span></span></div>
+                <div class="tl-item"><span class="tl-mark"><i data-lucide="check"></i></span><span class="tl-text"><strong>Deployed to production</strong> · rev a3f9c12 <span class="when">2m ago</span></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="terminal" style="position:relative;z-index:1">
+            <div class="ui-card-head"><span class="dot-row"><span></span><span></span><span></span></span><span style="margin-left:6px">ybor · cli</span></div>
+            <div class="terminal-body"><span class="t-prompt">$</span> <span class="t-cmd">ybor deploy y-app --env prod</span><br><span class="t-ok">✓ Reconciled</span> <span class="t-dim">· 47s</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 2 · LOGO BAR ===================== -->
+<!-- HIDDEN until we have more customers — restore by removing style="display:none" -->
+<section class="section-tight bg-white" style="display:none">
+  <div class="container center">
+    <p class="label" style="color:var(--neutral-500);margin-bottom:36px">Trusted by enterprise teams</p>
+    <div class="logobar-marquee">
+      <div class="logobar-track">
+        <div class="logobar-group">
+          <img class="logo-img tall" src="/assets/logos/ashley.png" alt="Ashley Furniture"><img class="logo-img" src="/assets/logos/linux-foundation.png" alt="Linux Foundation"><img class="logo-img" src="/assets/logos/cncf.svg" alt="CNCF">
+        </div>
+        <div class="logobar-group" aria-hidden="true">
+          <img class="logo-img tall" src="/assets/logos/ashley.png" alt=""><img class="logo-img" src="/assets/logos/linux-foundation.png" alt=""><img class="logo-img" src="/assets/logos/cncf.svg" alt="">
+        </div>
+        <div class="logobar-group" aria-hidden="true">
+          <img class="logo-img tall" src="/assets/logos/ashley.png" alt=""><img class="logo-img" src="/assets/logos/linux-foundation.png" alt=""><img class="logo-img" src="/assets/logos/cncf.svg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 3 · THE PROBLEM ===================== -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> the problem</span>
+      <h2 class="display-md balance">An urgent AI mandate. A delivery system that can't keep up.</h2>
+      <p class="body-lg muted pretty">Code is ready in minutes; release windows are still weekly. Spend climbs faster than shipped capability, and platform teams are holding it together by hand. None of it is an AI problem — it's a delivery-system problem.</p>
+    </div>
+    <div class="grid grid-3" style="margin-top:56px">
+      <div class="card reveal">
+        <span class="icon-chip"><i data-lucide="gauge"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// the velocity gap</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Code ships in minutes. Everything after doesn't.</h3>
+        <p class="body muted">Developers ship 5–19× more PRs with AI. Review, tests, and security gates were sized for human throughput — so they queue, get rubber-stamped, or get skipped. The gap between "merged" and "live" now dominates the cycle.</p>
+      </div>
+      <div class="card reveal">
+        <span class="icon-chip"><i data-lucide="trending-up"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// the leverage gap</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Your product outgrows your platform team every quarter.</h3>
+        <p class="body muted">Developer orgs grow faster than the platform teams supporting them. Ticket queues, manual reviews, and bespoke infra keep those teams in reactive work that scales linearly with headcount — so the support gap only widens.</p>
+      </div>
+      <div class="card reveal">
+        <span class="icon-chip"><i data-lucide="git-branch"></i></span>
+        <p class="label" style="color:var(--neutral-500);margin-bottom:10px">// the governance gap</p>
+        <h3 class="heading-sm" style="margin-bottom:10px">Speed without a shared playbook becomes sprawl.</h3>
+        <p class="body muted">Every team picks its own AI tools, prompts, and guardrails. No one can answer "what's actually in production," institutional knowledge erodes, and the platform team is the last to know.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 4 · THE SOLUTION ===================== -->
+<section class="section bg-ink-grad">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> the platform</span>
+      <h2 class="display-md balance">One platform, from infrastructure to production. Built on open source.</h2>
+      <p class="body-lg muted-d pretty">Ybor is one platform. It runs your infrastructure — the clusters, policies, secrets, and multi-cloud plumbing — and delivers your applications through it: scaffolding, CI/CD, deployments, rollbacks. Your team owns the source code, the clusters, and the data, on open foundations you can walk away with.</p>
+    </div>
+
+    <div class="platform-frame" style="margin-top:56px;border:1px solid var(--stroke-dark);border-radius:var(--r-2xl,24px);background:rgba(255,255,255,.025);padding:clamp(14px,2.4vw,26px)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:4px 6px 18px">
+        <span class="mono" style="font-size:13px;letter-spacing:.04em;color:var(--neutral-300)"><span style="color:var(--purple)">//</span> one platform</span>
+        <span class="mono" style="font-size:12px;letter-spacing:.03em;color:var(--neutral-500)">open-source foundations · your clusters, your data</span>
+      </div>
+      <div class="platform-stack">
+        <div class="card dark product-card layer layer-delivery">
+          <div class="layer-main">
+            <p class="mono layer-tag">LAYER 02 · DELIVERY</p>
+            <p class="mono" style="font-size:14px;color:var(--green);letter-spacing:.04em;margin-bottom:16px">APPLICATION DELIVERY</p>
+            <h3 class="heading-lg" style="color:#fff;margin-bottom:14px">From commit to production in minutes.</h3>
+            <p class="body muted-d" style="margin-bottom:22px">Scaffold a service from a vetted archetype, wire it into CI/CD, ship through ArgoCD and Kargo to staging and prod. Secret injection, service mesh, and policy enforcement come along for the ride.</p>
+            <a class="btn btn-primary btn-green" href="/platform#delivery">Explore Application Delivery <i data-lucide="arrow-right" class="ic"></i></a>
+          </div>
+          <ul class="checklist layer-list">
+            <li><i data-lucide="check" class="ck"></i><span>7 archetype families: Java, .NET, Python, Rust, TypeScript, Data/AI, Shared</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>CI/CD on GitHub Actions, deploy via ArgoCD + Kargo</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>Secret injection via Vault (cloud-native)</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>Audit trail and rollback built-in</span></li>
+          </ul>
+        </div>
+
+        <div class="layer-joint" aria-hidden="true">
+          <span class="layer-joint-line"></span>
+          <span class="layer-joint-pill"><i data-lucide="arrow-down"></i> delivery runs on the foundation</span>
+          <span class="layer-joint-line"></span>
+        </div>
+
+        <div class="card dark product-card layer layer-foundation">
+          <div class="layer-main">
+            <p class="mono layer-tag">LAYER 01 · FOUNDATION</p>
+            <p class="mono" style="font-size:14px;color:var(--orange);letter-spacing:.04em;margin-bottom:16px">PLATFORM INFRASTRUCTURE</p>
+            <h3 class="heading-lg" style="color:#fff;margin-bottom:14px">Production infrastructure on day one.</h3>
+            <p class="body muted-d" style="margin-bottom:22px">Provision EKS, AKS, and GKE clusters from a single API. Crossplane and Cluster API under the hood. Istio, Kyverno, RBAC, mTLS, and observability wired in by default.</p>
+            <a class="btn btn-primary btn-orange" href="/platform#infrastructure">Explore Platform Infrastructure <i data-lucide="arrow-right" class="ic"></i></a>
+          </div>
+          <ul class="checklist layer-list">
+            <li><i data-lucide="check" class="ck"></i><span>Multi-cloud: AWS, Azure, GCP</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>Built on Crossplane, Cluster API, Istio, Kyverno</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>Object model: Enterprise → Organization → Solution → Application → Environment → Cluster</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>SOC 2 controls enforced at the platform layer</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="platform-caps">
+        <span class="mono platform-caps-lead">// also part of the platform</span>
+        <div class="grid grid-3 platform-caps-grid">
+          <a class="cap-card" href="/security">
+            <span class="cap-ic"><i data-lucide="shield-check"></i></span>
+            <span class="cap-body"><span class="cap-title">Security &amp; Compliance</span><span class="cap-desc">SOC 2, policy-as-code, mTLS, audit</span></span>
+            <i data-lucide="arrow-right" class="cap-arrow"></i>
+          </a>
+          <a class="cap-card" href="/trust-center">
+            <span class="cap-ic"><i data-lucide="scale"></i></span>
+            <span class="cap-body"><span class="cap-title">Governance</span><span class="cap-desc">Guardrails, RBAC, what's-in-production visibility</span></span>
+            <i data-lucide="arrow-right" class="cap-arrow"></i>
+          </a>
+          <a class="cap-card" href="/how-it-works">
+            <span class="cap-ic"><i data-lucide="activity"></i></span>
+            <span class="cap-body"><span class="cap-title">Operations &amp; Observability</span><span class="cap-desc">Monitoring, incident response, day-2</span></span>
+            <i data-lucide="arrow-right" class="cap-arrow"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 5 · HOW IT WORKS ===================== -->
+<section class="section bg-white" style="position:relative;overflow:hidden">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> how it works</span>
+      <h2 class="display-md balance">Empty repo to production, on one governed path.</h2>
+      <p class="body muted pretty">Every service your teams ship follows the same backbone — a layered object model, Kubernetes operators that reconcile it, and an addon catalog on every cluster. Your developers ship; Ybor handles the wiring.</p>
+    </div>
+    <div class="steps" style="margin-top:64px">
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="layout-template"></i></span><span class="step-num">01</span></div><h4>Scaffold</h4><p>Pick a vetted archetype. One CLI command creates the repo, CI workflow, and base manifests.</p><div class="step-cmd"><span class="p">$</span> <span class="c">archetect render</span></div></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="git-branch"></i></span><span class="step-num">02</span></div><h4>Commit</h4><p>Push to GitHub. CI runs the matching workflow — test, scan, build, sign.</p><div class="step-cmd"><span class="p">$</span> <span class="c">git push origin main</span></div></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="boxes"></i></span><span class="step-num">03</span></div><h4>Provision</h4><p>Ybor reconciles Crossplane compositions. New environment, cluster, or namespace — operators handle it.</p><div class="step-cmd"><span class="p">$</span> <span class="c">kubectl apply -f env.yaml</span></div></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="rocket"></i></span><span class="step-num">04</span></div><h4>Deploy</h4><p>ArgoCD promotes the artifact through environments. Kargo gates each hop on policy, tests, approvals.</p><div class="step-cmd"><span class="p">$</span> <span class="c">argocd app sync</span></div></div>
+      <div class="step"><div class="step-top"><span class="step-ic"><i data-lucide="activity"></i></span><span class="step-num">05</span></div><h4>Observe</h4><p>OpenTelemetry, Grafana, and Datadog come pre-wired. Audit logs ship to your SIEM.</p><div class="step-cmd"><span class="p">✓</span> <span class="c">traces · live</span></div></div>
+    </div>
+    <div class="center" style="margin-top:56px">
+      <a class="btn btn-primary" href="/how-it-works">See how the platform works <i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 6 · OUTCOMES ===================== -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> outcomes</span>
+      <h2 class="display-md balance">Do more with the team you have.</h2>
+    </div>
+    <div class="mstats">
+      <div class="mc c-purple">
+        <div class="mc-viz"><div class="mc-seg"><span></span><span></span><span></span></div></div>
+        <div class="mc-fig">3×</div>
+        <div class="mc-lbl">Faster onboarding for new developers, with pre-configured environments.</div>
+        <div class="mc-src">// Ashley Furniture internal benchmark, 2025</div>
+      </div>
+      <div class="mc c-green">
+        <div class="mc-viz"><div class="mc-bar" style="--to:55%"></div></div>
+        <div class="mc-fig">50–60%</div>
+        <div class="mc-lbl">Reduction in time-to-environment provisioning, using Ybor scaffolding.</div>
+        <div class="mc-src">// Aggregated customer data, 2025–2026</div>
+      </div>
+      <div class="mc c-orange">
+        <div class="mc-viz"><div class="mc-bar" style="--to:80%"></div></div>
+        <div class="mc-fig">80%</div>
+        <div class="mc-lbl">Fewer manual setup tasks across cloning, cloud auth, and access.</div>
+        <div class="mc-src">// Aggregated customer data, 2025</div>
+      </div>
+      <div class="mc c-purple">
+        <div class="mc-viz"><div class="mc-bar" style="--to:30%"></div></div>
+        <div class="mc-fig">30%</div>
+        <div class="mc-lbl">Cut in time-to-market across infra, environments, and deployments.</div>
+        <div class="mc-src">// Ashley Furniture internal benchmark, 2025</div>
+      </div>
+    </div>
+    <div class="center" style="margin-top:40px"><a class="btn btn-secondary" href="/security#metrics-methodology">Methodology <i data-lucide="arrow-right" class="ic"></i></a></div>
+  </div>
+</section>
+
+<!-- ===================== 7 · CUSTOMER STORY ===================== -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="split split-7-5">
+      <div>
+        <span class="quote-mark">"</span>
+        <blockquote class="display-md balance" style="margin:8px 0 28px;font-weight:700">Working with Ybor has been a turning point for Ashley. The platform gave us the structure to modernize confidently, without disrupting operations — and laid the groundwork for an AI-first roadmap.</blockquote>
+        <div style="margin-bottom:24px">
+          <div class="heading-sm">Rich Teachout</div>
+          <div class="body-sm muted">CTO, Ashley Furniture Industries</div>
+        </div>
+        {/* HIDDEN — the case study page is parked (src/pages/_ashley-furniture.astro).
+            The quote above stays; restore this link when the page comes back.
+        <a class="link-arrow" href="/ashley-furniture">Read the Ashley case study <i data-lucide="arrow-right"></i></a>
+        */}
+      </div>
+      <div>
+        <img class="testi-photo" src="/assets/img/rich-teachout.jpg" alt="Rich Teachout, CTO, Ashley Furniture">
+        <img class="logo-img tall" src="/assets/logos/ashley.png" alt="Ashley Furniture" style="margin-top:18px;filter:none;opacity:1">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 8 · SECURITY TEASER ===================== -->
+<section class="section bg-ink">
+  <div class="container">
+    <div class="split split-6-6">
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> security</span>
+        <h2 class="display-md balance" style="color:#fff;margin-bottom:22px">SOC 2 report. Cloud-native by design.</h2>
+        <p class="body-lg muted-d" style="margin-bottom:28px">Ybor holds a SOC 2 Type II report. mTLS between every service, Kyverno policy enforcement on every cluster, RBAC scoped to the object model, and audit logs that ship to your SIEM. Your security team gets the evidence — not a procurement headache.</p>
+        <ul class="checklist" style="margin-bottom:32px">
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2 Type II audit report on request</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>mTLS via Istio, default-on</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Kyverno best-practice policies, audit-mode out of the box</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>RBAC scoped to Enterprise → Organization → Solution</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Vault-backed secret injection</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Namespace isolation per Application × Environment</span></li>
+        </ul>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a class="btn btn-primary" href="/security">Read the security overview <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-ondark" href="/contact?intent=soc2">Request the SOC 2 report</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:28px">
+        <a class="soc-logo" href="https://www.aicpa.org/soc4so" target="_blank" rel="noopener" aria-label="AICPA SOC for Service Organizations — aicpa.org/soc4so"><img src="/assets/aicpa-soc-logo.jpg" alt="AICPA SOC for Service Organizations" width="176" height="176"></a>
+        <div style="display:flex;gap:24px;font-family:var(--font-mono);font-size:12px;color:var(--neutral-300);flex-wrap:wrap;justify-content:center">
+          <span>Istio</span><span>Kyverno</span><span>Vault</span><span>OpenTelemetry</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 9 · PERSONAS ===================== -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> who it's for</span>
+      <h2 class="display-md balance">Built for the people who keep the platform running.</h2>
+    </div>
+    <div class="grid grid-3" style="margin-top:56px">
+      <div class="card card-interactive">
+        <span class="icon-chip"><i data-lucide="layers"></i></span>
+        <h3 class="heading-sm" style="margin-bottom:10px">Platform Engineering Leads</h3>
+        <p class="body muted" style="margin-bottom:18px">Build a backend that developers actually use. Object model, Crossplane compositions, archetypes, and audit logs — without rebuilding the orchestrator from scratch.</p>
+        <a class="link-arrow" href="/platform#infrastructure">Read the Platform Infrastructure page <i data-lucide="arrow-right"></i></a>
+      </div>
+      <div class="card card-interactive">
+        <span class="icon-chip"><i data-lucide="trending-up"></i></span>
+        <h3 class="heading-sm" style="margin-bottom:10px">CTOs &amp; VP Engineering</h3>
+        <p class="body muted" style="margin-bottom:18px">Cut time to market without cutting compliance. SOC 2 controls, predictable spend, multi-cloud portability, and a roadmap you can show your board.</p>
+        {/* Repointed while /customers is parked — was "Read the case studies".
+            Restore that link when Customers comes back. */}
+        <a class="link-arrow" href="/how-it-works">See how the platform works <i data-lucide="arrow-right"></i></a>
+      </div>
+      <div class="card card-interactive">
+        <span class="icon-chip"><i data-lucide="shield-check"></i></span>
+        <h3 class="heading-sm" style="margin-bottom:10px">Security &amp; Compliance</h3>
+        <p class="body muted" style="margin-bottom:18px">RBAC scoped to the object model. mTLS by default. Kyverno policies in audit and enforce modes. SOC 2 evidence ready for procurement.</p>
+        <a class="link-arrow" href="/security">Read the security page <i data-lucide="arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 10 · RESOURCES ===================== -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> resources</span>
+      <h2 class="display-md balance">Read the docs. See the code. Hear from the team.</h2>
+    </div>
+    <div class="grid grid-3" style="margin-top:56px">
+      <a class="card card-interactive" href="https://developer.p6m.dev" target="_blank" rel="noopener">
+        <span class="icon-chip"><i data-lucide="book-open"></i></span>
+        <h3 class="heading-sm" style="margin-bottom:10px">Developer Documentation</h3>
+        <p class="body muted" style="margin-bottom:18px">REST, gRPC, GraphQL design guides. Archetype catalog. CI/CD reference. The same docs our customers use.</p>
+        <span class="link-arrow">Open the docs <i data-lucide="arrow-up-right"></i></span>
+      </a>
+      <a class="card card-interactive" href="/blog">
+        <span class="icon-chip"><i data-lucide="file-text"></i></span>
+        <h3 class="heading-sm" style="margin-bottom:10px">Engineering Blog</h3>
+        <p class="body muted" style="margin-bottom:18px">Platform engineering patterns, Kubernetes deep dives, and behind-the-scenes notes from the team building Ybor.</p>
+        <span class="link-arrow">Read the blog <i data-lucide="arrow-right"></i></span>
+      </a>
+      <a class="card card-interactive" href="https://platform.p6m.dev/changelog" target="_blank" rel="noopener">
+        <span class="icon-chip"><i data-lucide="history"></i></span>
+        <h3 class="heading-sm" style="margin-bottom:10px">Product Changelog</h3>
+        <p class="body muted" style="margin-bottom:18px">Every release. Every breaking change. Every new archetype. Published with the platform.</p>
+        <span class="link-arrow">View the changelog <i data-lucide="arrow-up-right"></i></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== 11 · FINAL CTA ===================== -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-lg balance" style="color:#fff;max-width:760px;margin-inline:auto">Ready to put this in production?</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:620px;margin:22px auto 0">Tell us your stack and what you're trying to ship. We'll show you the platform running, answer your security team's questions, and model the savings if that's useful. No slideware, no obligation.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:36px">
+      <a class="btn btn-onpurple btn-lg" href="/contact?intent=model">Get started <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg" href="/contact?intent=demo">Book a demo <i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+<script slot="scripts" is:inline>
+  (function(){
+    var cards = document.querySelectorAll('.mc');
+    if (!cards.length) return;
+    if (!('IntersectionObserver' in window)) { cards.forEach(function(c){ c.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.35 });
+    cards.forEach(function(c){ io.observe(c); });
+  })();
+
+  // Hero fleet grid — counts up from 40 to 148 services, lighting cells as it goes.
+  (function(){
+    var grid = document.getElementById('fleetGrid');
+    if (!grid) return;
+    var cells = Array.prototype.slice.call(grid.querySelectorAll('.fleet-cell'));
+    var countEl = document.getElementById('fleetCount');
+    var healthyEl = document.getElementById('fleetHealthy');
+    if (!cells.length) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    cells.forEach(function(c){ c.style.transition = 'opacity 320ms ease-out, transform 320ms ease-out'; });
+    var TARGET = 148, START = 40, STEPS = 18;
+    function litFor(v){ return Math.max(1, Math.round(v / TARGET * cells.length)); }
+    function setState(v){
+      var lit = (v >= TARGET) ? cells.length : litFor(v);
+      cells.forEach(function(c, i){
+        var on = i < lit;
+        c.style.opacity = on ? '1' : '0';
+        c.style.transform = on ? 'scale(1)' : 'scale(0.6)';
+      });
+      if (countEl) countEl.textContent = v;
+      if (healthyEl) healthyEl.textContent = v + ' / ' + v;
+    }
+    if (reduce){ setState(TARGET); return; }
+    setState(START);
+    function grow(){
+      var i = 0;
+      var t = setInterval(function(){
+        i++;
+        var v = Math.round(START + (TARGET - START) * (i / STEPS));
+        if (i >= STEPS) { v = TARGET; clearInterval(t); }
+        setState(v);
+      }, 90);
+    }
+    if ('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if (e.isIntersecting){ setTimeout(grow, 500); io.disconnect(); } });
+      }, { threshold: 0.4 });
+      io.observe(grid);
+    } else { setTimeout(grow, 500); }
+  })();
+
+  // Hero headline verb — walks the SDLC once and rests on "shipping".
+  (function(){
+    var slot = document.querySelector('.verb-slot');
+    if (!slot) return;
+    var current = slot.querySelector('.verb');
+    if (!current) return;
+    // paint the resting word visibly regardless of motion preference
+    current.style.transition = 'none';
+    current.style.opacity = '1';
+    current.style.transform = 'translateY(0)';
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      current.textContent = 'shipping';
+      return;
+    }
+    var seq = ['building','testing','securing','shipping'];
+    var HOLD = 1600, FADE = 480, EASE = 'cubic-bezier(.22,.61,.36,1)', i = 0;
+    var timers = [], running = false;
+    var btn = document.getElementById('verbReplay');
+    function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+    function later(fn, ms){ var t = setTimeout(fn, ms); timers.push(t); return t; }
+    function swap(word, done){
+      var next = document.createElement('span');
+      next.className = 'verb';
+      next.setAttribute('data-verb','');
+      next.textContent = word;
+      next.style.transition = 'none';
+      next.style.opacity = '0';
+      next.style.transform = 'translateY(8px)';
+      slot.appendChild(next);
+      var prev = current;
+      current = next;
+      void next.offsetWidth; // commit initial state before transitioning
+      var tr = 'opacity ' + FADE + 'ms ' + EASE + ', transform ' + FADE + 'ms ' + EASE;
+      prev.style.transition = tr; prev.style.opacity = '0'; prev.style.transform = 'translateY(-8px)';
+      next.style.transition = tr; next.style.opacity = '1'; next.style.transform = 'translateY(0)';
+      later(function(){ if (prev && prev.parentNode) prev.parentNode.removeChild(prev); if (done) done(); }, FADE);
+    }
+    function step(){
+      i++;
+      if (i >= seq.length){ running = false; if (btn) btn.disabled = false; return; } // rest on 'shipping'
+      swap(seq[i], function(){ later(step, HOLD - FADE); });
+    }
+    function play(){
+      clearTimers();
+      running = true; if (btn) btn.disabled = true;
+      // reset the slot to a single 'building' node, then walk the SDLC
+      slot.querySelectorAll('.verb').forEach(function(n){ if (n !== current) n.remove(); });
+      current.textContent = 'building';
+      current.style.transition = 'none';
+      current.style.opacity = '1';
+      current.style.transform = 'translateY(0)';
+      i = 0;
+      later(step, HOLD);
+    }
+    if (btn) btn.addEventListener('click', function(){ if (!running) play(); });
+    // first paint is 'building'; walk the SDLC and rest on 'shipping'
+    later(step, HOLD);
+  })();
+</script>
+</Base>

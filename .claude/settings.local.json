@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(sed -n '1,40p' /tmp/home.html | grep -n 'link\\\\|style\\\\|site.css\\\\|astro' | head -20 *)",
+      "Read(//private/tmp/**)"
+    ]
+  }
+}

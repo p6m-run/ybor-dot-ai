@@ -1,53 +1,86 @@
 ---
-/**
- * page using the NEW flexible Contentful architecture
- *
- * This demonstrates how to use the new Page -> Section -> Component structure.
- * Once you've migrated your content, replace index.astro with this file.
- */
-
-import Layout from "@/layouts/Layout.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
-import SectionRenderer from "@/components/SectionRenderer.astro";
-import { getPageBySlug } from "@/lib/contentful-v2";
-import GradientBg from "@/components/GradientBg";
-
-const slug = '/contact';
-const page = await getPageBySlug(slug);
-
-// Log status for debugging
-if (page) {
-  console.log("✅ Contentful v2 data loaded successfully");
-  console.log(`📄 Page: ${page.title}`);
-  console.log(`📦 Sections: ${page.sections.length}`);
-} else {
-  console.log("⚠️ No Contentful v2 data found");
-  console.log(
-    '💡 Make sure you have created a Page with slug "/contact" in Contentful'
-  );
-}
-
-// If no data, show helpful message
-if (!page) {
-  return Astro.redirect("/404");
-}
+import Base from '../layouts/Base.astro';
 ---
-
-<Layout title={page.title} description={page.metaDescription} image={page.metaImage}>
-  <Header />
-
-  <!-- Render all sections dynamically -->
-  {
-    page.sections.map((section) => (
-      <SectionRenderer section={section} slug={slug} color="brand-purple" />
-    ))
-  }
-
-  <GradientBg client:only="react" />
-  <Footer />
-</Layout>
-
-<style is:global>
-  /* Add any page-specific styles here */
+<Base title="Contact — Ybor" description="Talk to Ybor — book a demo, scope pricing, request the SOC 2® report, or reach our partner and press teams.">
+<style slot="head">
+  /* "Other ways to reach us" panel — recessed off-white in light, an elevated
+     dark surface in dark mode (the base --off-white token doesn't flip).
+     :global() keeps Astro from scoping the html[data-theme] ancestor, which
+     lives in the Base layout and has no page scope id. */
+  .reach-card { background: var(--off-white); border: none; }
+  :global([data-theme="dark"]) .reach-card { background: var(--surface-2); border: none; }
 </style>
+<section class="section bg-white">
+  <div class="container">
+    <div class="split split-7-5" style="align-items:start">
+      <!-- LEFT: FORM -->
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> contact</span>
+        <h1 class="display-md balance" style="margin-bottom:14px">Talk to Ybor.</h1>
+        <p class="body-lg muted" style="margin-bottom:8px">Tell us what you're after. We respond within one business day.</p>
+
+        <div id="intentBanner" class="badge badge-purple" style="display:none;margin:18px 0 6px;padding:8px 14px"><i data-lucide="check" style="width:14px;height:14px"></i> Routing to: <strong data-intent-label style="margin-left:2px"></strong></div>
+
+        <form id="contactForm" novalidate style="margin-top:24px">
+          <div class="field" id="intentField">
+            <label for="intentSelect">What can we help with?</label>
+            <select class="select" id="intentSelect" name="intent" required>
+              <option value="">Select…</option>
+              <option>Book a demo</option>
+              <option>Get started</option>
+              <option>Pricing</option>
+              <option>Security review</option>
+              <option>Careers</option>
+              <option>Partner</option>
+              <option>Press</option>
+              <option>Other</option>
+            </select>
+            <span class="field-error"><i data-lucide="alert-circle"></i> Please choose an option.</span>
+          </div>
+          <div class="split split-6-6" style="gap:18px">
+            <div class="field"><label for="fn">First name <span class="req">*</span></label><input class="input" id="fn" name="firstName" required><span class="field-error"><i data-lucide="alert-circle"></i> Required.</span></div>
+            <div class="field"><label for="ln">Last name <span class="req">*</span></label><input class="input" id="ln" name="lastName" required><span class="field-error"><i data-lucide="alert-circle"></i> Required.</span></div>
+          </div>
+          <div class="field">
+            <label for="email">Work email <span class="req">*</span></label>
+            <input class="input" id="email" name="email" type="email" required>
+            <span class="field-error"><i data-lucide="alert-circle"></i> Enter a valid email.</span>
+            <span class="field-warn"><i data-lucide="info"></i> A work email helps us route you faster.</span>
+          </div>
+          <div class="field"><label for="company">Company <span class="req">*</span></label><input class="input" id="company" name="company" required><span class="field-error"><i data-lucide="alert-circle"></i> Required.</span></div>
+          <div class="split split-6-6" style="gap:18px">
+            <div class="field"><label for="role">Role</label><select class="select" id="role" name="role"><option>Platform / Infrastructure</option><option>Engineering Leadership</option><option>Security</option><option>Developer</option><option>Procurement</option><option>Other</option></select></div>
+            <div class="field"><label for="size">Company size</label><select class="select" id="size" name="size"><option>1–50</option><option>51–500</option><option>501–5,000</option><option>5,000+</option></select></div>
+          </div>
+          <div class="field"><label for="msg">What are you hoping to learn?</label><textarea class="textarea" id="msg" name="message" maxlength="500" placeholder="A sentence or two about your stack and what you want to see."></textarea></div>
+          <div class="checkbox-row" style="margin-bottom:22px"><input type="checkbox" id="consent" name="consent" required><label for="consent" style="font-family:var(--font-sans)">I agree to the <a href="/privacy" style="color:var(--purple)">Privacy Policy</a>. <span class="req">*</span></label></div>
+          <button class="btn btn-primary btn-lg" type="submit" style="height: 40px">Send <i data-lucide="arrow-right" class="ic"></i></button>
+        </form>
+
+        <div id="formSuccess" class="form-success" style="margin-top:24px">
+          <span class="ck-big"><i data-lucide="check"></i></span>
+          <h3 class="heading-md">Thanks. We'll respond within one business day.</h3>
+          <p class="body muted">In the meantime, the docs are the fastest way to see how the platform fits together.</p>
+          <a class="btn btn-ghost" href="https://developer.p6m.dev" target="_blank" rel="noopener" style="padding-left:0">View the Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+        </div>
+      </div>
+
+      <!-- RIGHT: OTHER WAYS -->
+      <div>
+        <div class="card reach-card">
+          <h2 class="heading-md" style="margin-bottom:24px">Other ways to reach us</h2>
+          <div style="display:flex;flex-direction:column;gap:22px">
+            <div><p class="label" style="color:var(--purple);margin-bottom:4px">// sales</p><a style="font-size:14px;font-family:var(--font-sans)" href="mailto:sales@ybor.ai">sales@ybor.ai</a><p class="body-sm muted" style="font-size:12px">24h response</p></div>
+            <div><p class="label" style="color:var(--purple);margin-bottom:4px">// partners</p><a style="font-size:14px;font-family:var(--font-sans)" href="mailto:partners@ybor.ai">partners@ybor.ai</a></div>
+            <div><p class="label" style="color:var(--purple);margin-bottom:4px">// press</p><a style="font-size:14px;font-family:var(--font-sans)" href="mailto:press@ybor.ai">press@ybor.ai</a></div>
+            <div><p class="label" style="color:var(--purple);margin-bottom:4px">// support</p><a style="font-size:14px;font-family:var(--font-sans)" href="mailto:support@ybor.ai">support@ybor.ai</a><p class="body-sm muted" style="font-size:12px">4h SLA on Scale, 1h on Enterprise</p></div>
+            <div><p class="label" style="color:var(--purple);margin-bottom:4px">// security disclosures</p><a style="font-size:14px;font-family:var(--font-sans)" href="mailto:security@ybor.ai">security@ybor.ai</a><p class="body-sm muted"><a href="https://security.ybor.ai" target="_blank" rel="noopener" style="color:var(--purple);font-size:12px">security.ybor.ai ↗</a></p></div>
+            <hr class="divider">
+            <div><p class="label" style="color:var(--purple);margin-bottom:8px">// linkedin</p><a href="https://www.linkedin.com/company/ybor-technology-llc" target="_blank" rel="noopener" class="link-arrow" style="font-size:14px;font-family:var(--font-sans)">ybor-technology-llc <i data-lucide="arrow-up-right"></i></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</Base>

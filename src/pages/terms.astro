@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Terms of Use — Ybor" description="The Terms of Use that govern access to and use of the Ybor.ai website and related mobile services.">
+<style slot="head">
+  .legal { max-width: 800px; margin: 0 auto; }
+  .legal h2 { font-size: 22px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 700; margin: 44px 0 12px; scroll-margin-top: 96px; }
+  .legal h2 .h-slash { color: var(--purple); font-family: var(--font-mono); font-weight: 500; margin-right: 10px; }
+  .legal h3 { font-size: 16px; font-weight: 700; margin: 26px 0 6px; }
+  .legal p, .legal li { font-size: 16px; line-height: 1.7; color: var(--neutral-700); }
+  .legal p + p { margin-top: 14px; }
+  .legal ul { margin: 12px 0; display: flex; flex-direction: column; gap: 10px; }
+  .legal ul li { display: flex; gap: 12px; }
+  .legal ul li::before { content: ""; flex: none; width: 7px; height: 7px; margin-top: 11px; border-radius: 2px; background: var(--purple); transform: rotate(45deg); }
+  .legal a.inline { color: var(--purple-dark); text-decoration: underline; text-underline-offset: 3px; word-break: break-word; }
+  .legal code { font-family: var(--font-mono); font-size: 0.86em; background: var(--stroke-light); padding: 1px 6px; border-radius: 5px; }
+  .legal .updated { font-family: var(--font-mono); font-size: 12.5px; color: var(--neutral-500); }
+
+  /* Dark mode: these page-scoped rules use fixed light tokens (--neutral-700,
+     --stroke-light, --purple-dark) that read poorly on the dark surface; Astro
+     scoping raises their specificity above the global dark handling, so re-map
+     them here. :global keeps the html[data-theme] ancestor unscoped. */
+  :global([data-theme="dark"]) .legal p,
+  :global([data-theme="dark"]) .legal li { color: var(--text-1); }
+  :global([data-theme="dark"]) .legal a.inline { color: var(--purple-soft); }
+  :global([data-theme="dark"]) .legal code { background: var(--surface-3); color: var(--text-0); }
+  :global([data-theme="dark"]) .legal h2 .h-slash { color: var(--purple-soft); }
+  :global([data-theme="dark"]) .legal .updated { color: var(--text-2); }
+</style>
+
+<section class="section bg-white">
+  <div class="container">
+    <div class="legal">
+      <span class="eyebrow"><span class="slash">//</span> legal</span>
+      <h1 class="display-md balance" style="margin:14px 0 16px">Terms of use.</h1>
+      <p class="updated">// effective September 3, 2025</p>
+
+      <p style="margin-top:20px">Welcome to Ybor.ai. These Terms of Use apply to use of this website and related mobile services (collectively, the "Site"). As used in these Terms of Use, "we," "us," or "our" refers to Ybor Technology, LLC and its affiliates.</p>
+      <p>We make the Site available to you subject to these Terms of Use. By using the Site, you are accepting these Terms of Use and any modifications we make to them from time to time. You can review the most current version of these Terms of Use at any time by clicking on the Terms of Use link from the footer of the Site.</p>
+      <p>Read these Terms of Use carefully and completely. They describe our rights with respect to the Site and your rights and obligations with respect to your use of the Site. Do not use the Site if you do not want to accept these Terms of Use.</p>
+
+      <h2><span class="h-slash">//</span>We may change the Site and the products and services we offer on it.</h2>
+      <p>We may make changes to the Site and the products and services we offer from time to time. We have the right, but not the obligation, to take any of the following actions in our sole discretion without providing any prior notice to you:</p>
+      <ul>
+        <li>change or terminate all or any part of the products and services we offer on the Site;</li>
+        <li>restrict or terminate your access to all or any part of the Site or the products and services we offer on it;</li>
+        <li>remove any content from the Site and not publish or remove any material that you submit to the Site; or</li>
+        <li>change these Terms of Use.</li>
+      </ul>
+
+      <h2><span class="h-slash">//</span>We have the right to determine who can use the Site.</h2>
+      <p>You must be 13 years of age or older to use the Site. If you are not at least 13 years old, do not use the Site. Additionally, we reserve the right to deny access or use of the Site and the products and services we offer on it to anyone at any time in our sole and absolute discretion.</p>
+
+      <h2><span class="h-slash">//</span>You have a limited right to use the Site.</h2>
+      <p>On the condition that you comply with all your obligations under these Terms of Use, we grant you a limited, revocable, non-exclusive, non-assignable, non-sublicensable license and right to access the Site through a generally available web browser or mobile device to view content and information and otherwise use the Site consistent with its functionality and in accordance with these Terms of Use. Any other use of the Site is strictly prohibited and a violation of these Terms of Use. All content included on the Site, such as text, graphics, logos, images, video, data, and other material (collectively "Content") is our owned or licensed property and is protected by copyright, trademark, patent, or other proprietary rights. The collection, arrangement, and assembly of all Content on the Site is the exclusive property of Ybor Technology, LLC and its affiliates and protected by U.S. and international copyright laws. We expressly reserve all intellectual property rights in all Content.</p>
+
+      <h2><span class="h-slash">//</span>You may not use the Site for improper purposes.</h2>
+      <p>Whether on behalf of yourself or on behalf of any third party, YOU MAY NOT:</p>
+      <ul>
+        <li>make any commercial use of the Site or its Content;</li>
+        <li>use or attempt to use any engine, software, tool, agent, or other device or mechanism (including browsers, spiders, robots, or intelligent agents) to navigate or search the Site other than the search engine and search agents made available on the Site or generally publicly available browsers;</li>
+        <li>frame, mirror, or use framing techniques on any part of the Site without our express prior written consent;</li>
+        <li>make any use of data extraction, scraping, mining, or other data gathering tools, or create a database by systematically downloading or storing Site content, or otherwise scrape, collect, store, or use any Content, product listings, descriptions, prices, or images, except pursuant to the limited license granted by these Terms of Use;</li>
+        <li>use any meta tags or any other hidden text utilizing any names or marks used or displayed on the Site;</li>
+        <li>misrepresent the identity of a user, impersonate any person or entity, falsely state or otherwise misrepresent your affiliation with any person or entity in connection with the Site, or express or imply that we endorse any statement you make;</li>
+        <li>conduct fraudulent activities on the Site;</li>
+        <li>violate or attempt to violate the security of the Site, including, without limitation: (i) accessing data not intended for you or logging onto a server or an account that you are not authorized to access; (ii) attempting to interfere with service to any user, host, or network, including, without limitation, via means of submitting malware to the Site, overloading, "flooding," "spamming," "mailbombing," or "crashing"; (iii) forging any header or any part of the header information in any email or posting; or (iv) forging communications on behalf of the Site (impersonating the Site) or to the Site (impersonating another user);</li>
+        <li>use the Site to defame, abuse, harass, stalk, threaten, or otherwise violate the legal rights of others;</li>
+        <li>modify, adapt, translate, reverse engineer, decompile, or disassemble any portion of the Site; or</li>
+        <li>remove any copyright, trademark, or other proprietary rights notice from the Site or materials originating from the Site.</li>
+      </ul>
+
+      <h2><span class="h-slash">//</span>Notifications from the Site or email.</h2>
+      <p>We may notify you of important information about the Site and the products and services we offer on it by placing notices on the Site, sending you an email to the email address associated with your account, or through other means.</p>
+
+      <h2><span class="h-slash">//</span>Our data collection and privacy practices are described in our Privacy Policy.</h2>
+      <p>You should carefully read our <a class="inline" href="/privacy">Privacy Policy</a> before using the Site as it is incorporated into these Terms of Use by reference, and governs our treatment of any information, including personal information, that you submit to us.</p>
+
+      <h2><span class="h-slash">//</span>We disclaim any legal liability for the operation of the Site and the products and services offered on it.</h2>
+      <p>THE SITE AND ALL INFORMATION, CONTENT, MATERIALS, PRODUCTS AND SERVICES INCLUDED ON OR OTHERWISE MADE AVAILABLE TO YOU THROUGH THE SITE ARE PROVIDED BY US ON AN "AS IS" AND "AS AVAILABLE" BASIS, UNLESS OTHERWISE SPECIFIED IN WRITING. WE MAKE NO REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, AS TO THE OPERATION OF THE SITE, OR THE INFORMATION, CONTENT, MATERIALS, PRODUCTS, OR SERVICES INCLUDED ON OR OTHERWISE MADE AVAILABLE TO YOU THROUGH THE SITE, UNLESS OTHERWISE SPECIFIED IN WRITING. WE SHALL NOT HAVE ANY LIABILITY OR RESPONSIBILITY FOR ANY ERRORS OR OMISSIONS IN THE CONTENT OF THE SITE, FOR YOUR ACTION OR INACTION IN CONNECTION WITH THE SITE OR FOR ANY DAMAGE TO YOUR COMPUTER OR DATA OR ANY OTHER DAMAGE YOU MAY INCUR IN CONNECTION WITH THE SITE. YOU EXPRESSLY AGREE THAT YOUR USE OF THE SITE IS AT YOUR SOLE RISK.</p>
+
+      <h2><span class="h-slash">//</span>We limit our liability to you.</h2>
+      <p>UNDER NO CIRCUMSTANCES SHALL YBOR TECHNOLOGY, LLC, ITS AFFILIATES, OR OUR AND THEIR RESPECTIVE EMPLOYEES, DIRECTORS, OFFICERS, OR AGENTS BE LIABLE FOR ANY DAMAGES OF ANY KIND ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF OR INABILITY TO USE THE SITE, OR FROM ANY INFORMATION, CONTENT, MATERIALS, PRODUCTS, OR SERVICES INCLUDED ON OR OTHERWISE MADE AVAILABLE TO YOU THROUGH THE SITE. THIS IS A COMPREHENSIVE LIMITATION OF LIABILITY THAT APPLIES TO ALL LOSSES AND DAMAGES OF ANY KIND (WHETHER GENERAL, SPECIAL, CONSEQUENTIAL, INCIDENTAL, EXEMPLARY OR OTHERWISE, INCLUDING, WITHOUT LIMITATION, LOSS OF DATA, INCOME OR PROFITS), WHETHER IN CONTRACT OR TORT, EVEN IF WE HAVE BEEN ADVISED OF OR SHOULD HAVE KNOWN OF THE POSSIBILITY OF SUCH DAMAGES. EACH PROVISION OF THESE TERMS OF USE THAT PROVIDES FOR A LIMITATION OF LIABILITY, DISCLAIMER OF WARRANTIES, OR EXCLUSION OF DAMAGES IS TO ALLOCATE THE RISKS UNDER THE AGREEMENT BETWEEN YOU AND US.</p>
+      <p>THIS ALLOCATION IS AN ESSENTIAL ELEMENT OF THE BASIS OF THE BARGAIN BETWEEN YOU AND US. THE LIMITATIONS IN THIS SECTION WILL APPLY EVEN IF ANY LIMITED REMEDY FAILS OF ITS ESSENTIAL PURPOSE(S). IF YOU ARE DISSATISFIED WITH THE SITE, ANY INFORMATION, CONTENT, MATERIALS, PRODUCTS, OR SERVICES INCLUDED ON OR OTHERWISE MADE AVAILABLE TO YOU THROUGH THE SITE, OR THESE TERMS OF USE, YOUR SOLE AND EXCLUSIVE REMEDY IS TO DISCONTINUE USING THE SITE. YOU ACKNOWLEDGE, BY YOUR USE OF THE SITE, THAT YOUR USE OF THE SITE IS AT YOUR SOLE RISK. APPLICABLE LAW MAY NOT ALLOW THE LIMITATION OF LIABILITY SET FORTH ABOVE, SO THIS LIMITATION OF LIABILITY MAY NOT APPLY TO YOU, AND YOU MAY HAVE RIGHTS ADDITIONAL TO THOSE CONTAINED HEREIN.</p>
+      <p>CERTAIN STATE LAWS DO NOT ALLOW LIMITATIONS ON IMPLIED WARRANTIES OR THE EXCLUSION OR LIMITATION OF CERTAIN DAMAGES. IF THESE LAWS APPLY TO YOU, SOME OR ALL OF THE ABOVE DISCLAIMERS, EXCLUSIONS, OR LIMITATIONS MAY NOT APPLY TO YOU, AND YOU MIGHT HAVE ADDITIONAL RIGHTS.</p>
+
+      <h2><span class="h-slash">//</span>Jury Waiver and Class Waiver</h2>
+      <p>You agree that you are giving up your right to a jury trial, and that any dispute resolution proceedings will be conducted on an individual basis and not as a class or representative basis. You agree to waive participation in a class action.</p>
+
+      <h2><span class="h-slash">//</span>We are not responsible for third party websites.</h2>
+      <p>The Site may contain links and interactive functionality interacting with the websites of third parties, including social networking sites. We do not endorse, and we are not responsible for and have no liability for, the functionality, actions, inactions, privacy settings, privacy policies, terms, or content of any such website. YOUR USE OF THIRD-PARTY WEBSITES AND RESOURCES IS AT YOUR OWN RISK.</p>
+
+      <h2><span class="h-slash">//</span>Please let us know if you believe your intellectual property has been improperly posted.</h2>
+      <p>If you are an owner of intellectual property who believes your intellectual property has been improperly posted or distributed via the Site, please notify us by sending an email to <a class="inline" href="mailto:security@ybor.ai">security@ybor.ai</a> or by sending a notice by U.S. Mail to: Ybor Technology, LLC, 1670 E 8th Ave., Tampa, FL 33605, Attn: Legal Department. Your notice to us must include the following information: (1) a physical or electronic signature of a person authorized to act on behalf of the owner of the copyrighted work allegedly infringed; (2) a description of the copyrighted work or works that allegedly have been infringed; (3) a description of where on the Site the allegedly infringing material appears that will allow us to locate the material; (4) your contact information, including your address, telephone number, and, if available, email address; (5) a statement by you that you have a good faith belief that the allegedly infringing use has not been authorized by the copyright owner, its agent, or the law; and (6) a statement by you, under penalty of perjury, that the information in your notice is accurate and that you are authorized to act on behalf of the owner of the copyrighted work that has allegedly been infringed.</p>
+
+      <h2><span class="h-slash">//</span>These general terms apply to these Terms of Use.</h2>
+      <p>You are responsible for all charges and necessary permissions related to accessing the Site through your mobile access provider.</p>
+      <p>If any provision of these Terms of Use is found by a court of competent jurisdiction to be illegal, void, or unenforceable, the unenforceable provision will be modified so as to render these Terms of Use enforceable and effective to the maximum extent possible in order to effect the intention of the provision; if a court finds the modified provision invalid, illegal, void or unenforceable, the validity, legality and enforceability of the remaining provisions of these Terms of Use will not be affected in any way.</p>
+      <p>You agree that these Terms of Use constitutes the entire, complete and exclusive agreement between you and us regarding the Site and the services offered on it and supersedes all prior agreements and understandings, whether written or oral, or whether established by custom, practice, policy or precedent, with respect to the subject matter of these Terms of Use.</p>
+      <p>Our failure to act with respect to a breach of these Terms of Use by you or others does not waive our right to act with respect to that breach or subsequent similar or other breaches.</p>
+      <p>If you have questions or comments about these Terms of Use, please contact us by mail at: Ybor Technology, LLC, 1670 E 8th Ave., Tampa, FL 33605, Attn: Legal Department.</p>
+
+      <p style="margin-top:28px">Effective Date: September 3, 2025</p>
+    </div>
+  </div>
+</section>
+</Base>

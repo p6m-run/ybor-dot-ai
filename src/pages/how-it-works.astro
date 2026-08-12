@@ -1,0 +1,253 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="How it Works — The Ybor Platform Architecture | Ybor" description="The Ybor object model, operators, and addon catalog. Enterprise to Cluster, reconciled by Kubernetes operators across AWS, Azure, and GCP." active="platform">
+<style slot="head">
+  /* Hero visual — the object-model spine, with the operator card seamed below it. */
+  .combo-glow { position:absolute; inset:24px 12px auto 12px; height:170px; border-radius:var(--r-xl); box-shadow:var(--shadow-glow); z-index:0; }
+  .combo-card { position:relative; z-index:1; }
+  .combo-seam { display:flex; align-items:center; justify-content:center; gap:12px; padding:14px 0; position:relative; z-index:1; }
+  .combo-seam .ln { flex:1; height:1px; background:var(--stroke-dark); }
+  .combo-seam .pill { display:inline-flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--purple); border-radius:999px; padding:7px 15px; box-shadow:0 0 20px rgba(140,100,218,.55); }
+  .combo-seam .pill svg { width:13px; height:13px; }
+  .spine { display:flex; flex-direction:column; }
+  .spine-node { display:grid; grid-template-columns:auto auto 1fr; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--stroke-dark); border-radius:var(--r-md); background:rgba(255,255,255,.03); }
+  .spine-ic { width:30px; height:30px; border-radius:var(--r-sm,6px); display:inline-flex; align-items:center; justify-content:center; background:rgba(140,100,218,.18); color:#C0A8EF; }
+  .spine-ic svg { width:16px; height:16px; }
+  .spine-k { font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--neutral-300); }
+  .spine-v { font-family:var(--font-mono); font-size:12.5px; color:#fff; text-align:right; }
+  .spine-rail { display:flex; justify-content:center; color:var(--neutral-500); padding:3px 0; }
+  .spine-rail svg { width:15px; height:15px; }
+  @media (prefers-reduced-motion:no-preference){
+    .spine-node { opacity:0; animation:spine-in .5s cubic-bezier(.2,.7,.3,1) forwards; }
+    .spine-node:nth-child(3){animation-delay:.12s} .spine-node:nth-child(5){animation-delay:.24s} .spine-node:nth-child(7){animation-delay:.36s}
+    .spine-rail svg { animation:spine-pulse 2s ease-in-out infinite; }
+  }
+  @keyframes spine-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  @keyframes spine-pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+</style>
+
+<!-- HERO -->
+<section class="hero bg-tint-soft">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="slash">//</span> how it works</span>
+        <h1 class="display-lg balance">A platform with a backbone.</h1>
+        <p class="body-lg muted pretty" style="max-width:600px">Most platforms hand you primitives and ask you to compose the rest. Ybor hands you a layered object model, Kubernetes operators that reconcile it, and an addon catalog that runs on every cluster. Here's the shape of the system.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-glow" href="/contact?intent=architecture-demo">Book a Demo <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-secondary" href="https://platform.p6m.dev/docs/architecture" target="_blank" rel="noopener">Read the Architecture Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+        </div>
+        <p class="hero-note">Object model <span class="dot">·</span> Kubernetes operators <span class="dot">·</span> Addon catalog <span class="dot">·</span> GitOps reconcile</p>
+      </div>
+      <div class="hero-copy">
+        <div class="ui-stack reveal">
+          <div class="combo-glow"></div>
+          <div class="ui-card combo-card" style="box-shadow:var(--shadow-lg)">
+            <div class="ui-card-head"><i data-lucide="workflow" style="width:15px;height:15px"></i> object model · declared state</div>
+            <div class="ui-card-body">
+              <div class="spine">
+                <div class="spine-node"><span class="spine-ic"><i data-lucide="layers"></i></span><span class="spine-k">Solution</span><span class="spine-v">orders-platform</span></div>
+                <div class="spine-rail"><i data-lucide="chevron-down"></i></div>
+                <div class="spine-node"><span class="spine-ic"><i data-lucide="box"></i></span><span class="spine-k">Application</span><span class="spine-v">ashley-orders</span></div>
+                <div class="spine-rail"><i data-lucide="chevron-down"></i></div>
+                <div class="spine-node"><span class="spine-ic"><i data-lucide="git-branch"></i></span><span class="spine-k">Environment</span><span class="spine-v">dev · staging · prod</span></div>
+                <div class="spine-rail"><i data-lucide="chevron-down"></i></div>
+                <div class="spine-node"><span class="spine-ic"><i data-lucide="server"></i></span><span class="spine-k">Cluster</span><span class="spine-v">eks · aks · gke</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="combo-seam"><span class="ln"></span><span class="pill"><i data-lucide="refresh-cw"></i> operators reconcile</span><span class="ln"></span></div>
+          <div class="ui-card combo-card">
+            <div class="ui-card-body" style="padding-top:16px">
+              <div class="kv"><span class="k">platform-cluster-operator</span><span class="status-pill status-healthy"><span class="led"></span>reconciled</span></div>
+              <div class="kv"><span class="k">installation-operator</span><span class="status-pill status-healthy"><span class="led"></span>addons applied</span></div>
+              <div class="kv" style="border-top:1px solid var(--stroke-light);padding-top:12px"><span class="k">audit log</span><span class="v mono" style="font-size:13px;color:var(--green-dark)">written · SIEM</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECT MODEL -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> object model</span>
+      <h2 class="display-md balance">The object model — Enterprise to Cluster.</h2>
+    </div>
+    <div class="om">
+      <div class="om-nest">
+        <div class="om-col-h">Ownership — what <b>contains</b> what</div>
+        <div class="om-level lvl-ent">
+          <span class="om-contains">contains ↓</span>
+          <span class="om-tag"><span class="om-ic"><i data-lucide="building-2"></i></span>Enterprise</span>
+          <span class="om-note">Top-level tenancy boundary.</span>
+          <div class="om-level lvl-org">
+            <span class="om-contains">owns ↓</span>
+            <span class="om-tag"><span class="om-ic"><i data-lucide="users"></i></span>Organization</span>
+            <span class="om-note">Owns Solutions and Clusters. RBAC scope.</span>
+            <div class="om-level lvl-sol">
+              <span class="om-contains">groups ↓</span>
+              <span class="om-tag"><span class="om-ic"><i data-lucide="layers"></i></span>Solution</span>
+              <span class="om-note">Maps to a product or business line.</span>
+              <div class="om-level lvl-app">
+                <span class="om-tag"><span class="om-ic"><i data-lucide="box"></i></span>Application</span>
+                <span class="om-note">A deployable unit. Owns archetype source, CI workflow, manifests.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="om-runtime">
+        <div class="om-col-h">Runtime — where it <b>runs</b></div>
+        <div class="om-bridge"><i data-lucide="git-branch"></i> Application deploys to environments</div>
+        <div class="om-envs">
+          <span class="om-env"><span class="om-env-k">ENV</span>dev</span>
+          <span class="om-env"><span class="om-env-k">ENV</span>staging</span>
+          <span class="om-env"><span class="om-env-k">ENV</span>prod</span>
+        </div>
+        <div class="om-sched"><span><i data-lucide="arrow-down"></i> scheduled onto</span></div>
+        <div class="om-clusters">
+          <div class="om-cluster"><div class="om-c-name">EKS</div><img class="om-c-logo" src="/assets/logos/aws.png" alt="AWS"><div class="om-c-pods"><span></span><span></span><span></span></div></div>
+          <div class="om-cluster"><div class="om-c-name">AKS</div><img class="om-c-logo" src="/assets/logos/azure.webp" alt="Microsoft Azure"><div class="om-c-pods"><span></span><span></span><span></span></div></div>
+          <div class="om-cluster"><div class="om-c-name">GKE</div><img class="om-c-logo" src="/assets/logos/gcp.png" alt="Google Cloud"><div class="om-c-pods"><span></span><span></span><span></span></div></div>
+        </div>
+        <p class="om-runtime-note">// each Application × Environment gets its own namespace, provisioned by platform-cluster-operator.</p>
+      </div>
+    </div>
+    <p class="center" style="margin-top:32px"><a class="link-arrow" href="https://platform.p6m.dev/docs/architecture/object-models" target="_blank" rel="noopener">Read the object model docs <i data-lucide="arrow-up-right"></i></a></p>
+  </div>
+</section>
+
+<!-- OPERATORS -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> operators</span>
+      <h2 class="display-md balance">Kubernetes operators reconcile every entity.</h2>
+    </div>
+    <div class="grid grid-2" style="margin-top:56px">
+      <div class="card">
+        <p class="mono" style="font-size:15px;color:var(--purple);margin-bottom:10px">platform-cluster-operator</p>
+        <p class="body muted">Reconciles <code class="mono" style="font-size:13px">PlatformCluster</code> resources. Provisions EKS, AKS, and GKE via Cluster API and Crossplane.</p>
+        <p style="margin-top:14px"><a class="link-arrow" href="https://platform.p6m.dev/docs/reference/operators" target="_blank" rel="noopener" style="font-size:13px">Reference docs <i data-lucide="arrow-up-right"></i></a></p>
+      </div>
+      <div class="card">
+        <p class="mono" style="font-size:15px;color:var(--purple);margin-bottom:10px">platform-organization-operator</p>
+        <p class="body muted">Bootstraps Organizations and the downstream cluster operators that belong to them.</p>
+        <p style="margin-top:14px"><a class="link-arrow" href="https://platform.p6m.dev/docs/reference/operators" target="_blank" rel="noopener" style="font-size:13px">Reference docs <i data-lucide="arrow-up-right"></i></a></p>
+      </div>
+      <div class="card">
+        <p class="mono" style="font-size:15px;color:var(--purple);margin-bottom:10px">installation-operator</p>
+        <p class="body muted">Installs the addon catalog — Istio, Kyverno, ArgoCD, Vault, and more — on every workload cluster.</p>
+        <p style="margin-top:14px"><a class="link-arrow" href="https://platform.p6m.dev/docs/reference/operators" target="_blank" rel="noopener" style="font-size:13px">Reference docs <i data-lucide="arrow-up-right"></i></a></p>
+      </div>
+      <div class="card">
+        <p class="mono" style="font-size:15px;color:var(--purple);margin-bottom:10px">platform-application-operator</p>
+        <p class="body muted">Reconciles <code class="mono" style="font-size:13px">Application</code> resources into running workloads via ArgoCD.</p>
+        <p style="margin-top:14px"><a class="link-arrow" href="https://platform.p6m.dev/docs/reference/operators" target="_blank" rel="noopener" style="font-size:13px">Reference docs <i data-lucide="arrow-up-right"></i></a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIFECYCLE -->
+<section class="section bg-white" style="position:relative;overflow:hidden">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> the lifecycle</span>
+      <h2 class="display-md balance">From archetect render to a production pod.</h2>
+    </div>
+    <div class="lifeflow" style="margin-top:56px">
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="layout-template"></i></span><span class="life-num">01</span></div><p><code class="mono">archetect render</code> — generate repo + manifests</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="git-branch"></i></span><span class="life-num">02</span></div><p>GitHub push — CI runs</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="shield-check"></i></span><span class="life-num">03</span></div><p>Image build + sign + scan</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="git-merge"></i></span><span class="life-num">04</span></div><p>PR merge — ArgoCD picks up the manifest</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="boxes"></i></span><span class="life-num">05</span></div><p>Environment scheduled on a Cluster</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="lock"></i></span><span class="life-num">06</span></div><p>Namespace created, RBAC applied</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="waypoints"></i></span><span class="life-num">07</span></div><p>Service deployed, mesh configured</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="activity"></i></span><span class="life-num">08</span></div><p>Audit log written, observability live</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ADDON CATALOG -->
+<section class="section bg-ink-grad">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> addon catalog</span>
+      <h2 class="display-md balance" style="color:#fff">What comes in the box.</h2>
+      <p class="body-lg muted-d pretty">Every installable that ships on every workload cluster, applied by the installation-operator. This is the full list — not a highlight reel.</p>
+    </div>
+    <div class="matrix-wrap" style="margin-top:48px;background:var(--ink-soft);border:1px solid var(--stroke-dark);border-radius:var(--r-xl);overflow:hidden">
+      <table class="matrix addon-matrix">
+        <thead><tr><th>Addon</th><th>Category</th><th>Purpose</th><th>Version</th></tr></thead>
+        <tbody>
+          <tr class="grouprow"><td colspan="4">Networking</td></tr>
+          <tr><td class="mono">istio</td><td>Networking</td><td>Service mesh, mTLS, traffic policy</td><td class="mono">1.22</td></tr>
+          <tr><td class="mono">cert-manager</td><td>Networking</td><td>Certificate issuance &amp; rotation</td><td class="mono">1.15</td></tr>
+          <tr class="grouprow"><td colspan="4">Policy &amp; Security</td></tr>
+          <tr><td class="mono">kyverno</td><td>Policy</td><td>Best-practice policy enforcement</td><td class="mono">1.12</td></tr>
+          <tr><td class="mono">vault</td><td>Security</td><td>Secret storage &amp; injection</td><td class="mono">1.17</td></tr>
+          <tr class="grouprow"><td colspan="4">Observability</td></tr>
+          <tr><td class="mono">opentelemetry</td><td>Observability</td><td>Traces, metrics, logs collection</td><td class="mono">0.103</td></tr>
+          <tr><td class="mono">grafana</td><td>Observability</td><td>Dashboards &amp; alerting</td><td class="mono">11.1</td></tr>
+          <tr><td class="mono">prometheus</td><td>Observability</td><td>Metrics store</td><td class="mono">2.53</td></tr>
+          <tr class="grouprow"><td colspan="4">CI/CD</td></tr>
+          <tr><td class="mono">argocd</td><td>CI/CD</td><td>GitOps continuous delivery</td><td class="mono">2.11</td></tr>
+          <tr><td class="mono">kargo</td><td>CI/CD</td><td>Environment promotion gating</td><td class="mono">0.8</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="center mono" style="font-size:12px;color:var(--neutral-500);margin-top:24px">Source: platform.p6m.dev/docs/reference/installables — versions illustrative, pulled at build time.</p>
+  </div>
+</section>
+
+<!-- MULTI-CLOUD TOPOLOGY -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> multi-cloud</span>
+      <h2 class="display-md balance">One control plane. Three cloud fleets.</h2>
+      <p class="body muted pretty">Multi-cloud isn't a slide claim — it's a topology. One control plane reconciles workload cluster fleets across AWS, Azure, and GCP, each running the same addon stack.</p>
+    </div>
+    <div style="max-width:620px;margin:56px auto 0">
+      <div class="topo">
+        <div class="topo-cp"><i data-lucide="box"></i><span>Ybor Control Plane</span></div>
+        <svg class="topo-lines" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true" style="width: 570px;">
+          <g fill="none" stroke="var(--neutral-200)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M200 0 V53"/>
+            <path d="M200 20 H70 Q62 20 62 28 V53"/>
+            <path d="M200 20 H330 Q338 20 338 28 V53"/>
+            <path d="M55 48 L62 56 L69 48"/>
+            <path d="M193 48 L200 56 L207 48"/>
+            <path d="M331 48 L338 56 L345 48"/>
+          </g>
+        </svg>
+        <div class="topo-clusters">
+          <div class="topo-node"><span class="topo-name">AWS</span><span class="topo-cloud">eks · addons</span><img class="topo-logo" src="/assets/logos/aws.png" alt="AWS"><div class="pods"><span></span><span></span><span></span></div></div>
+          <div class="topo-node"><span class="topo-name">Azure</span><span class="topo-cloud">aks · addons</span><img class="topo-logo" src="/assets/logos/azure.webp" alt="Microsoft Azure"><div class="pods"><span></span><span></span><span></span></div></div>
+          <div class="topo-node"><span class="topo-name">GCP</span><span class="topo-cloud">gke · addons</span><img class="topo-logo" src="/assets/logos/gcp.png" alt="Google Cloud"><div class="pods"><span></span><span></span><span></span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:700px;margin-inline:auto">Want the deep architecture walkthrough?</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:640px;margin:20px auto 0">60 minutes with our platform team. We'll go entity-by-entity through the object model on your stack.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="/contact?intent=architecture-demo">Book the architecture walkthrough <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg" href="https://platform.p6m.dev/docs/architecture" target="_blank" rel="noopener">Read the Architecture Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+</Base>

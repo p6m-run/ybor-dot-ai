@@ -1,54 +1,17 @@
 {
-  "name": "ybor.dev",
+  "name": "ybor-website",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "dev": "astro dev",
+    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "contentful:import-types": "node import-contentful.js",
-    "contentful:import-content": "node import-fixed.js",
-    "contentful:import-ede": "node import-ede-content.js"
+    "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^4.3.0",
-    "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/vercel": "^8.2.6",
-    "@contentful/rich-text-html-renderer": "^17.1.5",
-    "@contentful/rich-text-react-renderer": "^16.1.5",
-    "@hookform/resolvers": "^3.10.0",
-    "@lucide/astro": "^0.545.0",
-    "@notionhq/client": "^2.2.15",
-    "@radix-ui/react-checkbox": "^1.3.2",
-    "@radix-ui/react-label": "^2.1.2",
-    "@radix-ui/react-select": "^2.2.5",
-    "@radix-ui/react-slot": "^1.1.2",
-    "@radix-ui/react-toast": "^1.2.6",
-    "@tailwindcss/vite": "^4.0.4",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "@vercel/analytics": "^1.5.0",
-    "astro": "^5.15.6",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "contentful": "^11.8.5",
-    "gsap": "^3.13.0",
-    "he": "^1.2.0",
-    "lucide-react": "^0.475.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-hook-form": "^7.54.2",
-    "resend": "^4.6.0",
-    "tailwind-merge": "^3.0.1",
-    "tailwindcss": "^4.0.4",
-    "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-animated": "^2.0.0",
-    "zod": "^3.24.1"
-  },
-  "devDependencies": {
-    "@types/he": "^1.2.3",
-    "contentful-management": "^11.60.4",
-    "sharp": "^0.34.3"
+    "astro": "^5.13.0",
+    "lucide": "^1.24.0"
   }
 }

@@ -1,0 +1,318 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="What we learned running Crossplane in production for 18 months — Ybor Blog" description="Composition functions, provider upgrades, and the reconciliation edge cases nobody warns you about. The architecture we'd recommend — and the two patterns we'd skip." active="resources">
+<style slot="head">
+  /* Article-only compositions, built from system tokens */
+  .article-hero { padding-block: 64px 0; }
+  .breadcrumb { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12.5px; color: var(--neutral-500); margin-bottom: 26px; flex-wrap: wrap; }
+  .breadcrumb a { color: var(--neutral-500); }
+  .breadcrumb a:hover { color: var(--purple); }
+  .breadcrumb .sep { color: var(--neutral-200); }
+  .breadcrumb .here { color: var(--neutral-700); }
+
+  .article-head { max-width: 760px; }
+  .article-head h1 { font-size: clamp(34px, 4.4vw, 52px); line-height: 1.08; letter-spacing: -0.025em; font-weight: 700; margin: 16px 0 20px; }
+  .article-dek { font-size: 20px; line-height: 1.6; color: var(--neutral-700); max-width: 660px; }
+
+  .byline { display: flex; align-items: center; gap: 14px; margin-top: 32px; }
+  .byline .avatar { flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--ink); color: #C0A8EF; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 15px; }
+  .byline .who { font-weight: 600; font-size: 14.5px; }
+  .byline .meta { font-family: var(--font-mono); font-size: 12.5px; color: var(--neutral-500); margin-top: 2px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .byline .meta .sep { color: var(--neutral-200); }
+
+  .article-figure { aspect-ratio: 16 / 7; display: flex; align-items: center; justify-content: center; border-radius: var(--r-xl); overflow: hidden; margin-top: 44px; position: relative; }
+  .article-figure .glyph-big { font-family: var(--font-mono); font-weight: 700; font-size: 160px; line-height: 1; user-select: none; }
+  .article-figure.tint-ink { background: var(--ink); } .article-figure.tint-ink .glyph-big { color: #C0A8EF; }
+  .fig-scatter { position: absolute; inset: 0; pointer-events: none; }
+  .fig-scatter span { position: absolute; font-family: var(--font-mono); font-weight: 700; color: rgba(192,168,239,.12); line-height: 1; user-select: none; }
+
+  /* reading column */
+  .article-wrap { padding-block: 56px 72px; }
+  .article-layout { display: grid; grid-template-columns: 1fr minmax(0, 720px) 1fr; gap: 0; }
+  .article-rail { position: sticky; top: 96px; align-self: start; justify-self: start; padding-left: 24px; display: flex; flex-direction: column; gap: 10px; }
+  .article-rail .rail-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--neutral-300); margin-bottom: 4px; }
+  .share-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--neutral-100); background: #fff; color: var(--neutral-700); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 150ms ease-out; }
+  .share-btn:hover { border-color: var(--purple); color: var(--purple); transform: translateY(-2px); }
+  .share-btn svg { width: 17px; height: 17px; }
+  .share-btn[aria-label="Share on X"] svg { width: 15px; height: 15px; }
+
+  .article { grid-column: 2; }
+  .article > * + * { margin-top: 24px; }
+  .article p { font-size: 18px; line-height: 1.76; color: #2B2D33; }
+  .article p .lead, .article .lead { font-size: 21px; line-height: 1.6; color: var(--ink); }
+  .article h2 { font-size: 28px; line-height: 1.18; letter-spacing: -0.02em; font-weight: 700; margin-top: 52px; margin-bottom: 4px; scroll-margin-top: 96px; }
+  .article h2 .h-slash { color: var(--purple); font-family: var(--font-mono); font-weight: 500; margin-right: 10px; }
+  .article h3 { font-size: 20px; line-height: 1.3; letter-spacing: -0.01em; font-weight: 700; margin-top: 36px; margin-bottom: 2px; }
+  .article a.inline { color: var(--purple-dark); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; text-decoration-color: var(--purple-tint); transition: text-decoration-color 150ms; }
+  .article a.inline:hover { text-decoration-color: var(--purple); }
+  .article strong { font-weight: 700; color: var(--ink); }
+  .article code.inl { font-family: var(--font-mono); font-size: 0.86em; background: var(--purple-tint); color: var(--purple-dark); padding: 2px 7px; border-radius: 6px; }
+
+  .article ul, .article ol { padding-left: 4px; display: flex; flex-direction: column; gap: 13px; }
+  .article li { display: flex; gap: 13px; font-size: 18px; line-height: 1.65; color: #2B2D33; }
+  .article ul li::before { content: ""; flex: none; width: 7px; height: 7px; margin-top: 11px; border-radius: 2px; background: var(--purple); transform: rotate(45deg); }
+  .article ol { counter-reset: oli; }
+  .article ol li { counter-increment: oli; }
+  .article ol li::before { content: counter(oli); flex: none; font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--purple); min-width: 22px; }
+
+  .pullquote { margin: 52px 0; padding: 8px 0 8px 30px; border-left: 3px solid var(--purple); }
+  .pullquote p { font-size: 25px; line-height: 1.42; letter-spacing: -0.015em; font-weight: 600; color: var(--ink); }
+  .pullquote cite { display: block; margin-top: 14px; font-family: var(--font-mono); font-size: 13px; font-style: normal; color: var(--neutral-500); }
+
+  .callout { display: flex; gap: 16px; padding: 24px 26px; border-radius: var(--r-xl); background: var(--off-white); border: 1px solid var(--neutral-100); margin: 40px 0; }
+  .callout .c-ic { flex: none; width: 40px; height: 40px; border-radius: var(--r-md); background: var(--purple-tint); color: var(--purple); display: flex; align-items: center; justify-content: center; }
+  .callout .c-ic svg { width: 20px; height: 20px; }
+  .callout .c-title { font-weight: 700; font-size: 15px; margin-bottom: 5px; }
+  .callout .c-text { font-size: 15px; line-height: 1.6; color: var(--neutral-700); }
+
+  .code-cap { font-family: var(--font-mono); font-size: 12.5px; color: var(--neutral-500); margin-top: 12px !important; }
+
+  .article-hr { height: 1px; background: var(--neutral-100); border: 0; margin: 56px 0; }
+
+  .keytable { margin: 36px 0; border: 1px solid var(--neutral-100); border-radius: var(--r-xl); overflow: hidden; }
+  .keytable .kt-row { display: grid; grid-template-columns: 200px 1fr; gap: 0; }
+  .keytable .kt-row + .kt-row { border-top: 1px solid var(--neutral-100); }
+  .keytable .kt-k { padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--purple-dark); background: var(--off-white); border-right: 1px solid var(--neutral-100); }
+  .keytable .kt-v { padding: 16px 20px; font-size: 15px; line-height: 1.55; color: #2B2D33; }
+
+  /* author card */
+  .author-card { display: flex; gap: 20px; align-items: flex-start; max-width: 720px; margin: 0 auto; padding: 28px; }
+  .author-card .a-avatar { flex: none; width: 60px; height: 60px; border-radius: 50%; background: var(--ink); color: #C0A8EF; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 700; font-size: 19px; }
+  .author-card .a-name { font-weight: 700; font-size: 17px; }
+  .author-card .a-role { font-family: var(--font-mono); font-size: 12.5px; color: var(--purple); margin-top: 2px; }
+  .author-card .a-bio { font-size: 14.5px; line-height: 1.6; color: var(--neutral-700); margin-top: 12px; }
+
+  @media (max-width: 1080px) {
+    .article-layout { grid-template-columns: 1fr; }
+    .article { grid-column: 1; max-width: 720px; margin-inline: auto; }
+    .article-rail { position: static; flex-direction: row; padding-left: 0; margin: 0 auto 36px; align-items: center; }
+    .article-rail .rail-label { margin-bottom: 0; margin-right: 4px; }
+  }
+  @media (max-width: 680px) {
+    .article-figure .glyph-big { font-size: 96px; }
+    .article p, .article li { font-size: 17px; }
+    .keytable .kt-row { grid-template-columns: 1fr; }
+    .keytable .kt-k { border-right: 0; border-bottom: 1px solid var(--neutral-100); }
+  }
+</style>
+
+<!-- ARTICLE HERO -->
+<section class="article-hero bg-tint-soft">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/blog">Blog</a><span class="sep">/</span>
+      <span class="here">Platform Engineering</span>
+    </nav>
+    <div class="article-head">
+      <span class="badge badge-purple">Platform Engineering</span>
+      <h1 class="balance">What we learned running Crossplane in production for 18 months</h1>
+      <p class="article-dek pretty">Composition functions, provider upgrades, and the reconciliation edge cases nobody warns you about — plus the architecture we'd recommend, and the two patterns we'd skip if we started over today.</p>
+      <div class="byline">
+        <span class="avatar">YI</span>
+        <div>
+          <div class="who">Platform Team</div>
+          <div class="meta"><span>May 21, 2026</span><span class="sep">·</span><span>11 min read</span><span class="sep">·</span><span>Updated for Crossplane v1.17</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="article-figure tint-ink">
+      <div class="fig-scatter">
+        <span style="top:18%;left:8%;font-size:40px">&#123; &#125;</span>
+        <span style="top:60%;left:16%;font-size:28px">::</span>
+        <span style="top:30%;right:12%;font-size:32px">=&gt;</span>
+        <span style="bottom:16%;right:20%;font-size:44px">/&gt;</span>
+      </div>
+      <span class="glyph-big">~~</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<section class="article-wrap bg-white">
+  <div class="container">
+    <div class="article-layout">
+
+      <aside class="article-rail" aria-label="Share">
+        <span class="rail-label">Share</span>
+        <button class="share-btn" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 9.5H5.67V18.5h2.67V9.5zM7 5.75a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM18.33 18.5v-4.93c0-2.64-1.41-3.87-3.29-3.87-1.52 0-2.2.84-2.58 1.43V9.5h-2.67c.04.75 0 9 0 9h2.67v-5.02c0-.27.02-.54.1-.73.21-.54.7-1.1 1.53-1.1 1.08 0 1.51.82 1.51 2.02v4.83h2.67z"/></svg></button>
+        <button class="share-btn" aria-label="Share on X"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg></button>
+        <button class="share-btn" id="copyLink" aria-label="Copy link"><i data-lucide="link"></i></button>
+      </aside>
+
+      <article class="article">
+        <p class="lead">Eighteen months ago we moved the control plane behind Platform Infrastructure onto Crossplane. We'd evaluated the usual suspects — Terraform with a controller wrapped around it, a pile of bespoke operators, Pulumi automation — and Crossplane won because it let us model cloud infrastructure as Kubernetes resources our existing reconciliation tooling already understood. This is the honest version of how that went.</p>
+
+        <p>The short answer: it was the right call, and we'd make it again. The longer answer involves a few months where we questioned that, a provider upgrade that took down a staging region, and a slow realization that the patterns we reached for first were the ones we'd later rip out. If you're standing where we were — sold on the idea, nervous about the operational surface — this is what we wish someone had written down for us.</p>
+
+        <h2><span class="h-slash">//</span>The setup, briefly</h2>
+        <p>Platform Infrastructure provisions production Kubernetes clusters and their surrounding infrastructure across AWS, GCP, and Azure. Under the hood, every cluster, node pool, IAM binding, and managed database is a Crossplane <code class="inl">Managed Resource</code>, composed into higher-level abstractions our users actually interact with — a <code class="inl">Cluster</code>, an <code class="inl">Environment</code>, a <code class="inl">Solution</code>. Users never touch a raw provider resource. They declare intent at the top of the object model and operators reconcile everything below it.</p>
+        <p>That layering is the whole point. It's also where most of the lessons live, because the gap between "a composition that demos well" and "a composition that survives a provider upgrade at 2am" is wider than the docs let on.</p>
+
+        <div class="pullquote">
+          <p>The gap between a composition that demos well and one that survives a provider upgrade at 2am is wider than the docs let on.</p>
+          <cite>— the lesson we paid for twice</cite>
+        </div>
+
+        <h2><span class="h-slash">//</span>What worked, and worked well</h2>
+        <p>A few decisions paid off immediately and kept paying off. If you take nothing else from this, take these:</p>
+        <ul>
+          <li><strong>Resources as Kubernetes objects.</strong> Drift detection, RBAC, audit logging, and GitOps all came for free because everything was already a CR. We didn't build a state store; etcd was the state store.</li>
+          <li><strong>One reconciliation model, everywhere.</strong> Our application operators and our infrastructure operators behaved identically. The same <code class="inl">kubectl describe</code> muscle memory worked on a Deployment and on an RDS instance.</li>
+          <li><strong>Compositions as a product surface.</strong> Platform engineers ship a composition; application teams consume a clean, validated <code class="inl">XRD</code>. The contract between the two teams became a schema, not a wiki page.</li>
+        </ul>
+
+        <p>That last point is the one that changed how our teams worked together. The composition boundary became the place we negotiated what application teams could and couldn't configure — and because it was a typed schema, the negotiation was concrete.</p>
+
+        <h2><span class="h-slash">//</span>Composition functions changed everything</h2>
+        <p>The single biggest improvement to our setup was migrating from patch-and-transform compositions to <a class="inline" href="https://docs.crossplane.io" target="_blank" rel="noopener">composition functions</a>. Patch-and-transform is fine until you need a conditional, a loop, or any logic more expressive than "copy this field to that field." Then it becomes a YAML puzzle that nobody on the team can read six weeks later.</p>
+        <p>Functions let us write that logic in real code — for us, Go — with tests, a debugger, and the ability to say "if this region, then that instance class" without inventing a DSL inside YAML. Here's the shape of a function that picks an instance size based on an environment tier:</p>
+
+        <div class="code-block">
+          <div class="ui-card-head"><i data-lucide="file-code" style="width:15px;height:15px"></i> fn-instance-sizing/main.go<button class="copy-btn" data-copy="#cb1"><i data-lucide="copy"></i> Copy</button></div>
+          <div class="code-body">
+            <div class="code-gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+            <div class="code-lines" id="cb1"><span class="c-com">// RunFunction resolves the DB instance class from the claim's tier.</span><br><span class="c-key">func</span> (f *Function) RunFunction(ctx context.Context, req *fnv1.RunFunctionRequest) (*fnv1.RunFunctionResponse, <span class="c-key">error</span>) &#123;<br>&nbsp;&nbsp;tier := xr.GetString(<span class="c-str">"spec.tier"</span>)<br><br>&nbsp;&nbsp;<span class="c-key">switch</span> tier &#123;<br>&nbsp;&nbsp;<span class="c-key">case</span> <span class="c-str">"production"</span>:<br>&nbsp;&nbsp;&nbsp;&nbsp;db.Spec.InstanceClass = <span class="c-str">"db.r6g.xlarge"</span><br>&nbsp;&nbsp;<span class="c-key">default</span>:<br>&nbsp;&nbsp;&nbsp;&nbsp;db.Spec.InstanceClass = <span class="c-str">"db.t4g.medium"</span><br>&nbsp;&nbsp;&#125;<br>&nbsp;&nbsp;<span class="c-key">return</span> rsp, <span class="c-num">nil</span><br>&#125;</div>
+          </div>
+        </div>
+        <p class="code-cap">// A 12-line function replaced ~80 lines of patch-and-transform YAML and a comment that lied.</p>
+
+        <p>The win wasn't fewer lines, though it was that too. The win was that this code is <em>testable</em>. We have unit tests asserting that a <code class="inl">production</code> claim yields the larger instance, and they run in CI before a composition ever reaches a cluster.</p>
+
+        <div class="callout">
+          <span class="c-ic"><i data-lucide="lightbulb"></i></span>
+          <div>
+            <div class="c-title">If you're starting today</div>
+            <div class="c-text">Skip patch-and-transform entirely for anything with conditional logic. Start with functions, keep your compositions thin, and treat the function as the place where real decisions happen. You'll save yourself the migration we did.</div>
+          </div>
+        </div>
+
+        <h2><span class="h-slash">//</span>The reconciliation edge cases nobody warns you about</h2>
+        <p>This is the section we needed and couldn't find. A few things that bit us:</p>
+        <ol>
+          <li><strong>Deletion ordering is not guaranteed the way you assume.</strong> A composition that creates a VPC, then a subnet, then a cluster will not necessarily tear them down in reverse. We added explicit <code class="inl">usage</code> relationships so Crossplane blocks deletion of a resource another resource still depends on.</li>
+          <li><strong>External names matter more than you think.</strong> If a managed resource loses its <code class="inl">crossplane.io/external-name</code> annotation — say, during a botched restore — the provider will happily create a <em>second</em> real cloud resource. We now treat that annotation as sacred and back it up separately.</li>
+          <li><strong>Reconcile loops amplify provider rate limits.</strong> At scale, hundreds of resources polling their cloud APIs will find your account's rate limits for you. Tuning <code class="inl">--poll-interval</code> and <code class="inl">max-reconcile-rate</code> per provider was not optional.</li>
+        </ol>
+
+        <p>None of these are exotic. They're the kind of thing you only learn by running the system through a real incident — which we did, when a provider upgrade reset poll intervals to their defaults and a staging region started throttling. Which brings us to the upgrade story.</p>
+
+        <h2><span class="h-slash">//</span>Provider upgrades: the part to respect</h2>
+        <p>Crossplane providers are themselves versioned, and a provider upgrade can change CRD schemas, default values, and reconciliation behavior all at once. Our worst day came from upgrading the AWS provider across a minor version that quietly changed a default and re-reconciled every affected resource simultaneously.</p>
+        <p>What we do now, every time:</p>
+
+        <div class="keytable">
+          <div class="kt-row"><div class="kt-k">stage first</div><div class="kt-v">Every provider upgrade lands in a staging control plane that mirrors production resource counts before it goes anywhere near a customer.</div></div>
+          <div class="kt-row"><div class="kt-k">pin versions</div><div class="kt-v">Providers are pinned to exact versions in a <code class="inl">Configuration</code> package. No floating tags, ever — the cluster does not get to choose.</div></div>
+          <div class="kt-row"><div class="kt-k">pause + observe</div><div class="kt-v">We pause reconciliation on a sample of resources, upgrade, then resume in waves while watching the provider's reconcile metrics.</div></div>
+          <div class="kt-row"><div class="kt-k">diff the CRDs</div><div class="kt-v">A CI job diffs the new provider's CRD schemas against the running ones and flags any changed defaults for human review.</div></div>
+        </div>
+
+        <h2><span class="h-slash">//</span>The two patterns we'd skip</h2>
+        <p>If we restarted today, two things would not make the cut.</p>
+        <h3>1. Deeply nested compositions</h3>
+        <p>Early on we got excited about compositions that referenced compositions that referenced compositions. It felt elegant. In practice, debugging a four-level-deep nesting when a leaf resource fails is miserable — the error surfaces far from its cause, and the blast radius of a change is impossible to reason about. We now keep nesting to two levels and lean on functions for complexity instead of structural depth.</p>
+        <h3>2. Putting business logic in patch chains</h3>
+        <p>We already confessed this one, but it bears repeating as an explicit anti-pattern: a patch chain with more than a couple of transforms is a function waiting to be written. Every hour we spent debugging a string-manipulation patch was an hour we'd have spent better in Go with a test.</p>
+
+        <hr class="article-hr">
+
+        <h2><span class="h-slash">//</span>Would we do it again?</h2>
+        <p>Yes — without much hesitation. Crossplane gave us a single, uniform control plane for infrastructure and applications, and that uniformity is the foundation Platform Infrastructure is built on. The operational surface is real and you should respect it, but the alternative — a bespoke state machine we'd own forever — was never going to be better.</p>
+        <p>If you're evaluating it: start with functions, keep compositions shallow, treat provider upgrades like database migrations, and write down your own version of this post eighteen months from now. We'd love to read it.</p>
+
+        <p style="margin-top:40px"><a class="link-arrow" href="/contact?intent=demo">See how Platform Infrastructure runs this in production <i data-lucide="arrow-right"></i></a></p>
+      </article>
+
+      <div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="section-tight bg-white" style="padding-top:0">
+  <div class="container">
+    <div class="card author-card">
+      <span class="a-avatar">YI</span>
+      <div>
+        <div class="a-name">Platform Team</div>
+        <div class="a-role">Platform Engineering · Ybor</div>
+        <p class="a-bio">The team behind Ybor's multi-cloud Kubernetes platform. We build the operators, compositions, and reconciliation backend that take a declared intent and turn it into running production infrastructure — and we write about the parts that surprised us.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED -->
+<section class="section bg-offwhite">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:40px">
+      <span class="eyebrow" style="margin-bottom:0"><span class="slash">//</span> keep reading</span>
+      <a class="link-arrow" href="/blog">All posts <i data-lucide="arrow-right"></i></a>
+    </div>
+    <div class="grid grid-3">
+      <a class="card card-interactive post-card" href="/blog">
+        <div class="post-visual sm tint-purple"><span class="glyph-big">::</span></div>
+        <div class="post-body">
+          <span class="badge badge-purple">Platform Engineering</span>
+          <h3 class="post-title">The object model behind Platform Infrastructure: entities, solutions, and apps</h3>
+          <p class="post-excerpt">A walkthrough of the layered object model — what each level owns, how operators reconcile it, and why containment beats configuration sprawl.</p>
+          <div class="post-meta"><span>Apr 30, 2026</span><span class="sep">·</span><span>8 min</span></div>
+        </div>
+      </a>
+      <a class="card card-interactive post-card" href="/blog">
+        <div class="post-visual sm tint-green"><span class="glyph-big">~~</span></div>
+        <div class="post-body">
+          <span class="badge badge-success">Kubernetes</span>
+          <h3 class="post-title">Multi-cloud without the abstraction tax</h3>
+          <p class="post-excerpt">Running clusters across AWS, GCP, and Azure from one API — and how we keep the abstraction thin enough to drop down when you need to.</p>
+          <div class="post-meta"><span>Mar 5, 2026</span><span class="sep">·</span><span>10 min</span></div>
+        </div>
+      </a>
+      <a class="card card-interactive post-card" href="/blog">
+        <div class="post-visual sm tint-ink"><span class="glyph-big">&#125;</span></div>
+        <div class="post-body">
+          <span class="badge badge-purple">Platform Engineering</span>
+          <h3 class="post-title">Reconciliation loops, explained for application teams</h3>
+          <p class="post-excerpt">What "desired state" really means once you ship it, why drift happens, and how to reason about a controller you didn't write.</p>
+          <div class="post-meta"><span>Feb 4, 2026</span><span class="sep">·</span><span>8 min</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="section bg-ink">
+  <div class="container">
+    <div class="split split-6-6">
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> subscribe</span>
+        <h2 class="display-md balance" style="color:#fff">New posts, no noise.</h2>
+        <p class="body-lg muted-d pretty" style="margin-top:18px;max-width:440px">One email when we publish. Platform engineering patterns, the occasional teardown, and release notes worth reading. Unsubscribe in one click.</p>
+      </div>
+      <div style="align-self:center">
+        <form class="newsletter" data-newsletter style="gap:10px">
+          <input class="input" type="email" placeholder="you@company.com" aria-label="Email for newsletter" style="height:48px">
+          <button class="btn btn-primary" type="submit" style="height:48px">Subscribe</button>
+        </form>
+        <p class="mono" style="font-size:12px;color:var(--neutral-500);margin-top:14px">// ~2 emails a month · no third-party tracking</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script slot="scripts" is:inline>
+  (function () {
+    var c = document.getElementById("copyLink");
+    if (c) c.addEventListener("click", function () {
+      navigator.clipboard && navigator.clipboard.writeText(location.href);
+      var ic = c.querySelector("i");
+      c.innerHTML = '<i data-lucide="check"></i>';
+      if (window.lucide) window.lucide.createIcons();
+      setTimeout(function () { c.innerHTML = '<i data-lucide="link"></i>'; if (window.lucide) window.lucide.createIcons(); }, 1400);
+    });
+  })();
+</script>
+</Base>

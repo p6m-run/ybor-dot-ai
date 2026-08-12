@@ -1,0 +1,132 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Customers — Ybor" description="Case studies from platform engineering teams using Ybor in production. Ashley Furniture and more." active="customers">
+<style slot="head">
+  /* Outcomes metric cards — built from Ybor tokens */
+  .mstats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; }
+  .mc { background: var(--white); border: 1px solid var(--neutral-100); border-radius: var(--r-xl); padding: 28px 26px 22px; display: flex; flex-direction: column; }
+  .mc-fig { font-size: 46px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; color: var(--ink); }
+  .mc-lbl { font-size: 15px; line-height: 1.45; color: var(--neutral-700); margin-top: 12px; font-weight: 500; }
+  .mc-src { font-family: var(--font-mono); font-size: 11.5px; color: var(--neutral-500); margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--stroke-light); }
+  .mc.c-purple { --mc-accent: var(--purple); --mc-tint: var(--purple-tint); }
+  .mc.c-green  { --mc-accent: var(--green-dark); --mc-tint: #E9F9EA; }
+  .mc.c-orange { --mc-accent: var(--orange-dark); --mc-tint: #FBEDE4; }
+  /* Dark mode: Astro scopes these page rules, raising their specificity enough to
+     override the design system's dark .mc treatment (leaving the cards white).
+     Re-apply the dark surfaces/text/accents so the stat cards read correctly. */
+  :global([data-theme="dark"]) .mc { background: var(--surface-2); border-color: var(--border-d); }
+  :global([data-theme="dark"]) .mc-fig { color: var(--text-0); }
+  :global([data-theme="dark"]) .mc-lbl { color: var(--text-1); }
+  :global([data-theme="dark"]) .mc-src { color: var(--text-2); border-top-color: var(--border-d); }
+  :global([data-theme="dark"]) .mc.c-purple { --mc-accent: #A98AE6; --mc-tint: rgba(140,100,218,0.22); }
+  :global([data-theme="dark"]) .mc.c-green  { --mc-accent: #3CCB86; --mc-tint: rgba(60,203,134,0.18); }
+  :global([data-theme="dark"]) .mc.c-orange { --mc-accent: #F08A47; --mc-tint: rgba(240,138,71,0.18); }
+  /* stat movement — animates once on scroll-in */
+  .mc-viz { height: 10px; display: flex; align-items: center; margin-bottom: 26px; }
+  .mc-bar { position: relative; width: 100%; height: 10px; border-radius: var(--r-full); background: var(--mc-tint); overflow: hidden; }
+  .mc-bar::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--mc-accent); border-radius: inherit; transition: width 1s cubic-bezier(.22,.61,.36,1); }
+  .mc.in .mc-bar::after { width: var(--to); }
+  .mc-seg { display: flex; gap: 7px; width: 100%; }
+  .mc-seg span { position: relative; flex: 1; height: 10px; border-radius: var(--r-full); background: var(--mc-tint); overflow: hidden; }
+  .mc-seg span::after { content: ""; position: absolute; inset: 0; width: 0; background: var(--mc-accent); border-radius: inherit; transition: width .55s cubic-bezier(.22,.61,.36,1); }
+  .mc.in .mc-seg span::after { width: 100%; }
+  .mc.in .mc-seg span:nth-child(2)::after { transition-delay: .15s; }
+  .mc.in .mc-seg span:nth-child(3)::after { transition-delay: .3s; }
+  @media (prefers-reduced-motion: reduce) {
+    .mc-bar::after { transition: none; width: var(--to); }
+    .mc-seg span::after { transition: none; width: 100%; }
+  }
+  @media (max-width: 860px) { .mstats { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .mstats { grid-template-columns: 1fr; } }
+</style>
+
+<!-- HERO -->
+<div class="price-top">
+<section class="hero">
+  <div class="container center" style="position:relative;z-index:1;padding-block:88px 56px">
+    <div style="max-width:760px;margin:0 auto">
+      <span class="eyebrow"><span class="slash">//</span> customers</span>
+      <h1 class="display-lg balance">Platform engineers, shipping in production.</h1>
+      <p class="body-lg muted pretty" style="max-width:600px;margin:22px auto 0">Read how teams are using Platform Infrastructure and Application Delivery in production. Real stacks, real numbers, real trade-offs.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY GRID -->
+<section class="section-tight" style="padding-top:0">
+  <div class="container">
+    <div class="grid" style="max-width:560px;margin-inline:auto;grid-template-columns:minmax(0,1fr)">
+      <a class="card card-interactive" href="/ashley-furniture" style="display:flex;flex-direction:column;gap:0;padding:0;overflow:hidden">
+        <div style="background:#FBEDE4;padding:32px;min-height:128px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between">
+          <img class="logo-img tall" src="/assets/logos/ashley.png" alt="Ashley Furniture" style="filter:none;opacity:1">
+          <span class="badge" style="background:rgba(255,131,69,.16);color:var(--orange-dark)">Platform Infrastructure · Application Delivery</span>
+        </div>
+        <div style="padding:32px">
+          <p class="heading-md balance" style="margin-bottom:16px">"A turning point for Ashley."</p>
+          <p class="body-sm muted" style="margin-bottom:20px">Rich Teachout, CTO — on modernizing platform engineering across the org without disrupting operations.</p>
+          <span class="link-arrow">Read the story <i data-lucide="arrow-right"></i></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+</div><!-- /.price-top -->
+
+<!-- OUTCOMES BAR -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center"><span class="eyebrow"><span class="slash">//</span> outcomes</span><h2 class="display-md balance">What the numbers look like in production.</h2></div>
+    <div class="mstats">
+      <div class="mc c-purple">
+        <div class="mc-viz"><div class="mc-seg"><span></span><span></span><span></span></div></div>
+        <div class="mc-fig">3×</div>
+        <div class="mc-lbl">Faster developer onboarding</div>
+        <div class="mc-src">// Ashley Furniture, 2025</div>
+      </div>
+      <div class="mc c-green">
+        <div class="mc-viz"><div class="mc-bar" style="--to:55%"></div></div>
+        <div class="mc-fig">50–60%</div>
+        <div class="mc-lbl">Less time-to-environment</div>
+        <div class="mc-src">// Aggregated, 2025–2026</div>
+      </div>
+      <div class="mc c-orange">
+        <div class="mc-viz"><div class="mc-bar" style="--to:80%"></div></div>
+        <div class="mc-fig">80%</div>
+        <div class="mc-lbl">Fewer manual setup tasks</div>
+        <div class="mc-src">// Aggregated, 2025</div>
+      </div>
+      <div class="mc c-purple">
+        <div class="mc-viz"><div class="mc-bar" style="--to:30%"></div></div>
+        <div class="mc-fig">30%</div>
+        <div class="mc-lbl">Cut in time-to-market</div>
+        <div class="mc-src">// Ashley Furniture, 2025</div>
+      </div>
+    </div>
+    <p class="center" style="margin-top:36px"><a class="link-arrow" href="/security#metrics-methodology">Methodology <i data-lucide="arrow-right"></i></a></p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:640px;margin-inline:auto">Want your team in this list?</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:580px;margin:20px auto 0">Most case studies take a 45-minute interview and a marketing review.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="/contact?intent=demo">Talk to Sales <i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+<script slot="scripts" is:inline>
+  (function(){
+    var cards = document.querySelectorAll('.mc');
+    if (!cards.length) return;
+    if (!('IntersectionObserver' in window)) { cards.forEach(function(c){ c.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.35 });
+    cards.forEach(function(c){ io.observe(c); });
+  })();
+</script>
+</Base>

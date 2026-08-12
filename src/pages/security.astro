@@ -1,0 +1,220 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Security & Compliance — SOC 2® Type II | Ybor" description="Ybor holds a SOC 2 Type II report. mTLS by default, Kyverno policy enforcement, Vault-backed secrets, RBAC scoped to the object model, audit logs to your SIEM." active="security">
+<style slot="head">
+  /* Methodology metric rows — same stat treatment, kept vertical */
+  .mrows { margin-top: 48px; display: flex; flex-direction: column; gap: 18px; }
+  .mrow { display: grid; grid-template-columns: 132px 1fr; gap: 28px; align-items: center; background: var(--white); border: 1px solid var(--neutral-100); border-radius: var(--r-xl); padding: 26px 30px; }
+  .mrow-fig { font-size: 40px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; color: var(--ink); }
+  .mrow-viz { margin-top: 14px; }
+  .mrow-bar { position: relative; width: 100%; height: 9px; border-radius: var(--r-full); background: var(--mc-tint); overflow: hidden; }
+  .mrow-bar::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--mc-accent); border-radius: inherit; transition: width 1s cubic-bezier(.22,.61,.36,1); }
+  .mrow.in .mrow-bar::after { width: var(--to); }
+  .mrow-seg { display: flex; gap: 6px; width: 100%; }
+  .mrow-seg span { position: relative; flex: 1; height: 9px; border-radius: var(--r-full); background: var(--mc-tint); overflow: hidden; }
+  .mrow-seg span::after { content: ""; position: absolute; inset: 0; width: 0; background: var(--mc-accent); border-radius: inherit; transition: width .55s cubic-bezier(.22,.61,.36,1); }
+  .mrow.in .mrow-seg span::after { width: 100%; }
+  .mrow.in .mrow-seg span:nth-child(2)::after { transition-delay: .15s; }
+  .mrow.in .mrow-seg span:nth-child(3)::after { transition-delay: .3s; }
+  .mrow.c-purple { --mc-accent: var(--purple); --mc-tint: var(--purple-tint); }
+  .mrow.c-green  { --mc-accent: var(--green-dark); --mc-tint: #E9F9EA; }
+  .mrow.c-orange { --mc-accent: var(--orange-dark); --mc-tint: #FBEDE4; }
+  /* Dark mode: Astro scopes these page rules, raising their specificity enough to
+     override the design system's dark .mrow treatment (leaving the cards white).
+     Re-apply the dark surfaces/text/accents so the metric rows read correctly. */
+  :global([data-theme="dark"]) .mrow { background: var(--surface-2); border-color: var(--border-d); }
+  :global([data-theme="dark"]) .mrow-fig { color: var(--text-0); }
+  :global([data-theme="dark"]) .mrow.c-purple { --mc-accent: #A98AE6; --mc-tint: rgba(140,100,218,0.22); }
+  :global([data-theme="dark"]) .mrow.c-green  { --mc-accent: #3CCB86; --mc-tint: rgba(60,203,134,0.18); }
+  :global([data-theme="dark"]) .mrow.c-orange { --mc-accent: #F08A47; --mc-tint: rgba(240,138,71,0.18); }
+  @media (prefers-reduced-motion: reduce) {
+    .mrow-bar::after { transition: none; width: var(--to); }
+    .mrow-seg span::after { transition: none; width: 100%; }
+  }
+  @media (max-width: 600px) { .mrow { grid-template-columns: 1fr; gap: 18px; padding: 24px; } }
+</style>
+
+<!-- HERO -->
+<section class="hero bg-tint-soft">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="slash">//</span> security &amp; compliance</span>
+        <h1 class="display-lg balance">SOC 2 Type II report. Security as a platform feature.</h1>
+        <p class="body-lg muted pretty" style="max-width:600px">Ybor is SOC 2 Type II report. Every cluster runs Kyverno policies, every service speaks mTLS by default, every secret comes through Vault, and every API call is RBAC-scoped to the object model. Your security team gets the evidence — and a vendor they can show their board.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-glow" href="/contact?intent=soc2">Request the SOC 2 report <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-secondary" href="/contact?intent=demo">Talk to Sales</a>
+        </div>
+      </div>
+      <div class="hero-copy" style="display:flex;flex-direction:column;align-items:center;gap:24px">
+        <a class="soc-logo" href="https://www.aicpa.org/soc4so" target="_blank" rel="noopener" aria-label="AICPA SOC for Service Organizations — aicpa.org/soc4so"><img src="/assets/aicpa-soc-logo.jpg" alt="AICPA SOC for Service Organizations" width="176" height="176"></a>
+        <div style="display:flex;gap:18px;font-family:var(--font-mono);font-size:12px;color:var(--neutral-500);flex-wrap:wrap;justify-content:center">
+          <span>Kyverno</span><span>Istio</span><span>Vault</span><span>OpenTelemetry</span><span>OpenSSF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> attestations</span>
+      <h2 class="display-md balance">Audited, evidenced, current.</h2>
+    </div>
+    <div class="grid grid-4" style="margin-top:48px">
+      <div class="card"><span class="icon-chip"><i data-lucide="shield-check"></i></span><h3 class="heading-sm" style="margin-bottom:6px">SOC 2 Type II</h3><p class="body-sm muted">Active, audited Q1 2026.</p><p class="mono" style="font-size:12px;color:var(--purple);margin-top:10px">Report on request</p></div>
+      <div class="card"><span class="icon-chip"><i data-lucide="boxes"></i></span><h3 class="heading-sm" style="margin-bottom:6px">CNCF Silver Member</h3><p class="body-sm muted">Active since 2024.</p><p class="mono" style="font-size:12px;color:var(--purple);margin-top:10px">Public listing</p></div>
+      <div class="card"><span class="icon-chip"><i data-lucide="terminal"></i></span><h3 class="heading-sm" style="margin-bottom:6px">Linux Foundation</h3><p class="body-sm muted">Member since 2024.</p><p class="mono" style="font-size:12px;color:var(--purple);margin-top:10px">Public listing</p></div>
+      <div class="card"><span class="icon-chip"><i data-lucide="badge-check"></i></span><h3 class="heading-sm" style="margin-bottom:6px">OpenSSF Scorecard</h3><p class="body-sm muted">All operators publish scorecard results.</p><p class="mono" style="font-size:12px;color:var(--purple);margin-top:10px">View on GitHub</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY ARCHITECTURE -->
+<section class="section bg-ink-grad">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> security architecture</span>
+      <h2 class="display-md balance" style="color:#fff">Controls that live in the platform, not in a checklist.</h2>
+    </div>
+    <div class="grid grid-2" style="margin-top:56px">
+      <div class="card dark">
+        <span class="icon-chip"><i data-lucide="waypoints"></i></span>
+        <h3 class="heading-sm" style="color:#fff;margin-bottom:10px">mTLS everywhere</h3>
+        <p class="body-sm muted-d" style="margin-bottom:16px">Istio service mesh on every workload cluster. Every pod-to-pod connection is mutually authenticated. Certificates rotated on schedule.</p>
+        <ul class="checklist body-sm"><li><i data-lucide="check" class="ck"></i><span>Istio sidecar default-injected</span></li><li><i data-lucide="check" class="ck"></i><span>mTLS enforced via PeerAuthentication policy</span></li><li><i data-lucide="check" class="ck"></i><span>Cert rotation via cert-manager</span></li></ul>
+      </div>
+      <div class="card dark">
+        <span class="icon-chip"><i data-lucide="shield-check"></i></span>
+        <h3 class="heading-sm" style="color:#fff;margin-bottom:10px">Kyverno policy enforcement</h3>
+        <p class="body-sm muted-d" style="margin-bottom:16px">Kyverno runs on every cluster with a curated best-practices policy set. Policies validate resource configs, security contexts, and image provenance.</p>
+        <ul class="checklist body-sm"><li><i data-lucide="check" class="ck"></i><span>Audit mode default</span></li><li><i data-lucide="check" class="ck"></i><span>Enforce mode on Enterprise tier</span></li><li><i data-lucide="check" class="ck"></i><span>Custom policies supported</span></li></ul>
+      </div>
+      <div class="card dark">
+        <span class="icon-chip"><i data-lucide="key-square"></i></span>
+        <h3 class="heading-sm" style="color:#fff;margin-bottom:10px">RBAC scoped to the object model</h3>
+        <p class="body-sm muted-d" style="margin-bottom:16px">Every API permission maps to a position in the Enterprise → Organization → Solution → Application hierarchy. Users get the smallest scope that matches their role.</p>
+        <ul class="checklist body-sm"><li><i data-lucide="check" class="ck"></i><span>Object-model-aware RBAC</span></li><li><i data-lucide="check" class="ck"></i><span>Default-deny posture</span></li><li><i data-lucide="check" class="ck"></i><span>Per-environment isolation</span></li></ul>
+      </div>
+      <div class="card dark">
+        <span class="icon-chip"><i data-lucide="key-round"></i></span>
+        <h3 class="heading-sm" style="color:#fff;margin-bottom:10px">Vault-backed secrets</h3>
+        <p class="body-sm muted-d" style="margin-bottom:16px">All secrets — database credentials, API keys, cloud IAM tokens — flow through HashiCorp Vault. Secrets are never in Git. Rotation is scheduled and audited.</p>
+        <ul class="checklist body-sm"><li><i data-lucide="check" class="ck"></i><span>Vault with Raft storage</span></li><li><i data-lucide="check" class="ck"></i><span>Per-cluster Vault instances available</span></li><li><i data-lucide="check" class="ck"></i><span>ExternalSecrets Operator integration</span></li></ul>
+      </div>
+      <div class="card dark" style="grid-column:1 / -1">
+        <span class="icon-chip"><i data-lucide="scroll-text"></i></span>
+        <h3 class="heading-sm" style="color:#fff;margin-bottom:10px">Audit logs to your SIEM</h3>
+        <p class="body-sm muted-d" style="margin-bottom:16px">Every API call, every deploy, every policy decision is logged. Logs ship to your SIEM via OpenTelemetry or a direct webhook.</p>
+        <ul class="checklist body-sm" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px"><li><i data-lucide="check" class="ck"></i><span>OpenTelemetry-native</span></li><li><i data-lucide="check" class="ck"></i><span>Webhooks for Splunk, Datadog, Sentinel</span></li><li><i data-lucide="check" class="ck"></i><span>Configurable retention</span></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA HANDLING -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="split split-6-6">
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> data handling</span>
+        <h2 class="heading-lg balance" style="margin-bottom:18px">We see what you let us see. Nothing more.</h2>
+        <p class="body-lg muted pretty">Ybor runs in your cloud accounts. We never store customer application data, customer secrets, or customer source code on Ybor-controlled infrastructure. The control plane manages platform state — not your business state.</p>
+      </div>
+      <div class="card">
+        <div style="margin-bottom:22px">
+          <p class="label" style="color:var(--green-dark);margin-bottom:12px">// ybor sees</p>
+          <ul class="checklist body-sm">
+            <li><i data-lucide="check" class="ck"></i><span>Platform metadata — cluster status, deploy timestamps, object-model state</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>Telemetry from platform operators</span></li>
+            <li><i data-lucide="check" class="ck"></i><span>Audit logs you choose to share</span></li>
+          </ul>
+        </div>
+        <hr class="divider">
+        <div style="margin-top:22px">
+          <p class="label" style="color:var(--danger);margin-bottom:12px">// ybor does not see</p>
+          <ul class="checklist body-sm">
+            <li><i data-lucide="x" class="ck" style="color:var(--danger)"></i><span>Application data</span></li>
+            <li><i data-lucide="x" class="ck" style="color:var(--danger)"></i><span>Customer secrets</span></li>
+            <li><i data-lucide="x" class="ck" style="color:var(--danger)"></i><span>Source code</span></li>
+            <li><i data-lucide="x" class="ck" style="color:var(--danger)"></i><span>Business records</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUEST SOC 2 -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> soc 2 report</span>
+      <h2 class="display-md balance">How to request the report.</h2>
+    </div>
+    <div class="steps steps-4" style="grid-template-columns:repeat(3,1fr);max-width:900px;margin:56px auto 0">
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="file-pen"></i></span><span class="step-num">01</span></div><h4>Sign a mutual NDA</h4><p>We'll send the template — most teams turn it around same-day.</p></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="calendar-days"></i></span><span class="step-num">02</span></div><h4>Pick a period</h4><p>Tell us which version: current reporting period or prior period.</p></div>
+      <div class="step"><div class="step-top"><span class="step-ic"><i data-lucide="file-check"></i></span><span class="step-num">03</span></div><h4>Get the report</h4><p>Delivered via the trust center portal within 1 business day.</p></div>
+    </div>
+    <div class="center" style="margin-top:48px"><a class="btn btn-primary" href="/contact?intent=soc2">Start the request <i data-lucide="arrow-right" class="ic"></i></a></div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="section bg-white" id="metrics-methodology">
+  <div class="container" style="max-width:880px">
+    <div class="sec-head" style="margin-inline:auto">
+      <span class="eyebrow"><span class="slash">//</span> metrics methodology</span>
+      <h2 class="display-md balance">Where our numbers come from.</h2>
+      <p class="body muted pretty">The outcomes we cite on the home page are grounded in named customer engagements. Here's how each is measured. Figures pending final sign-off are flagged.</p>
+    </div>
+    <div class="mrows">
+      <div class="mrow c-purple">
+        <div><div class="mrow-fig">3×</div><div class="mrow-viz"><div class="mrow-seg"><span></span><span></span><span></span></div></div></div>
+        <div><h3 class="heading-sm" style="margin-bottom:6px">Faster onboarding</h3><p class="body-sm muted">Measured as median time for a new developer to a first running environment, before vs. after Ybor adoption. Sample: Ashley Furniture platform org, 2025.</p></div>
+      </div>
+      <div class="mrow c-green">
+        <div><div class="mrow-fig">50–60%</div><div class="mrow-viz"><div class="mrow-bar" style="--to:55%"></div></div></div>
+        <div><h3 class="heading-sm" style="margin-bottom:6px">Reduction in provisioning time</h3><p class="body-sm muted">Time-to-environment across scaffolding and cloud-native setup, aggregated across engagements, 2025–2026.</p></div>
+      </div>
+      <div class="mrow c-orange">
+        <div><div class="mrow-fig">80%</div><div class="mrow-viz"><div class="mrow-bar" style="--to:80%"></div></div></div>
+        <div><h3 class="heading-sm" style="margin-bottom:6px">Fewer manual setup tasks</h3><p class="body-sm muted">Count of manual steps across cloning, cloud auth, and access requests, before vs. after the Ybor CLI. Source: aggregated customer data, 2025.</p></div>
+      </div>
+      <div class="mrow c-purple">
+        <div><div class="mrow-fig">30%</div><div class="mrow-viz"><div class="mrow-bar" style="--to:30%"></div></div></div>
+        <div><h3 class="heading-sm" style="margin-bottom:6px">Cut in time-to-market</h3><p class="body-sm muted">Aggregate across infrastructure, environments, and deployments. Source: Ashley Furniture internal benchmark, 2025.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-ink">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:720px;margin-inline:auto">Bring your security team.</h2>
+    <p class="body-lg muted-d" style="max-width:640px;margin:20px auto 0">We'll walk through SOC 2, the policy library, and the audit-log story — and answer the questions you'd usually save for procurement.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-primary btn-lg" href="/contact?intent=security-review">Book a Security Review <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg" href="https://platform.p6m.dev/docs/architecture" target="_blank" rel="noopener">Read the Architecture Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+<script slot="scripts" is:inline>
+  (function(){
+    var rows = document.querySelectorAll('.mrow');
+    if (!rows.length) return;
+    if (!('IntersectionObserver' in window)) { rows.forEach(function(r){ r.classList.add('in'); }); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.4 });
+    rows.forEach(function(r){ io.observe(r); });
+  })();
+</script>
+</Base>

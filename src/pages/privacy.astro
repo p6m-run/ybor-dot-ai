@@ -1,0 +1,319 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Privacy Policy — Ybor" description="How Ybor.ai collects, uses, shares, and protects your personal information across its websites, APIs, and online services — and the choices and rights you have.">
+<style slot="head">
+  .legal { max-width: 800px; margin: 0 auto; }
+  .legal h2 { font-size: 22px; line-height: 1.2; letter-spacing: -0.02em; font-weight: 700; margin: 44px 0 12px; scroll-margin-top: 96px; }
+  .legal h2 .h-slash { color: var(--purple); font-family: var(--font-mono); font-weight: 500; margin-right: 10px; }
+  .legal h3 { font-size: 16px; font-weight: 700; margin: 26px 0 6px; }
+  .legal h4 { font-size: 15px; font-weight: 700; margin: 18px 0 4px; color: var(--ink); }
+  .legal p, .legal li { font-size: 16px; line-height: 1.7; color: var(--neutral-700); }
+  .legal p + p { margin-top: 14px; }
+  .legal ul { margin: 12px 0; display: flex; flex-direction: column; gap: 10px; }
+  .legal ul li { display: flex; gap: 12px; }
+  .legal ul li::before { content: ""; flex: none; width: 7px; height: 7px; margin-top: 11px; border-radius: 2px; background: var(--purple); transform: rotate(45deg); }
+  .legal a.inline { color: var(--purple-dark); text-decoration: underline; text-underline-offset: 3px; word-break: break-word; }
+  .legal code { font-family: var(--font-mono); font-size: 0.86em; background: var(--stroke-light); padding: 1px 6px; border-radius: 5px; }
+  .legal .updated { font-family: var(--font-mono); font-size: 12.5px; color: var(--neutral-500); }
+  .legal address { font-style: normal; margin-top: 10px; }
+  .legal .cat { border-left: 2px solid var(--stroke-light); padding-left: 20px; margin-top: 22px; }
+
+  /* Dark mode: these page-scoped rules use fixed light tokens (--neutral-700,
+     --stroke-light, --purple-dark, --ink) that read poorly on the dark surface;
+     Astro scoping raises their specificity above the global dark handling, so
+     re-map them here. :global keeps the html[data-theme] ancestor unscoped. */
+  :global([data-theme="dark"]) .legal p,
+  :global([data-theme="dark"]) .legal li { color: var(--text-1); }
+  :global([data-theme="dark"]) .legal h4 { color: var(--text-0); }
+  :global([data-theme="dark"]) .legal a.inline { color: var(--purple-soft); }
+  :global([data-theme="dark"]) .legal code { background: var(--surface-3); color: var(--text-0); }
+  :global([data-theme="dark"]) .legal h2 .h-slash { color: var(--purple-soft); }
+  :global([data-theme="dark"]) .legal .updated { color: var(--text-2); }
+  :global([data-theme="dark"]) .legal .cat { border-left-color: var(--border-d); }
+</style>
+
+<section class="section bg-white">
+  <div class="container">
+    <div class="legal">
+      <span class="eyebrow"><span class="slash">//</span> legal</span>
+      <h1 class="display-md balance" style="margin:14px 0 16px">Privacy policy.</h1>
+      <p class="updated">// last updated August 1, 2025</p>
+
+      <h2><span class="h-slash">//</span>Who We Are</h2>
+      <p>Ybor.ai is a platform development company that redefines how modern software is built and shipped - merging speed with security, and setting the standard for scalable, cloud native development. We respect your privacy, and we are committed to protecting it through our compliance with this policy.</p>
+
+      <h2><span class="h-slash">//</span>Scope of This Privacy Policy</h2>
+      <p>This is the privacy policy of Ybor Technology, LLC and its affiliates (collectively referred to as "Ybor.ai," "we," "us," or "our"), and it describes how and why we collect, use, share, and protect your personal information when you use the Ybor.ai website, any Ybor.ai application programming interfaces, or any other online services offered by Ybor.ai (collectively, the "Sites"). Our privacy policy also describes the choices you can make about how we collect, use, and share your personal information. Personal information is information that directly or indirectly identifies, describes, relates to, is reasonable capable of being associated with, or can reasonably link to, a particular consumer or household.</p>
+
+      <h2><span class="h-slash">//</span>The Information We Collect About You</h2>
+      <p>The information we gather about you depends on the context. By and large, it's information about you that can personally identify you—either on its own or when combined with other information.</p>
+      <p>The following describes the information we collect and how we obtain it.</p>
+
+      <h3>Information we receive from you</h3>
+      <ul>
+        <li><strong>For demo scheduling.</strong> When you request to schedule a demo of Ybor.ai through one of our Sites, we collect your name, company name, email address, and other information you provide to us.</li>
+        <li><strong>For billing.</strong> To process payments and deliver products you order, we collect and use your payment information. This can include your name, your address, your telephone number, your email address, your credit or debit card information, and any other relevant information.</li>
+        <li><strong>For user-generated content.</strong> We may offer you the ability to post content that other users can read (e.g., product reviews) on our Sites or social media pages. Anyone can read, collect, and use any personal information that accompanies your posts. We do not have to publish any of your content. If we are required by applicable law to take down, remove, or edit your personal information, we will comply to the required extent.</li>
+        <li><strong>For surveys.</strong> We gather information through questionnaires, surveys, and feedback programs. We ask you for your consent to use this information when you participate in these surveys and programs.</li>
+        <li><strong>During contact with customer care.</strong> We collect information from you when you contact customer care.</li>
+      </ul>
+
+      <h3>Information collected automatically</h3>
+      <p>You also provide us information in other ways through technology. Some of this information may be linked to you personally.</p>
+      <p>With tracking technologies in your browser and mobile apps. These technologies include cookies, web beacons, tags and scripts, software development kits (or SDKs) and beyond. We track and store data about how you visit and use our Sites. The items we log include:</p>
+      <ul>
+        <li>Your IP address</li>
+        <li>Your location</li>
+        <li>Your operating system</li>
+        <li>Your browser</li>
+        <li>Your browser language</li>
+        <li>The address of referring websites</li>
+        <li>The URLs of any pages you visit on our websites and mobile apps</li>
+        <li>Device identifiers</li>
+        <li>Advertising identifiers</li>
+        <li>Page views and page leaves</li>
+        <li>Other usage information</li>
+      </ul>
+      <p>We combine this data with other information we collect about you. For more information about tracking methods on our Sites, and how to manage them, see "Cookies and Other Trackers" below.</p>
+      <p>If your browser doesn't accept our cookies, you may not be able to access all or parts of our Sites. Because the "Do Not Track" browser-based standard signal has yet to gain widespread acceptance, we don't currently respond to those signals.</p>
+
+      <h3>Information we collect from other sources</h3>
+      <p>We may receive information about you from other sources so that we can fulfill orders for our products that you have placed with third party resellers, and to help us correct or supplement our records, improve the quality or personalization of our service to you, and prevent or detect fraud. Examples of information we receive from other sources include:</p>
+      <ul>
+        <li>Name, email address, address, phone number, and purchase information from third party resellers from whom you purchased our products;</li>
+        <li>Information about the product(s) you purchased, such as the type of product and the date and amount of the purchase;</li>
+        <li>Public data, survey data, and demographic data from privately-owned databases; and</li>
+        <li>Social media platform data, including aggregate data on our followers (e.g., age, gender, and location), engagement data (e.g., "likes," comments, shares, reposts, and clicks), awareness data (e.g., number of impressions and reach), and individual users' public profiles.</li>
+      </ul>
+      <p>Below is a table showing the categories of personal information that we collected during the preceding 12 months and identifying for each category the source categories for that information, the business or commercial purposes for collecting that information, and the categories of third parties with whom we share that information.</p>
+
+      <div class="cat">
+        <h3>Identifiers such as a real name, postal address, physical address, unique personal identifier, online identifier, IP address, email address, account name, driver's license number, or other similar identifiers</h3>
+        <h4>Source categories</h4>
+        <ul>
+          <li>Provided by you from forms or direct interactions</li>
+          <li>Collected by us through your interactions with our Sites</li>
+          <li>Provided by third party resellers who offer or facilitate the offer of products</li>
+          <li>Data brokers or resellers</li>
+          <li>Social media services, like Twitter or Facebook</li>
+        </ul>
+        <h4>Business or commercial purposes</h4>
+        <ul>
+          <li>Complete your request to sign up to receive information via email from us</li>
+          <li>Complete your request to register as a member of any of our Sites</li>
+          <li>Process and complete your purchase or other transaction</li>
+          <li>Provide you with customer service, and answering questions about our products</li>
+          <li>Customize your shopping experience using technology like algorithmic recommendations and machine learning</li>
+          <li>Notify you of advertisements and promotions using the internet, email and mail sent via the U.S. Post Office</li>
+          <li>Communicate great values and featured items to you</li>
+          <li>Respond to reviews, comments, or other feedback you provide us</li>
+          <li>Protect the security and integrity of our Sites and business</li>
+          <li>Manage career opportunities at Ybor.ai</li>
+          <li>Comply with valid legal procedures, requirements, regulations, and statutes</li>
+        </ul>
+      </div>
+
+      <p>To help us perform the business and commercial purposes set forth in this table, we may share your personally identifiable information with:</p>
+      <ul>
+        <li><strong>Third party resellers</strong> who offer or facilitate the offer of our products. We work closely with these resellers to perform the identified business and commercial purposes.</li>
+        <li><strong>Third party service providers.</strong> We employ other companies and individuals to perform functions on our behalf. Examples include fulfilling orders, sending postal mail and email, removing repetitive information from customer lists, analyzing data, providing marketing assistance, providing search results and links (including paid listings and links), processing credit card payments, providing customer service, and measuring ad performance.</li>
+      </ul>
+
+      <div class="cat">
+        <h3>Personal information such as your signature, telephone number, credit card number, debit card number, or any other financial information</h3>
+        <h4>Source categories</h4>
+        <ul>
+          <li>Provided by you from forms or direct interactions</li>
+          <li>Provided by third party resellers who offer or facilitate the offer of our products</li>
+        </ul>
+        <h4>Business or commercial purposes</h4>
+        <ul>
+          <li>Complete your request to sign up to receive information via email on any of our sites</li>
+          <li>Complete your request to register as a member of any of our Sites that you select</li>
+          <li>Process and complete your purchase or other transaction</li>
+          <li>Fulfill orders of our products made through third parties</li>
+          <li>Provide you with customer service, including answering questions about our products</li>
+          <li>If you have given (and not withdrawn) your prior written consent to use your telephone number for this purpose, notify you of advertisements and promotions by call or text</li>
+          <li>Protect the security and integrity of our Sites and our business</li>
+          <li>Manage career opportunities at Ybor.ai</li>
+          <li>Comply with valid legal procedures, requirements, regulations, and statutes</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <h3>Personal characteristics, such as your gender, age, date of birth, citizenship status, marital status, and veteran or military status</h3>
+        <h4>Source categories</h4>
+        <ul>
+          <li>Provided by you from forms or direct interactions</li>
+          <li>Data brokers or resellers</li>
+          <li>Social media services, like Twitter or Facebook</li>
+        </ul>
+        <h4>Business or commercial purposes</h4>
+        <ul>
+          <li>Customize your shopping experience using technology like algorithmic recommendations and machine learning</li>
+          <li>Notify you of advertisements and promotions using the internet, email and mail sent via the U.S. Post Office</li>
+          <li>Communicate great values and featured items to you</li>
+          <li>Manage career opportunities at Ybor.ai</li>
+          <li>Comply with valid legal procedures, requirements, regulations, and statutes</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <h3>Commercial information, including records of products purchased or considered, or other purchasing or consuming histories or tendencies</h3>
+        <h4>Source categories</h4>
+        <ul>
+          <li>Provided by you from forms or direct interactions</li>
+          <li>Collected by us through your interactions with our Sites</li>
+          <li>Provided by third party resellers who offer or facilitate the offer of our products</li>
+        </ul>
+        <h4>Business or commercial purposes</h4>
+        <ul>
+          <li>Fulfill orders of our products made through third parties</li>
+          <li>Provide you with customer service, including answering questions about our products</li>
+          <li>Customize your shopping experience using technology like algorithmic recommendations and machine learning</li>
+          <li>Notify you of advertisements and promotions using the internet, email and mail sent via the U.S. Post Office</li>
+          <li>Communicate great values and featured items to you</li>
+          <li>Respond to reviews, comments, or other feedback you provide us</li>
+          <li>Protect the security and integrity of our Sites and business</li>
+          <li>Comply with valid legal procedures, requirements, regulations, and statutes</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <h3>Internet or other electronic network activity information, including, but not limited to, browsing history, search history, and information regarding a consumer's interaction with an internet web site, application, or advertisement</h3>
+        <h4>Source categories</h4>
+        <ul>
+          <li>Collected by us through your interactions with our Sites</li>
+        </ul>
+        <h4>Business or commercial purposes</h4>
+        <ul>
+          <li>Customize your shopping experience using technology like algorithmic recommendations and machine learning</li>
+          <li>Notify you of advertisements and promotions using the internet, email and mail sent via the U.S. Post Office</li>
+          <li>Communicate great values and featured items to you</li>
+          <li>Respond to reviews, comments, or other feedback you provide us</li>
+          <li>Protect the security and integrity of our Sites and business</li>
+          <li>Comply with valid legal procedures, requirements, regulations, and statutes.</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <h3>Geolocation data</h3>
+        <h4>Source categories</h4>
+        <ul>
+          <li>Collected by us through your interactions with our Sites</li>
+        </ul>
+        <h4>Business or commercial purposes</h4>
+        <ul>
+          <li>Customize your shopping experience using technology like algorithmic recommendations and machine learning</li>
+          <li>Notify you of advertisements and promotions using the internet, email and mail sent via the U.S. Post Office</li>
+          <li>Communicate great values and featured items to you</li>
+          <li>Comply with valid legal procedures, requirements, regulations, and statutes</li>
+        </ul>
+      </div>
+
+      <div class="cat">
+        <h3>Inferences drawn from any of the information identified in this subdivision to create a profile about a consumer reflecting the consumer's preferences, characteristics, psychological trends, predispositions, behavior, attitudes, intelligence, abilities, and aptitudes</h3>
+        <h4>Source categories</h4>
+        <ul>
+          <li>Provided by you from forms or direct interactions</li>
+          <li>Collected by us through your interactions with our Sites</li>
+          <li>Provided third party resellers who offer or facilitate the offer of our products</li>
+        </ul>
+        <h4>Business or commercial purposes</h4>
+        <ul>
+          <li>Customize your shopping experience using technology like algorithmic recommendations and machine learning</li>
+          <li>Notify you of advertisements and promotions using the internet, email and mail sent via the U.S. Post Office</li>
+          <li>Communicate great values and featured items to you</li>
+        </ul>
+      </div>
+
+      <h3>Other situations in which we may share your information</h3>
+      <p>Sometimes we use marketing vendors to market our products, stores, and Sites to you. We serve ads through websites, locations, platforms, and services operated and owned by third parties. Often these ads are targeted at people who have visited our Sites but have not purchased anything. The ads are also targeted at people with similar traits or behaviors to our customers. We target our advertising to these users by uploading an encrypted customer list to a third party, or by incorporating tracking technology from a third party onto our Sites. The third party then matches individuals who appear in both our data and their data. Because of how this matching process works, the third party can't read our encrypted customer list if they don't already have it. To opt out of receiving these matched ads, contact the applicable third parties. For example, when we use a "Custom Audience" to serve you our ads through Facebook, you should be able to hover over the box in the right corner of that Facebook ad and opt out. We are not responsible for any third party's failure to comply with opt-out requests.</p>
+      <p>As we continue to develop our business, we might sell or buy stores, subsidiaries, or business units. In such transactions, customer information generally is one of the transferred business assets but remains subject to the promises made in any pre-existing privacy policy (unless, of course, the customer consents otherwise). Also, in the event that all or a part of our business is merged, sold or reorganized (including transfers made as a part of insolvency or bankruptcy proceedings), personal information about you could be shared with the successor business.</p>
+      <p>We may also disclose your personal information:</p>
+      <ul>
+        <li>To enforce or apply your contractual obligations to us, including for billing and collection purposes.</li>
+        <li>If we believe disclosure is necessary or appropriate to protect the rights, property, or safety of Ybor.ai, our customers, or others.</li>
+      </ul>
+
+      <h2><span class="h-slash">//</span>Sale of Information</h2>
+      <p>We do not sell personal information of our customers as the term "sell" is traditionally understood. But certain data privacy laws broadly define "sell" to include the sharing of personal information with third parties in exchange for something of value, even if no money changes hands. For example, sharing an advertising or device identifier to a third party may be considered a "sale" under certain data privacy laws. Under that broad definition of "selling" personal information, we have "sold" personal information to third parties for a business or commercial purpose in the preceding 12 months. For more information, see table above.</p>
+
+      <h2><span class="h-slash">//</span>What about Sensitive Personal Information?</h2>
+      <p>We generally don't want to gather any sensitive information about you. We would prefer that you never share with us any sensitive information, including:</p>
+      <ul>
+        <li>Your social security number</li>
+        <li>Your racial or ethnic origin</li>
+        <li>Your political opinions</li>
+        <li>Your religion or other beliefs</li>
+        <li>Your health, biometric, or genetic characteristics</li>
+        <li>Any trade union membership</li>
+        <li>Any criminal background</li>
+      </ul>
+
+      <h2><span class="h-slash">//</span>How Long Do You Retain Data?</h2>
+      <p>It depends. We store your personal information for as long as needed, or permitted, based on the reason why we obtained it (consistent with applicable law).</p>
+
+      <h2><span class="h-slash">//</span>Children</h2>
+      <p>Our Sites are intended for a general audience and are not directed to children. We do not collect information from anyone that tells us they are under the age of 13. Children under the age of 13 should always ask their parents or guardians for permission before providing any contact information to anyone online. We urge parents and guardians to participate in their children's online activities and use parental controls or other web filtering technology to supervise children's access to the internet.</p>
+
+      <h2><span class="h-slash">//</span>Cookies and Other Trackers</h2>
+      <h3>What cookies and other trackers do we use?</h3>
+      <p>We use cookies and similar tracker methods when you visit our Sites.</p>
+      <ul>
+        <li><strong>A cookie</strong> is a small string of text that a website (or online service) stores on a user's browser. It saves data on your browser about your visit to our Sites or other sites. It often includes a unique identifier. "First-party cookies" are cookies set by us (or on our behalf) on our Sites. "Third-party cookies" are cookies set by other companies (such as Google) whose functionality is embedded into our Sites. "Session cookies" are temporary cookies stored on your device while you visit our Sites. They expire when you close your browser. "Persistent cookies" are stored on your browser for a period of time after you leave our Sites. Persistent cookies expire on a set expiration date, or when they are deleted manually. You can choose whether to accept cookies by editing your browser settings. However, if cookies are refused, your experience on our Sites may be worse, and some features may not work as intended.</li>
+        <li><strong>Pixels</strong> (also known as "web beacons," "GIFs" or "bugs") are one-pixel transparent images located on web pages or messages. They track whether you have opened these web pages or messages. Upon firing, a pixel logs a visit to the current page or message and may read or set cookies. Pixels often rely on cookies to work, so turning off cookies can impair them. But even if you turn off cookies, pixels can still detect a web page visit.</li>
+        <li><strong>JavaScript</strong> is a programming language. It can be used to write trackers that, when embedded into a page, allow us to measure how you interact with our Sites and other sites.</li>
+        <li><strong>SDKs</strong> are pieces of code provided by our digital vendors (e.g., third-party advertising companies, ad networks, and analytics providers) in our mobile apps to collect and analyze certain device and user data.</li>
+        <li><strong>Device identifiers</strong> are user-resettable identifiers comprised of numbers and letters. They are unique to a specific device. They are stored directly on the device. They are used to recognize you and/or your devices(s) on, off and across different apps and devices for marketing and advertising purposes.</li>
+      </ul>
+      <p>In order to decide what type of ad might interest you, our digital and marketing vendors sometimes link data—inferred from your browsing of other sites or collected from other sources—using a method knowns as "ID synching" or "cookie synching." To do this, they match the tracker ID they have assigned to you with one or more tracker IDs that are held in another company's database and that are likely also associated with you. Any of the linked trackers may have certain interests and other demographic information attributed to it. That information is then used to determine which ad to show you.</p>
+      <p>The types of trackers that appear on our Sites include:</p>
+      <ul>
+        <li><strong>Essential trackers</strong> required for our Sites to operate. They allow you to navigate one of our Sites and use its services and features (e.g., cookies that help you stay logged in). Without essential trackers, our Sites will not run smoothly and our Sites, or certain services or features, might not even be available to you simply because of technical limitations.</li>
+        <li><strong>Preference trackers</strong> allowing us to store information about your choices, settings and preferences. They also help us recognize you when you return to our Sites, remember your language settings (among others) and customize our Sites accordingly. They are not essential to the functioning of our Sites.</li>
+        <li><strong>Analytics trackers</strong> collecting or using information about your Site use, which helps us improve our Sites. Among the uses of analytics trackers are to show us which pages are most frequently visited, help us record difficulties you have with our Sites, and track purchases and behaviors leading to purchases. These trackers add up our customers' visits to show us larger patterns in our customers' behavior. We look at these larger patterns to analyze Site traffic.</li>
+        <li><strong>Marketing trackers</strong> help us determine which ads or content to show you, both on our Sites and on other sites. To do this, these trackers use information about your behavior on various Sites to target our ads and content. These trackers allow us to limit the number of times you see our ads and content across your devices. They help us personalize the ads and content we show you. They also enable us to measure the effectiveness of our marketing campaigns.</li>
+      </ul>
+      <h3>You can manage trackers.</h3>
+      <p>We use PostHog for analytics on our Services. PostHog is a privacy-focused analytics platform that helps us understand how users interact with our Sites. The information we obtain through the Site may be disclosed to or collected directly by PostHog. To learn more about PostHog's privacy practices and the information that is collected, please visit <a class="inline" href="https://posthog.com/privacy" target="_blank" rel="noopener">https://posthog.com/privacy</a>.</p>
+      <p>You can refuse or accept trackers from our Sites (or any other site) in your browser settings.</p>
+      <p>To opt out of PostHog analytics data collection, you can:</p>
+      <ul>
+        <li>Use browser extensions that block analytics scripts</li>
+        <li>Enable "Do Not Track" in your browser settings</li>
+        <li>Add the <code>ph-no-capture</code> class to specific elements</li>
+        <li>Contact us directly at <a class="inline" href="mailto:privacy@ybor.ai">privacy@ybor.ai</a> to request exclusion from analytics tracking</li>
+      </ul>
+
+      <h2><span class="h-slash">//</span>Other Online Services and Third-Party Features</h2>
+      <p>For your convenience and information, our Sites may contain links to other online services, and may include third-party features such as apps, tools, widgets, and plug-ins. Our Sites also may allow others to send you such links. These online services and third-party features may be owned and operated by third parties that are independent of us. A link to a third party's online service or feature does not mean that we endorse it or that we are affiliated with it. The information practices of the relevant third parties, including information they may collect about you, are subject to the privacy notices of these parties, which we strongly suggest you review. We are not responsible for the content or privacy practices of any websites, apps, or services that are not owned or controlled by us.</p>
+
+      <h2><span class="h-slash">//</span>Security</h2>
+      <p>We take appropriate security measures to protect against unauthorized access to or unauthorized alteration, disclosure, or destruction of the data you provide to us. Our servers are protected by firewalls and are physically located in secure data facilities to further increase security. While no computer or facility is 100% safe from outside attacks, we believe that the steps we have taken to protect your personally identifiable information dramatically reduce the likelihood of security problems to a level appropriate for the type of data involved.</p>
+
+      <h2><span class="h-slash">//</span>Email</h2>
+      <p>You may receive email messages from us. If you no longer wish to receive these communications, let us know by following the opt out directions on any of the email messages you have received from us. Please note that if you wish to opt out of receiving emails from third party resellers that we partner with you will need to contact them directly to communicate your contact preferences.</p>
+
+      <h2><span class="h-slash">//</span>Your Data Rights, Including Access, Deletion, and Opt-Out</h2>
+      <p>You have the right to request that we disclose to you what information we collect, use, disclose, and sell. You also have the right to request that we delete any personal information about you which we collected about you. You have the right to direct us to not sell or share your personal information. Just send an email to <a class="inline" href="mailto:privacy@ybor.ai">privacy@ybor.ai</a>.</p>
+      <p>We will not discriminate against you for exercising any of these data rights.</p>
+      <p>You may designate an authorized agent to make a request to exercise your rights on your behalf. Your authorized agent must be able to provide to us all of the information that we would otherwise require to verify your identity. For your protection, we reserve the right to deny any request from an agent who does not submit proof that they have been authorized to act on your behalf.</p>
+      <p>Applicable laws may give you additional rights that are not described in the Privacy Policy.</p>
+
+      <h2><span class="h-slash">//</span>California Privacy Rights – "Shine the Light"</h2>
+      <p>Pursuant to Section 1798.83 of California Civil Code, a California resident with whom we have established a business relationship has the right to request from us certain information with respect to the types of personally identifiable information we have shared with third parties for direct marketing purposes by such third parties, and the identities of the third parties with whom we have shared information during the immediately preceding calendar year. All requests for such information must be in writing and sent to: Ybor.ai Privacy Office—Legal Department, 1670 E 8th Ave., Tampa, FL 33605.</p>
+
+      <h2><span class="h-slash">//</span>Concerns About Privacy</h2>
+      <p>If you have any questions or comments about this privacy policy, please contact us:</p>
+      <address>Ybor.ai Privacy Office—Legal Department<br>1670 E 8th Ave.<br>Tampa, FL 33605</address>
+
+      <h2><span class="h-slash">//</span>Privacy Policy Changes</h2>
+      <p>As we continue to improve the services, products, and features we provide, our privacy policy is subject to change. Our privacy policy is subject to change without direct notice to you. We may change our privacy policy at any time by posting a new version of it on our Sites. Therefore, you should review our privacy policy each time you visit any of our Sites. The dates provided below will inform you as to when the most recent material updates to our privacy policy occurred and the date on which our updated privacy policy became effective.</p>
+      <p>Date of Last Update: August 1, 2025</p>
+      <p>Date Updated Policy Became Effective: August 1, 2025</p>
+    </div>
+  </div>
+</section>
+</Base>

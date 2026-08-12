@@ -1,0 +1,238 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Careers — Ybor" description="Help build the platform layer for enterprise software. Open roles in platform engineering, SRE, design, and go-to-market. Remote-first, US." active="company">
+<style slot="head">
+  /* Careers-only compositions, built from system tokens */
+  .role-group + .role-group { margin-top: 44px; }
+  .role-group-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+  .role-group-head h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+  .role-count { font-family: var(--font-mono); font-size: 12px; color: var(--neutral-500); }
+  .role-list { border-top: 1px solid var(--neutral-100); }
+  .role-row {
+    display: flex; align-items: center; gap: 24px;
+    padding: 22px 10px; border-bottom: 1px solid var(--neutral-100);
+    transition: background 150ms ease-out, padding 150ms ease-out;
+  }
+  .role-row:hover { background: var(--off-white); padding-inline: 18px; }
+  .role-main { flex: 1; min-width: 0; }
+  .role-title { font-weight: 600; font-size: 18px; letter-spacing: -0.01em; }
+  .role-meta { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 7px; font-family: var(--font-mono); font-size: 12.5px; color: var(--neutral-500); }
+  .role-meta span { display: inline-flex; align-items: center; gap: 5px; }
+  .role-meta svg { width: 13px; height: 13px; }
+  .role-row .link-arrow { flex: none; }
+  /* Dark mode: the base --off-white hover and --neutral-100 dividers are fixed
+     light tokens; map them to dark surfaces/borders. :global() keeps Astro from
+     scoping the html[data-theme] ancestor (it lives in the Base layout). */
+  :global([data-theme="dark"]) .role-list { border-top-color: var(--border-d); }
+  :global([data-theme="dark"]) .role-row { border-bottom-color: var(--border-d); }
+  :global([data-theme="dark"]) .role-row:hover { background: var(--surface-2); }
+  @media (max-width: 640px) {
+    .role-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .role-row:hover { padding-inline: 10px; }
+  }
+  .bene-ic { width: 40px; height: 40px; border-radius: var(--r-md); background: var(--purple-tint); color: var(--purple); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+  .bene-ic svg { width: 20px; height: 20px; }
+</style>
+
+<!-- HERO -->
+<section class="hero bg-tint-soft">
+  <div class="container center" style="position:relative;z-index:1;padding-block:88px 56px">
+    <div style="max-width:780px;margin:0 auto">
+      <span class="eyebrow"><span class="slash">//</span> careers</span>
+      <h1 class="display-lg balance">Help build the platform layer for enterprise software.</h1>
+      <p class="body-lg muted pretty" style="max-width:620px;margin:22px auto 0">We're a small team of platform engineers building the backend we wished we had. If you've felt the pain of rebuilding the same plumbing every two years, you'll fit in here.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+        <a class="btn btn-primary btn-lg" href="#open-roles">See open roles <i data-lucide="arrow-down" class="ic"></i></a>
+        <a class="btn btn-secondary btn-lg" href="/about">How we work</a>
+      </div>
+      <p class="hero-note" style="justify-content:center">// remote-first, US <span class="dot">·</span> async by default <span class="dot">·</span> SOC 2 Type II</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="split split-6-6">
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> the work</span>
+        <h2 class="heading-lg balance">What you'd actually do here.</h2>
+      </div>
+      <div>
+        <p class="body-lg muted pretty" style="margin-bottom:18px">You'll work on the layered object model, the operators that reconcile it, and the addon catalog that runs on every customer cluster. Real Kubernetes, real multi-cloud, real production traffic — not a demo.</p>
+        <p class="body-lg muted pretty">We ship release by release, not big-bang. You'll own a surface end to end, write the design doc, and defend the trade-offs. We keep teams small so the person who builds a thing is the person who runs it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRINCIPLES -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center"><span class="eyebrow"><span class="slash">//</span> how we operate</span><h2 class="display-md balance">A few things we believe.</h2></div>
+    <div class="grid grid-3" style="margin-top:56px">
+      <div class="card"><div class="bene-ic"><i data-lucide="git-commit-horizontal"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Small teams, full ownership</h3><p class="body muted">You own a surface from design doc to on-call. No throwing work over a wall — the person who builds it runs it.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="message-square-text"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Async by default</h3><p class="body muted">We write things down. Decisions live in docs and PRs, not in meetings you had to attend live across four time zones.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="shield-check"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Security is the floor</h3><p class="body muted">SOC 2 controls, supply-chain scanning, and least-privilege are defaults in how we build — not a quarter-end scramble.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="scissors"></i></div><h3 class="heading-sm" style="margin-bottom:8px">One thousand no's</h3><p class="body muted">We ship less, better. Saying no to scope is how the platform stays something a team can defend in a board meeting.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="terminal"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Builder-to-builder</h3><p class="body muted">Our buyers are engineers and so are we. We've run the platform teams we're building for, and we sound like it.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="git-pull-request-arrow"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Open source, on the record</h3><p class="body muted">We build on Crossplane, Cluster API, Istio, Kyverno, and ArgoCD — and contribute back. Your work ships in the open.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN ROLES -->
+<section class="section bg-white" id="open-roles">
+  <div class="container">
+    <div class="sec-head"><span class="eyebrow"><span class="slash">//</span> open roles</span><h2 class="display-md balance">Nine roles open right now.</h2><p class="body-lg muted pretty">Remote-first across the US. Don't see your exact title? If you've built platform infrastructure at scale, write to us anyway.</p></div>
+
+    <div class="role-group" style="margin-top:48px">
+      <div class="role-group-head"><h3>Engineering</h3><span class="role-count">// 5 open</span></div>
+      <div class="role-list">
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Senior Platform Engineer, Platform Infrastructure</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="layers"></i> Crossplane · Cluster API</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Software Engineer, Operators</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="code-xml"></i> Go · Kubernetes</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Senior Backend Engineer, Application Delivery</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="rocket"></i> Pipelines · archetypes</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Site Reliability Engineer</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="activity"></i> Multi-cloud · on-call</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Developer Experience Engineer</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="book-open"></i> CLI · docs · SDKs</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-head"><h3>Design</h3><span class="role-count">// 1 open</span></div>
+      <div class="role-list">
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Product Designer, Ybor Studio</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="layout-dashboard"></i> Control-plane UI</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-head"><h3>Go-to-market</h3><span class="role-count">// 2 open</span></div>
+      <div class="role-list">
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Solutions Architect</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US, some travel)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="workflow"></i> Pre-sales · platform</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Enterprise Account Executive</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="building-2"></i> Mid-market · enterprise</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="role-group">
+      <div class="role-group-head"><h3>Operations</h3><span class="role-count">// 1 open</span></div>
+      <div class="role-list">
+        <a class="role-row" href="/contact?intent=careers">
+          <div class="role-main">
+            <div class="role-title">Technical Recruiter</div>
+            <div class="role-meta"><span><i data-lucide="map-pin"></i> Remote (US)</span><span><i data-lucide="clock"></i> Full-time</span><span><i data-lucide="users"></i> Engineering hiring</span></div>
+          </div>
+          <span class="link-arrow">Apply <i data-lucide="arrow-right"></i></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIRING PROCESS -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center"><span class="eyebrow"><span class="slash">//</span> how we hire</span><h2 class="display-md balance">Four steps. No take-home that takes a weekend.</h2></div>
+    <div class="steps steps-4" style="margin-top:56px">
+      <div class="step">
+        <div class="step-top"><span class="step-ic"><i data-lucide="mail"></i></span><span class="step-num">01</span></div>
+        <h4>Intro call</h4>
+        <p>30 minutes with the hiring manager. What you've built, what you want next, what we're working on.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="step">
+        <div class="step-top"><span class="step-ic"><i data-lucide="code-2"></i></span><span class="step-num">02</span></div>
+        <h4>Technical deep-dive</h4>
+        <p>A working session on a real problem from our backlog. Bring your environment — no whiteboard trivia.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="step">
+        <div class="step-top"><span class="step-ic"><i data-lucide="users"></i></span><span class="step-num">03</span></div>
+        <h4>Team conversations</h4>
+        <p>Two or three chats with people you'd work alongside. Values, collaboration, and how you think out loud.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="step">
+        <div class="step-top"><span class="step-ic"><i data-lucide="check-circle-2"></i></span><span class="step-num">04</span></div>
+        <h4>Offer</h4>
+        <p>References, then a written offer with transparent comp and equity. Most candidates finish in under three weeks.</p>
+        <div class="step-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center"><span class="eyebrow"><span class="slash">//</span> the package</span><h2 class="display-md balance">What you get.</h2></div>
+    <div class="grid grid-3" style="margin-top:56px">
+      <div class="card"><div class="bene-ic"><i data-lucide="banknote"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Real equity</h3><p class="body muted">Meaningful early-stage equity with a 10-year exercise window. You own a piece of what you build.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="heart-pulse"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Health, fully covered</h3><p class="body muted">Medical, dental, and vision premiums covered for you and dependents. No deductible games.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="globe"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Remote-first, US</h3><p class="body muted">Work where you work best. A home-office stipend and a real laptop, not a locked-down loaner.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="calendar-check"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Time that's actually off</h3><p class="body muted">Minimum three weeks plus the week between Christmas and New Year. On-call is rotated and paid.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="graduation-cap"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Learning budget</h3><p class="body muted">An annual budget for conferences, courses, and certs — KubeCon included. We ship in the open; we learn in the open.</p></div>
+      <div class="card"><div class="bene-ic"><i data-lucide="users-round"></i></div><h3 class="heading-sm" style="margin-bottom:8px">Two on-sites a year</h3><p class="body muted">We gather the whole team twice a year to plan, build, and spend time together in person.</p></div>
+    </div>
+    <p class="center mono" style="font-size:12px;color:var(--neutral-500);margin-top:32px">// benefits apply to US full-time roles · details confirmed at offer</p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:640px;margin-inline:auto">Don't see your role?</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:560px;margin:20px auto 0">If you've built platform infrastructure at scale, tell us what you'd want to own here. We read every note.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="/contact?intent=careers">Get in touch <i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+</Base>

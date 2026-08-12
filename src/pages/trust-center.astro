@@ -1,0 +1,256 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Trust Center — SOC 2® reports & continuous controls monitoring | Ybor" description="The Ybor Trust Center: SOC 2 Type I & Type II attestations, downloadable reports, and continuous controls monitoring across access, network, incident response, and more." active="security">
+<style slot="head">
+  /* ---------- Trust Center: control monitoring ---------- */
+  .tc-monitor-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
+  .tc-live { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: 13px; color: var(--neutral-300); }
+  .tc-live .led { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: led-pulse 2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .tc-live .led { animation: none; } }
+  .tc-cat { display: flex; flex-direction: column; }
+  .tc-cat-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .tc-cat-top .icon-chip { margin-bottom: 0; }
+  .tc-cat h3 { font-size: 16px; font-weight: 600; color: #fff; line-height: 1.3; }
+  .tc-count { font-family: var(--font-mono); font-size: 12px; color: var(--neutral-300); }
+  .tc-controls { display: flex; flex-direction: column; gap: 10px; }
+  .tc-controls li { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; line-height: 1.5; color: var(--neutral-300); }
+  .tc-controls .ck { flex: none; width: 16px; height: 16px; color: var(--green); margin-top: 2px; }
+  .tc-more { font-family: var(--font-mono); font-size: 12px; color: #C0A8EF; margin-top: 16px; display: inline-flex; align-items: center; gap: 5px; }
+  .tc-more svg { width: 13px; height: 13px; }
+  /* compliance attestation cards */
+  .tc-cert { display: flex; flex-direction: column; gap: 22px; }
+  .tc-cert-head { display: flex; align-items: center; gap: 18px; }
+  .tc-seal { flex: none; width: 76px; height: 76px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--ink); color: #fff; gap: 1px; }
+  .tc-seal .s-soc { font-family: var(--font-mono); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; }
+  .tc-seal .s-type { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; color: #C0A8EF; }
+  .tc-doc-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 22px; border-top: 1px solid var(--neutral-100); }
+  .tc-doc-meta { display: flex; align-items: center; gap: 11px; }
+  .tc-doc-meta .di { flex: none; width: 38px; height: 38px; border-radius: var(--r-md); background: var(--purple-tint); color: var(--purple); display: flex; align-items: center; justify-content: center; }
+  .tc-doc-meta .di svg { width: 18px; height: 18px; }
+  .tc-doc-name { font-weight: 600; font-size: 14px; }
+  .tc-doc-sub { font-family: var(--font-mono); font-size: 11.5px; color: var(--neutral-500); margin-top: 2px; }
+  .secureframe-bar { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 56px; font-family: var(--font-mono); font-size: 12px; color: var(--neutral-500); }
+  .secureframe-bar .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--neutral-300); }
+</style>
+
+<!-- HERO -->
+<section class="hero bg-tint-soft">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="slash">//</span> trust center</span>
+        <h1 class="display-lg balance">Every control, evidenced and continuously monitored.</h1>
+        <p class="body-lg muted pretty" style="max-width:600px">This is where your security team starts. Download our SOC 2 attestations, review the controls we run across access, network, and incident response, and see how they're monitored — continuously, not once a year.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-glow" href="/contact?intent=soc2">Request the SOC 2 Type II report <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-secondary" href="#monitoring">View the controls</a>
+        </div>
+      </div>
+      <div class="hero-copy" style="display:flex;flex-direction:column;align-items:center;gap:24px">
+        <a class="soc-logo" href="https://www.aicpa.org/soc4so" target="_blank" rel="noopener" aria-label="AICPA SOC for Service Organizations — aicpa.org/soc4so"><img src="/assets/aicpa-soc-logo.jpg" alt="AICPA SOC for Service Organizations" width="176" height="176"></a>
+        <div style="display:flex;gap:18px;font-family:var(--font-mono);font-size:12px;color:var(--neutral-500);flex-wrap:wrap;justify-content:center">
+          <span>SOC 2 Type I</span><span>SOC 2 Type II</span><span>Secureframe</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPLIANCE -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> compliance</span>
+      <h2 class="display-md balance">Attestations, ready to share.</h2>
+      <p class="body muted pretty" style="max-width:620px;margin-inline:auto">Both reports are current. The Type I letter of attestation is available to download now; the Type II report ships through the trust portal after a mutual NDA.</p>
+    </div>
+    <div class="grid grid-2" style="margin-top:56px;max-width:960px;margin-inline:auto">
+      <div class="card tc-cert">
+        <div class="tc-cert-head">
+          <div class="tc-seal"><span class="s-soc">SOC 2</span><span class="s-type">TYPE I</span></div>
+          <div>
+            <h3 class="heading-sm" style="margin-bottom:4px">SOC 2 Type I</h3>
+            <span class="badge badge-success">Attested</span>
+          </div>
+        </div>
+        <p class="body-sm muted">An independent attestation that our controls are suitably designed at a point in time, issued by our auditor.</p>
+        <div class="tc-doc-row">
+          <div class="tc-doc-meta"><span class="di"><i data-lucide="file-text"></i></span><span><span class="tc-doc-name">Letter of Attestation</span><span class="tc-doc-sub">PDF · 1 page</span></span></div>
+          <a class="btn btn-secondary btn-sm" href="/contact?intent=soc2-type1">Download <i data-lucide="download" class="ic"></i></a>
+        </div>
+      </div>
+      <div class="card tc-cert">
+        <div class="tc-cert-head">
+          <div class="tc-seal"><span class="s-soc">SOC 2</span><span class="s-type">TYPE II</span></div>
+          <div>
+            <h3 class="heading-sm" style="margin-bottom:4px">SOC 2 Type II</h3>
+            <span class="badge badge-purple">Report on request</span>
+          </div>
+        </div>
+        <p class="body-sm muted">The full report on the operating effectiveness of our controls over the reporting period. Available under NDA.</p>
+        <div class="tc-doc-row">
+          <div class="tc-doc-meta"><span class="di"><i data-lucide="file-lock-2"></i></span><span><span class="tc-doc-name">SOC 2 Type II Report</span><span class="tc-doc-sub">NDA required</span></span></div>
+          <a class="btn btn-primary btn-sm" href="/contact?intent=soc2">Request <i data-lucide="arrow-right" class="ic"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MONITORING -->
+<section class="section bg-ink-grad" id="monitoring">
+  <div class="container">
+    <div class="tc-monitor-head">
+      <div>
+        <span class="eyebrow"><span class="slash">//</span> monitoring</span>
+        <h2 class="display-md balance" style="color:#fff">Controls that are checked every day, not once a year.</h2>
+      </div>
+      <span class="tc-live"><span class="led"></span> Continuously monitored by Secureframe</span>
+    </div>
+    <div class="grid grid-3">
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="git-pull-request-arrow"></i></span><div><h3>Change Management</h3><span class="tc-count">6 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Baseline configurations for production infrastructure</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Change Management Policy</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Segregation of dev, staging &amp; production</span></li>
+        </ul>
+        <a class="tc-more" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">View 3 more controls <i data-lucide="arrow-up-right"></i></a>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="activity"></i></span><div><h3>Availability</h3><span class="tc-count">4 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Uptime and availability monitoring</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Business Continuity &amp; Disaster Recovery Policy</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Annual backup restoration testing</span></li>
+        </ul>
+        <a class="tc-more" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">View 1 more control <i data-lucide="arrow-up-right"></i></a>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="users-round"></i></span><div><h3>Organizational Management</h3><span class="tc-count">17 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Continuous internal control monitoring</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Cybersecurity insurance</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Background checks &amp; security awareness training</span></li>
+        </ul>
+        <a class="tc-more" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">View 14 more controls <i data-lucide="arrow-up-right"></i></a>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="eye-off"></i></span><div><h3>Confidentiality</h3><span class="tc-count">3 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Data Classification Policy</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Retention of customer data</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Data Retention &amp; Disposal Policy</span></li>
+        </ul>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="bug"></i></span><div><h3>Vulnerability Management</h3><span class="tc-count">1 control</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Vulnerability &amp; Patch Management Policy</span></li>
+        </ul>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="siren"></i></span><div><h3>Incident Response</h3><span class="tc-count">4 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Incident Response Plan &amp; testing</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Lessons-learned after resolution</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Incident tracking &amp; analysis</span></li>
+        </ul>
+        <a class="tc-more" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">View 1 more control <i data-lucide="arrow-up-right"></i></a>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="scale"></i></span><div><h3>Risk Assessment</h3><span class="tc-count">5 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Maintained risk register</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Risk Assessment &amp; Treatment Policy</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Vendor Risk Management Policy</span></li>
+        </ul>
+        <a class="tc-more" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">View 2 more controls <i data-lucide="arrow-up-right"></i></a>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="network"></i></span><div><h3>Network Security</h3><span class="tc-count">3 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Managed endpoint security</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Automated alerting for security events</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Network Security Policy</span></li>
+        </ul>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="key-round"></i></span><div><h3>Access Security</h3><span class="tc-count">11 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Encryption in transit &amp; at rest</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Complex passwords &amp; unique access IDs</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Least-privilege admin access</span></li>
+        </ul>
+        <a class="tc-more" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">View 8 more controls <i data-lucide="arrow-up-right"></i></a>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="building"></i></span><div><h3>Physical Security</h3><span class="tc-count">1 control</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Physical Security Policy</span></li>
+        </ul>
+      </div>
+
+      <div class="card dark tc-cat">
+        <div class="tc-cat-top"><span class="icon-chip"><i data-lucide="megaphone"></i></span><div><h3>Communications</h3><span class="tc-count">5 controls</span></div></div>
+        <ul class="tc-controls">
+          <li><i data-lucide="check" class="ck"></i><span>Published Terms of Service &amp; Privacy Policy</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Security commitments communicated externally</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Confidential reporting channel</span></li>
+        </ul>
+        <a class="tc-more" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">View 1 more control <i data-lucide="arrow-up-right"></i></a>
+      </div>
+
+      <div class="card dark tc-cat" style="justify-content:center;align-items:flex-start;gap:14px">
+        <span class="icon-chip"><i data-lucide="list-checks"></i></span>
+        <div>
+          <h3 style="margin-bottom:8px">All controls, live</h3>
+          <p class="body-sm muted-d" style="margin-bottom:18px">Every control above is monitored continuously. Browse the complete, always-current list in the trust portal.</p>
+          <a class="btn btn-ondark btn-sm" href="https://security.ybor.ai/monitoring" target="_blank" rel="noopener">Open the trust portal <i data-lucide="arrow-up-right" class="ic"></i></a>
+        </div>
+      </div>
+
+    </div>
+    <div class="secureframe-bar"><span>Powered by Secureframe</span><span class="dot"></span><span>Continuous controls monitoring</span></div>
+  </div>
+</section>
+
+<!-- REQUEST -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> soc 2 report</span>
+      <h2 class="display-md balance">How to get the Type II report.</h2>
+    </div>
+    <div class="steps steps-4" style="grid-template-columns:repeat(3,1fr);max-width:900px;margin:56px auto 0">
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="file-pen"></i></span><span class="step-num">01</span></div><h4>Sign a mutual NDA</h4><p>We'll send the template — most teams turn it around same-day.</p></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="calendar-days"></i></span><span class="step-num">02</span></div><h4>Pick a period</h4><p>Tell us which version: current reporting period or prior period.</p></div>
+      <div class="step"><div class="step-top"><span class="step-ic"><i data-lucide="file-check"></i></span><span class="step-num">03</span></div><h4>Get the report</h4><p>Delivered via the trust center portal within 1 business day.</p></div>
+    </div>
+    <div class="center" style="margin-top:48px"><a class="btn btn-primary" href="/contact?intent=soc2">Start the request <i data-lucide="arrow-right" class="ic"></i></a></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-ink">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:720px;margin-inline:auto">Bring your security team.</h2>
+    <p class="body-lg muted-d" style="max-width:640px;margin:20px auto 0">We'll walk through SOC 2, the control library, and the audit-log story — and answer the questions you'd usually save for procurement.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-primary btn-lg" href="/contact?intent=security-review">Book a Security Review <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg" href="/security">See our security architecture <i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+</Base>

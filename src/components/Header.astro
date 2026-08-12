@@ -1,410 +1,62 @@
 ---
-import Logo from "./Brand"
-import YInfraLogo from "@/assets/y-infra-logo.svg";
-import YAppLogo from "@/assets/y-app-logo.svg";
-import YAiLogo from "@/assets/y-ai-logo.svg";
-import YEdeLogo from "@/assets/y-ede-logo.svg";
-import { Image } from "astro:assets";
-import { ArrowRightIcon, MenuIcon, XIcon } from "@lucide/astro";
-
-const products = [
-  {
-    name: "Y_Infra",
-    description: "Provision Clusters + Infra",
-    url: "/products/y-infra"
-  },
-  {
-    name: "Y_App",
-    description: "Build & ship apps faster",
-    url: "/products/y-app"
-  },
-  {
-    name: "Y_AI",
-    description: "Flexible, ownable AI workflows",
-    url: "/products/y-ai"
-  },
-  {
-    name: "Y_EDE",
-    description: "Enterprise Development Environments",
-    url: "/products/ede"
-  }
-]
-
+// Primary site header: logo, desktop nav with dropdowns, and header CTAs.
+// The theme-toggle button is injected into .header-inner by /js/site.js.
+interface Props {
+  /** Which top-level nav item to mark active for the current page. */
+  active?: 'platform' | 'customers' | 'pricing' | 'security' | 'resources' | 'company';
+}
+const { active } = Astro.props;
+const nav = (key: Props['active']) => `nav-link${active === key ? ' active' : ''}`;
 ---
-<!-- Header -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300">
-      <div
-        class="mx-auto p-6 flex items-center justify-between"
-      >
-        <div class="flex items-center gap-8">
-          <div class="text-xl font-bold font-mono">
-            <a href="/"> <Logo /></a>
-          </div>
-          <nav class="hidden lg:flex items-center gap-6">
-            <!-- Products Mega Menu -->
-            {
-              products && (<div class="relative group" id="desktop-products-menu">
-              <button
-                id="desktop-products-toggle"
-                class="flex items-center gap-1 text-sm text-gray-700 hover:text-black transition-colors  relative after:bg-black after:absolute after:h-0.5 after:w-0 after:-bottom-2 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
-              >
-                Products
-                <svg
-                  id="desktop-products-arrow"
-                  class="w-4 h-4 transition-transform group-hover:rotate-180"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </button>
-              
-              <!-- Mega Menu -->
-              <div id="desktop-mega-menu" class="absolute top-full left-0 mt-2 w-[800px] max-w-[90vw] bg-white rounded-xl shadow-2xl border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                <div class="p-8">
-                  <div class="grid gap-8">
-                    <!-- Left Section - Products -->
-                    <div>
-                      <h3 class="text-2xl font-medium text-gray-900 mb-2">Products</h3>
-                      <p class="text-gray-600 mb-6 text-sm font-mono">
-                        Accelerate your business with our comprehensive platform solutions.
-                      </p>
-                      
-                      <!-- Product Cards Grid -->
-                      <div class="grid grid-cols-2 gap-4">
-                        <!-- Y_Infra Card -->
-                        <a href="/products/infra" class="group/card p-4 rounded-lg border border-gray-200 hover:bg-brand-blue/5 hover:border-brand-blue transition-all duration-200">
-                          <div class="flex items-center justify-start mb-3">
-                            <Image src={YInfraLogo} alt={products[0].name || "--"} class="h-8 w-auto" />
-                          </div>
-                          <p class="text-xs text-muted-foreground font-mono">
-                            {products[0].description || "--"}
-                          </p>
-                        </a>
-                        
-                        <!-- Y_App Card -->
-                        <a href="/products/app" class="group/card p-4 rounded-lg border border-gray-200 hover:bg-brand-green/5 hover:border-brand-green transition-all duration-200">
-                          <div class="flex items-center justify-start mb-3">
-                            <Image src={YAppLogo} alt={products[1].name || "--"} class="h-8 w-auto" />
-                          </div>
-                          <p class="text-xs text-muted-foreground font-mono">
-                            {products[1].description || "--"}
-                          </p>
-                        </a>
-                        
-                        <!-- Y_AI Card -->
-                        <a href="/products/ai" class="group/card p-4 rounded-lg border border-gray-200 hover:bg-brand-orange/5 hover:border-brand-orange transition-all duration-200">
-                          <div class="flex items-center justify-start mb-3">
-                            <Image src={YAiLogo} alt={products[2].name || "--"} class="h-8 w-auto" />
-                          </div>
-                          <p class="text-xs text-muted-foreground font-mono">
-                            {products[2].description || "--"}
-                          </p>
-                        </a>
-                        
-                        <!-- Y_EDE Card -->
-                        <a href="/products/ede" class="group/card p-4 rounded-lg border border-gray-200 hover:bg-brand-yellow/5 hover:border-brand-yellow transition-all duration-200">
-                          <div class="flex items-center justify-start mb-3">
-                            <Image src={YEdeLogo} alt={products[3].name || "--"} class="h-8 w-auto" />
-                          </div>
-                          <p class="text-xs text-muted-foreground font-mono">
-                            {products[3].description || "--"}
-                          </p>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>)
-            }
-            
-            <a href="/culture-and-careers" class="text-sm text-gray-700 hover:text-black transition-colors relative after:bg-black after:absolute after:h-0.5 after:w-0 after:-bottom-2 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
-              >Culture / Careers</a
-            >
-            <a href="/contact" class="text-sm text-gray-700 hover:text-black transition-colors relative after:bg-black after:absolute after:h-0.5 after:w-0 after:-bottom-2 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
-              >Contact</a
-            >
-          </nav>
-        </div>
-        <div class="flex items-center md:gap-3">
-          <a href="/contact"
-            class="md:inline-flex hidden items-center justify-center rounded-full text-sm font-medium border border-primary bg-transparent hover:bg-primary/5  hover:text-primary transition-colors h-10 px-6 py-2"
-          >
-            Get Started
-            <ArrowRightIcon class="w-4 h-4 ml-4" />
-          </a>
-          <!-- <button
-            class="inline-flex items-center justify-center rounded-full text-sm font-medium hover:bg-primary/5 hover:text-primary transition-colors h-10 px-4 py-2"
-          >
-            Log In
-          </button> -->
-
-          <!-- menu button -->
-          <button
-            id="mobile-menu-button"
-            class="lg:hidden inline-flex items-center justify-center rounded-full text-sm font-medium hover:bg-primary/5 hover:text-primary transition-colors h-10 px-4 py-2"
-          >
-            <MenuIcon class="w-5 h-5" />
-          </button>
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo" aria-label="Ybor home"><img src="/assets/logos/Ybor.ai_mark_blk.svg" alt="Ybor"></a>
+    <nav class="nav" aria-label="Primary">
+      <div class="nav-item has-dd">
+        <button class={nav('platform')} aria-haspopup="true">Platform <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="/platform" role="menuitem"><span class="dd-ic"><i data-lucide="layers"></i></span><span><span class="dd-title">Platform Overview</span><span class="dd-desc">One platform, from infrastructure to production.</span></span></a>
+          <a class="dd-item" href="/platform#delivery" role="menuitem"><span class="dd-ic"><i data-lucide="rocket"></i></span><span><span class="dd-title">Delivery layer</span><span class="dd-desc">From commit to production in minutes.</span></span></a>
+          <a class="dd-item" href="/platform#infrastructure" role="menuitem"><span class="dd-ic"><i data-lucide="server"></i></span><span><span class="dd-title">Foundation layer</span><span class="dd-desc">Production Kubernetes on every cloud, from one API.</span></span></a>
+          <a class="dd-item" href="/how-it-works" role="menuitem"><span class="dd-ic"><i data-lucide="workflow"></i></span><span><span class="dd-title">How it Works</span><span class="dd-desc">The object model, operators, and addon catalog.</span></span></a>
         </div>
       </div>
-    </header>
-
-    <!-- Header Spacer -->
-    <div class="h-[88px]"></div>
-
-    <!-- Mobile Menu -->
-    <div
-      id="mobile-menu"
-      class="fixed inset-0 z-[100] md:hidden transform translate-x-full transition-transform duration-300 ease-in-out"
-    >
-      <!-- Backdrop -->
-      <div
-        id="mobile-menu-backdrop"
-        class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"
-      ></div>
-      
-      <!-- Menu Content -->
-      <div class="absolute right-0 top-0 h-full w-[80%] max-w-sm bg-white shadow-2xl overflow-y-auto">
-        <!-- Header -->
-        <div class="flex items-center justify-between p-6 border-b border-gray-200">
-          <a href="/">
-            <Logo />
-          </a>
-          <button
-            id="mobile-menu-close"
-            class="inline-flex items-center justify-center rounded-full text-sm font-medium hover:bg-primary/5 hover:text-primary transition-colors h-10 w-10"
-          >
-            <XIcon class="w-5 h-5" />
-          </button>
+      {/* HIDDEN — Customers and Pricing are parked for now. Restore by uncommenting;
+          the pages live at src/pages/_customers.astro and _pricing.astro (drop the
+          leading underscore to bring their routes back).
+      <div class="nav-item"><a class={nav('customers')} href="/customers">Customers</a></div>
+      <div class="nav-item"><a class={nav('pricing')} href="/pricing">Pricing</a></div>
+      */}
+      <div class="nav-item has-dd">
+        <button class={nav('security')} aria-haspopup="true">Security <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="/security" role="menuitem"><span class="dd-ic"><i data-lucide="shield-check"></i></span><span><span class="dd-title">Security &amp; Compliance</span><span class="dd-desc">SOC 2, mTLS, policy enforcement, and the controls behind the platform.</span></span></a>
+          <a class="dd-item" href="/trust-center" role="menuitem"><span class="dd-ic"><i data-lucide="badge-check"></i></span><span><span class="dd-title">Trust Center</span><span class="dd-desc">Download attestations and review continuously monitored controls.</span></span></a>
         </div>
-
-        <!-- Navigation -->
-        <nav class="p-6 space-y-6">
-          <!-- Products Section -->
-          <div>
-            <button
-              id="mobile-products-toggle"
-              class="flex items-center justify-between w-full text-left text-base font-medium text-gray-900 mb-3"
-            >
-              Products
-              <svg
-                id="mobile-products-arrow"
-                class="w-5 h-5 transition-transform"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            
-            <!-- Products List -->
-            <div id="mobile-products-list" class="flex flex-col items-start">
-              <a
-                href="/products/infra"
-                class="gap-3 py-3 rounded-lg hover:bg-brand-blue/5 transition-colors"
-              >
-                <Image src={YInfraLogo} alt="Y_Infra" class="h-6 w-auto mb-2" />
-                <p class="text-xs text-muted-foreground font-mono">
-                  {products[0].description}
-                </p>
-              </a>
-              
-              <a
-                href="/products/app"
-                class="gap-3 py-3 rounded-lg hover:bg-brand-green/5 transition-colors"
-              >
-                <Image src={YAppLogo} alt="Y_App" class="h-6 w-auto mb-2" />
-                <p class="text-xs text-muted-foreground font-mono">
-                  {products[1].description}
-                </p>
-              </a>
-              
-              <a
-                href="/products/ai"
-                class="gap-3 py-3 rounded-lg hover:bg-brand-orange/5 transition-colors"
-              >
-                <Image src={YAiLogo} alt="Y_AI" class="h-6 w-auto mb-2" />
-                <p class="text-xs text-muted-foreground font-mono">
-                  {products[2].description}
-                </p>
-              </a>
-              
-              <a
-                href="/products/ede"
-                class="gap-3 py-3 rounded-lg hover:bg-brand-yellow/5 transition-colors"
-              >
-                
-              <Image src={YEdeLogo} alt="Y_EDE" class="h-6 w-auto mb-2" />
-              <p class="text-xs text-muted-foreground font-mono">
-                {products[3].description}
-              </p>
-              </a>
-            </div>
-          </div>
-
-          <!-- Other Navigation Links -->
-          <a
-            href="/culture-and-careers"
-            class="block text-base text-gray-700 hover:text-black transition-colors py-2"
-          >
-            Culture / Careers
-          </a>
-          <a
-            href="/contact"
-            class="block text-base text-gray-700 hover:text-black transition-colors py-2"
-          >
-            Contact
-          </a>
-
-          <!-- Action Buttons -->
-          <div class="pt-6 space-y-3 border-t border-gray-200">
-            <a href="/contact"
-              class="w-full inline-flex items-center justify-center rounded-full text-sm font-medium border border-primary bg-transparent hover:bg-primary/5 hover:text-primary transition-colors h-10 px-6 py-2"
-            >
-              Get Started
-              <ArrowRightIcon class="w-4 h-4 ml-2" />
-            </a>
-            <!-- <button
-              class="w-full inline-flex items-center justify-center rounded-full text-sm font-medium hover:bg-primary/5 hover:text-primary transition-colors h-10 px-6 py-2"
-            >
-              Log In
-            </button> -->
-          </div>
-        </nav>
       </div>
+      <div class="nav-item has-dd">
+        <button class={nav('resources')} aria-haspopup="true">Resources <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="https://developer.p6m.dev" target="_blank" rel="noopener" role="menuitem"><span class="dd-ic"><i data-lucide="book-open"></i></span><span><span class="dd-title">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">REST, gRPC, GraphQL guides and the archetype catalog.</span></span></a>
+          {/* HIDDEN — Blog pulled from the Resources menu. Restore by uncommenting;
+              the /blog and /blog-crossplane pages are still live.
+          <a class="dd-item" href="/blog" role="menuitem"><span class="dd-ic"><i data-lucide="file-text"></i></span><span><span class="dd-title">Blog</span><span class="dd-desc">Platform engineering patterns from the team.</span></span></a>
+          */}
+          <a class="dd-item" href="https://platform.p6m.dev/status" target="_blank" rel="noopener" role="menuitem"><span class="dd-ic"><i data-lucide="activity"></i></span><span><span class="dd-title">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">Live uptime and incident history.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item has-dd">
+        <button class={nav('company')} aria-haspopup="true">Company <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown" role="menu">
+          <a class="dd-item" href="/about" role="menuitem"><span class="dd-ic"><i data-lucide="building-2"></i></span><span><span class="dd-title">About</span><span class="dd-desc">Platform engineering, built by platform engineers.</span></span></a>
+          <a class="dd-item" href="/careers" role="menuitem"><span class="dd-ic"><i data-lucide="users"></i></span><span><span class="dd-title">Careers</span><span class="dd-desc">Help build the platform layer for enterprise software.</span></span></a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn-secondary btn-sm" href="https://developer.p6m.dev" target="_blank" rel="noopener">View Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
+      <a class="btn btn-primary btn-sm" href="/contact?intent=demo">Contact Us</a>
     </div>
-
-    <script>
-      function initHeaderScroll() {
-        // Header scroll behavior
-        const header = document.getElementById('main-header');
-        if (!header) return;
-        
-        let lastScrollTop = 0;
-
-        function handleScroll() {
-          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          
-          if (scrollTop > 20) {
-            header?.classList.add('bg-white/70', 'backdrop-blur-md', 'border-b', 'border-white/20', 'shadow-lg', 'shadow-black/5');
-          } else {
-            header?.classList.remove('bg-white/70', 'backdrop-blur-md', 'border-b', 'border-white/20', 'shadow-lg', 'shadow-black/5');
-          }
-          
-          lastScrollTop = scrollTop;
-        }
-
-        // Run on load
-        handleScroll();
-        
-        // Run on scroll
-        window.addEventListener('scroll', handleScroll, { passive: true });
-      }
-      
-      // Initialize on page load
-      initHeaderScroll();
-      
-      // Re-initialize on view transitions
-      document.addEventListener('astro:page-load', initHeaderScroll);
-
-      function initHeaderMenus() {
-        // Desktop mega menu functionality (for touch devices)
-        const desktopProductsToggle = document.getElementById('desktop-products-toggle');
-        const desktopMegaMenu = document.getElementById('desktop-mega-menu');
-        const desktopProductsMenu = document.getElementById('desktop-products-menu');
-        const desktopProductsArrow = document.getElementById('desktop-products-arrow');
-        let isMegaMenuOpen = false;
-
-        // Toggle mega menu on click/touch
-        desktopProductsToggle?.addEventListener('click', (e) => {
-          e.stopPropagation();
-          isMegaMenuOpen = !isMegaMenuOpen;
-          
-          if (isMegaMenuOpen) {
-            desktopMegaMenu?.classList.remove('opacity-0', 'invisible');
-            desktopMegaMenu?.classList.add('opacity-100', 'visible');
-            desktopProductsArrow?.classList.add('rotate-180');
-          } else {
-            desktopMegaMenu?.classList.add('opacity-0', 'invisible');
-            desktopMegaMenu?.classList.remove('opacity-100', 'visible');
-            desktopProductsArrow?.classList.remove('rotate-180');
-          }
-        });
-
-        // Close mega menu when clicking outside
-        document.addEventListener('click', (e) => {
-          if (desktopProductsMenu && !desktopProductsMenu.contains(e.target as Node)) {
-            if (isMegaMenuOpen) {
-              isMegaMenuOpen = false;
-              desktopMegaMenu?.classList.add('opacity-0', 'invisible');
-              desktopMegaMenu?.classList.remove('opacity-100', 'visible');
-              desktopProductsArrow?.classList.remove('rotate-180');
-            }
-          }
-        });
-
-        // Keep mega menu open when clicking inside it
-        desktopMegaMenu?.addEventListener('click', (e) => {
-          e.stopPropagation();
-        });
-
-        // Mobile menu functionality
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileMenuClose = document.getElementById('mobile-menu-close');
-        const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
-        const mobileProductsToggle = document.getElementById('mobile-products-toggle');
-        const mobileProductsList = document.getElementById('mobile-products-list');
-        const mobileProductsArrow = document.getElementById('mobile-products-arrow');
-
-        // Open mobile menu
-        mobileMenuButton?.addEventListener('click', () => {
-          mobileMenu?.classList.remove('translate-x-full');
-          mobileMenuBackdrop?.classList.remove('opacity-0');
-          document.body.style.overflow = 'hidden';
-        });
-
-        // Close mobile menu
-        const closeMobileMenu = () => {
-          mobileMenu?.classList.add('translate-x-full');
-          mobileMenuBackdrop?.classList.add('opacity-0');
-          document.body.style.overflow = '';
-        };
-
-        mobileMenuClose?.addEventListener('click', closeMobileMenu);
-        mobileMenuBackdrop?.addEventListener('click', closeMobileMenu);
-
-        // Toggle products dropdown
-        mobileProductsToggle?.addEventListener('click', () => {
-          mobileProductsList?.classList.toggle('hidden');
-          mobileProductsArrow?.classList.toggle('rotate-180');
-        });
-
-        // Close menu when navigating to a page
-        const mobileMenuLinks = mobileMenu?.querySelectorAll('a');
-        mobileMenuLinks?.forEach(link => {
-          link.addEventListener('click', () => {
-            closeMobileMenu();
-          });
-        });
-      }
-      
-      // Initialize on page load
-      initHeaderMenus();
-      
-      // Re-initialize on view transitions
-      document.addEventListener('astro:page-load', initHeaderMenus);
-    </script>
+    <button class="hamburger" id="hamburger" aria-label="Open menu"><i data-lucide="menu"></i></button>
+  </div>
+</header>

@@ -1,0 +1,34 @@
+---
+// Full-screen mobile navigation drawer, toggled by the header hamburger.
+// Open/close + accordion behavior lives in /js/site.js.
+---
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <div class="mm-top">
+    <img src="/assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor">
+    <button class="mm-close" id="mmClose" aria-label="Close menu"><i data-lucide="x"></i></button>
+  </div>
+  <div class="mm-body">
+    <div class="mm-acc">
+      <button class="mm-acc-head">Platform <i data-lucide="chevron-down"></i></button>
+      <div class="mm-acc-body"><a href="/platform">Platform Overview</a><a href="/platform#delivery">Delivery layer</a><a href="/platform#infrastructure">Foundation layer</a><a href="/how-it-works">How it Works</a></div>
+    </div>
+    {/* HIDDEN — Customers and Pricing are parked for now. Restore by uncommenting.
+    <div class="mm-acc"><button class="mm-acc-head" onclick="location.href='/customers'">Customers</button></div>
+    <div class="mm-acc"><button class="mm-acc-head" onclick="location.href='/pricing'">Pricing</button></div>
+    */}
+    <div class="mm-acc"><button class="mm-acc-head">Security <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="/security">Security &amp; Compliance</a><a href="/trust-center">Trust Center</a></div></div>
+    <div class="mm-acc">
+      <button class="mm-acc-head">Resources <i data-lucide="chevron-down"></i></button>
+      {/* Blog removed from Resources — restore by re-adding <a href="/blog">Blog</a> below. */}
+      <div class="mm-acc-body"><a href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs ↗</a><a href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status ↗</a></div>
+    </div>
+    <div class="mm-acc">
+      <button class="mm-acc-head">Company <i data-lucide="chevron-down"></i></button>
+      <div class="mm-acc-body"><a href="/about">About</a><a href="/careers">Careers</a></div>
+    </div>
+  </div>
+  <div class="mm-foot">
+    <a class="btn btn-ondark btn-block" href="https://developer.p6m.dev" target="_blank" rel="noopener">View Docs ↗</a>
+    <a class="btn btn-primary btn-block" href="/contact?intent=demo">Book a Demo</a>
+  </div>
+</div>
