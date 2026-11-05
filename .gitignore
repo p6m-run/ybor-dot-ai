@@ -1,24 +1,28 @@
-# build output
-dist/
-
-# generated types
-.astro/
-
-# dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
+# macOS
 .DS_Store
 
-# jetbrains setting folder
-.idea/
+# dependencies and local tooling
+node_modules/
+.vercel/
+
+# environment variables (secrets live in Vercel settings, never in files)
+.env
+.env.*
+
+# logs
+*.log
+
+# Internal working files: kept on your computer, not in the repo (the repo is public)
+LAUNCH-CHECKLIST.md
+docs/
+
+# Unreleased pages and customer assets: kept locally, not published until approved
+site/ashley-furniture.html
+site/blog.html
+site/blog-content-free-telemetry.html
+site/blog-crossplane.html
+site/blog-silent-indexer.html
+site/customers.html
+site/assets/img/vimal-kewalramani.jpg
+site/assets/logos/copperpod*
+site/assets/logos/gcp.png

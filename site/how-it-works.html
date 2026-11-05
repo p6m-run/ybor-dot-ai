@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it Works: The Ybor Platform Architecture | Ybor</title>
+<meta name="description" content="The Ybor object model, operators, and addon catalog. Enterprise to Cluster, reconciled by Kubernetes operators on Azure, with AWS coming soon.">
+<link rel="canonical" href="https://www.ybor.ai/how-it-works">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ybor">
+<meta property="og:title" content="How it Works: The Ybor Platform Architecture | Ybor">
+<meta property="og:description" content="The Ybor object model, operators, and addon catalog. Enterprise to Cluster, reconciled by Kubernetes operators on Azure, with AWS coming soon.">
+<meta property="og:url" content="https://www.ybor.ai/how-it-works">
+<meta property="og:image" content="https://www.ybor.ai/assets/og/ybor-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Your people build. Ybor runs the rest. The internal developer platform, as a service.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="styles/site.css">
+<link rel="stylesheet" href="studio-flows.css">
+<script src="studio-flows.js" defer></script>
+<script src="delivery-explorer.js" defer></script>
+<script>(function(){try{var t=localStorage.getItem("ybor-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script src="js/motion.js"></script>
+<script src="js/lucide.min.js" defer></script>
+<style>
+  .combo-glow { position:absolute; inset:24px 12px auto 12px; height:170px; border-radius:var(--r-xl); box-shadow:var(--shadow-glow); z-index:0; }
+  .combo-card { position:relative; z-index:1; }
+  .combo-seam { display:flex; align-items:center; justify-content:center; gap:12px; padding:14px 0; position:relative; z-index:1; }
+  .combo-seam .ln { flex:1; height:1px; background:var(--stroke-dark); }
+  .combo-seam .pill { display:inline-flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--purple); border-radius:999px; padding:7px 15px; box-shadow:0 0 20px rgba(140,100,218,.55); }
+  .combo-seam .pill svg { width:13px; height:13px; }
+  .spine { display:flex; flex-direction:column; }
+  .spine-node { display:grid; grid-template-columns:auto auto 1fr; align-items:center; gap:12px; padding:12px 14px; border:1px solid var(--stroke-dark); border-radius:var(--r-md); background:rgba(255,255,255,.03); }
+  .spine-ic { width:30px; height:30px; border-radius:var(--r-sm,6px); display:inline-flex; align-items:center; justify-content:center; background:rgba(140,100,218,.18); color:#C0A8EF; }
+  .spine-ic svg { width:16px; height:16px; }
+  .spine-k { font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--neutral-300); }
+  .spine-v { font-family:var(--font-mono); font-size:12.5px; color:#fff; text-align:right; }
+  .spine-rail { display:flex; justify-content:center; color:var(--neutral-500); padding:3px 0; }
+  .spine-rail svg { width:15px; height:15px; }
+  @media (prefers-reduced-motion:no-preference){
+    .spine-node { opacity:0; animation:spine-in .5s cubic-bezier(.2,.7,.3,1) forwards; }
+    .spine-node:nth-child(3){animation-delay:.12s} .spine-node:nth-child(5){animation-delay:.24s} .spine-node:nth-child(7){animation-delay:.36s}
+    .spine-rail svg { animation:spine-pulse 2s ease-in-out infinite; }
+  }
+  @keyframes spine-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  @keyframes spine-pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo" aria-label="Ybor home"><img src="assets/logos/Ybor.ai_mark_blk.svg" alt="Ybor"></a>
+    <nav class="nav" aria-label="Primary">
+      <div class="nav-item has-dd">
+        <button class="nav-link active" aria-expanded="false">Platform <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="platform.html"><span class="dd-ic"><i data-lucide="layers"></i></span><span><span class="dd-title">The Platform</span><span class="dd-desc">What Ybor runs for you, from infrastructure to production.</span></span></a>
+          <div class="dd-sub"><a href="platform.html#ways-in">Three ways in</a><a href="platform.html#delivery">Application Delivery</a><a href="platform.html#infrastructure">Platform Infrastructure</a></div>
+          <a class="dd-item" href="how-it-works.html"><span class="dd-ic"><i data-lucide="workflow"></i></span><span><span class="dd-title">How it Works</span><span class="dd-desc">The architecture: object model, operators, lifecycle.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item" style="display:none"><a class="nav-link" href="customers.html">Customers</a></div>
+      <div class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></div>
+      <div class="nav-item has-dd">
+        <button class="nav-link" aria-expanded="false">Security <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="security.html"><span class="dd-ic"><i data-lucide="shield-check"></i></span><span><span class="dd-title">Security &amp; Compliance</span><span class="dd-desc">SOC 2® report, mTLS, policy enforcement, and the controls behind the platform.</span></span></a>
+          <a class="dd-item" href="trust-center.html"><span class="dd-ic"><i data-lucide="badge-check"></i></span><span><span class="dd-title">Trust Center</span><span class="dd-desc">Download attestations and review continuously monitored controls.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item has-dd hide-v1"><!-- Resources hidden for v1 launch - remove hide-v1 to restore -->
+        <button class="nav-link" aria-expanded="false">Resources <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="https://developer.p6m.dev" target="_blank" rel="noopener"><span class="dd-ic"><i data-lucide="book-open"></i></span><span><span class="dd-title">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">REST, gRPC, GraphQL guides and the archetype catalog.</span></span></a>
+          <a class="dd-item hide-v1" href="blog.html"><span class="dd-ic"><i data-lucide="file-text"></i></span><span><span class="dd-title">Blog</span><span class="dd-desc">Platform engineering patterns from the team.</span></span></a>
+          <a class="dd-item" href="https://platform.p6m.dev/status" target="_blank" rel="noopener"><span class="dd-ic"><i data-lucide="activity"></i></span><span><span class="dd-title">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">Live uptime and incident history.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item has-dd">
+        <button class="nav-link" aria-expanded="false">Company <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="about.html"><span class="dd-ic"><i data-lucide="building-2"></i></span><span><span class="dd-title">About</span><span class="dd-desc">Platform engineering, built by platform engineers.</span></span></a>
+          <a class="dd-item" href="careers.html"><span class="dd-ic"><i data-lucide="users"></i></span><span><span class="dd-title">Careers</span><span class="dd-desc">Help build the platform layer for enterprise software.</span></span></a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn-secondary btn-sm hide-v1" href="https://developer.p6m.dev" target="_blank" rel="noopener">View docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
+      <a class="btn btn-primary btn-sm" href="contact.html?intent=demo">Book a demo</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><i data-lucide="menu"></i></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true">
+  <div class="mm-top"><img src="assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor"><button class="mm-close" id="mmClose" aria-label="Close menu"><i data-lucide="x"></i></button></div>
+  <div class="mm-body">
+    <div class="mm-acc open"><button class="mm-acc-head" aria-expanded="false">Platform <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="platform.html">The Platform</a><a class="mm-sub" href="platform.html#ways-in">Three ways in</a><a class="mm-sub" href="platform.html#delivery">Application Delivery</a><a class="mm-sub" href="platform.html#infrastructure">Platform Infrastructure</a><a href="how-it-works.html">How it Works</a></div></div>
+    <div class="mm-acc" style="display:none"><a class="mm-acc-head" href="customers.html">Customers</a></div>
+    <div class="mm-acc"><a class="mm-acc-head" href="pricing.html">Pricing</a></div>
+    <div class="mm-acc"><button class="mm-acc-head" aria-expanded="false">Security <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="security.html">Security &amp; Compliance</a><a href="trust-center.html">Trust Center</a></div></div>
+    <div class="mm-acc hide-v1"><button class="mm-acc-head" aria-expanded="false">Resources <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs ↗</a><a class="hide-v1" href="blog.html">Blog</a><a href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status ↗</a></div></div>
+    <div class="mm-acc"><button class="mm-acc-head" aria-expanded="false">Company <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="about.html">About</a><a href="careers.html">Careers</a></div></div>
+  </div>
+  <div class="mm-foot"><a class="btn btn-ondark btn-block hide-v1" href="https://developer.p6m.dev" target="_blank" rel="noopener">View docs ↗</a><a class="btn btn-primary btn-block" href="contact.html?intent=demo">Book a demo</a></div>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero bg-tint-soft">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="slash">//</span> how it works</span>
+        <h1 class="display-lg balance">One object model. Operators that keep it true.</h1>
+        <p class="body-lg muted pretty" style="max-width:600px">Most platforms hand you primitives and ask you to compose the rest. Ybor hands you a layered object model, Kubernetes operators that reconcile it, and an addon catalog that runs on every cluster. Here's the shape of the system.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-glow" href="contact.html?intent=architecture-demo">Book a demo <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-secondary hide-v1" href="https://developer.p6m.dev/docs/platform/" target="_blank" rel="noopener">Read the architecture docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+        </div>
+        <ul class="proof-row" aria-label="What's inside">
+          <li><span class="pr-vis"><span class="pr-ic"><i data-lucide="workflow"></i></span></span><span class="pr-txt"><b>Object model</b>Enterprise → Cluster</span></li>
+          <li><span class="pr-vis"><span class="pr-ic"><i data-lucide="refresh-cw"></i></span></span><span class="pr-txt"><b>Operators</b>Reconcile every entity</span></li>
+          <li><span class="pr-vis"><span class="pr-ic"><i data-lucide="package"></i></span></span><span class="pr-txt"><b>Addon catalog</b>On every cluster</span></li>
+          <li><span class="pr-vis"><span class="pr-ic"><i data-lucide="git-merge"></i></span></span><span class="pr-txt"><b>GitOps</b>Git is the source of truth</span></li>
+        </ul>
+      </div>
+      <div class="hero-copy">
+        <div class="ui-stack reveal hom-anim">
+          <div class="combo-glow"></div>
+          <div class="ui-card combo-card" style="box-shadow:var(--shadow-lg)">
+            <div class="ui-card-head"><i data-lucide="workflow" style="width:15px;height:15px"></i> object model · desired state</div>
+            <div class="ui-card-body">
+              <div class="hom-tree"><div class="hom-n" style="--l:0"><span class="spine-ic"><i data-lucide="building-2"></i></span><span class="hom-k">Enterprise</span><span class="hom-v">acme</span></div><div class="hom-n" style="--l:1"><span class="spine-ic"><i data-lucide="users"></i></span><span class="hom-k">Organization</span><span class="hom-v">mfg</span></div><div class="hom-n" style="--l:2"><span class="spine-ic"><i data-lucide="box"></i></span><span class="hom-k">PlatformApplication</span><span class="hom-v">payment-processor</span></div></div>
+              <div class="hom-run">
+                <div class="hom-envs"><span>DEV</span><span>STG</span><span>PRD</span></div>
+                <div class="hom-sched"><i data-lucide="arrow-down"></i> scheduled on</div>
+                <div class="hom-clus"><div><img src="assets/logos/azure.webp" alt=""><b>azure-01</b><small>DEV · STG</small></div><div><img src="assets/logos/azure.webp" alt=""><b>azure-02</b><small>PRD</small></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="combo-seam"><span class="ln"></span><span class="pill"><i data-lucide="refresh-cw"></i> operators reconcile</span><span class="ln"></span></div>
+          <div class="ui-card combo-card">
+            <div class="ui-card-body" style="padding-top:16px">
+              <div class="kv"><span class="hom-ents">Enterprise · Organization</span><span class="hom-op"><span class="hom-led"></span>platform-organization-operator</span></div>
+              <div class="kv"><span class="hom-ents">Environment · PlatformCluster</span><span class="hom-op"><span class="hom-led"></span>platform-cluster-operator</span></div>
+              <div class="kv"><span class="hom-ents">PlatformApplication</span><span class="hom-op"><span class="hom-led"></span>platform-application-operator</span></div>
+              <div class="kv"><span class="hom-ents">AddOn</span><span class="hom-op"><span class="hom-led"></span>installation-operator</span></div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECT MODEL -->
+<section class="section bg-white" id="object-model">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> object model</span>
+      <h2 class="display-md balance">The object model: Enterprise to Cluster.</h2>
+    </div>
+    <div class="om">
+      <div class="om-nest">
+        <div class="om-col-h">Ownership: what <b>contains</b> what</div>
+        <div class="om-level lvl-ent">
+          <span class="om-contains">contains ↓</span>
+          <span class="om-tag"><span class="om-ic"><i data-lucide="building-2"></i></span>Enterprise</span>
+          <span class="om-note">Top-level tenancy boundary.</span>
+          <div class="om-level lvl-org">
+            <span class="om-contains">owns ↓</span>
+            <span class="om-tag"><span class="om-ic"><i data-lucide="users"></i></span>Organization</span>
+            <span class="om-note">Owns Applications and Clusters. RBAC scope.</span>
+            <div class="om-level lvl-app">
+                
+                <span class="om-tag"><span class="om-ic"><i data-lucide="box"></i></span>Application</span>
+                <span class="om-note">A deployable unit. Owns archetype source, CI workflow, manifests.</span>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="om-runtime">
+        <div class="om-col-h">Runtime: where it <b>runs</b></div>
+        <div class="om-bridge"><i data-lucide="git-branch"></i> Application deploys to environments</div>
+        <div class="om-envs">
+          <span class="om-env"><span class="om-env-k">ENV</span>dev</span>
+          <span class="om-env"><span class="om-env-k">ENV</span>staging</span>
+          <span class="om-env"><span class="om-env-k">ENV</span>prod</span>
+        </div>
+        <div class="om-sched"><span><i data-lucide="arrow-down"></i> scheduled onto</span></div>
+        <div class="om-clusters" style="grid-template-columns:repeat(2,1fr)">
+          <div class="om-cluster"><div class="om-c-name">AKS</div><img class="om-c-logo" src="assets/logos/azure.webp" alt="Microsoft Azure"><div class="om-c-pods"><span></span><span></span><span></span></div></div>
+          <div class="om-cluster is-soon"><div class="om-c-name">EKS</div><img class="om-c-logo" src="assets/logos/aws.png" alt="AWS"><span class="soon-tag">coming soon</span></div>        </div>
+        <p class="om-runtime-note">// each Application × Environment gets its own namespace, provisioned by platform-cluster-operator.</p>
+      </div>
+    </div>
+    <p class="center hide-v1" style="margin-top:32px"><a class="link-arrow" href="https://developer.p6m.dev/docs/development/deployments/platform-application-reference" target="_blank" rel="noopener">Read the object model docs <i data-lucide="arrow-up-right"></i></a></p>
+  </div>
+</section>
+
+<!-- OPERATORS -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> operators</span>
+      <h2 class="display-md balance">Kubernetes operators reconcile every entity.</h2>
+      <p class="body muted pretty">Each layer of the object model has an operator watching it. Declare the state in Git or Studio; the operator makes the cloud match, and keeps it that way.</p>
+    </div>
+    <div class="dx dx-p" data-dx style="margin-top:56px"><div class="dx-list"><button class="dx-item on" data-k="org" type="button"><span class="dx-ic"><i data-lucide="building-2"></i></span><span class="dx-tx"><b>Organization <em class="dx-mode">CLI</em></b><span><code class="mono">platform-organization-operator</code> creates the tenancy namespace, RBAC roles and the operators below.</span></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="cluster" type="button"><span class="dx-ic"><i data-lucide="server"></i></span><span class="dx-tx"><b>Cluster <em class="dx-mode">CLI</em></b><span><code class="mono">platform-cluster-operator</code> provisions AKS (EKS coming soon) via Crossplane + Cluster API, and reverts drift.</span></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="install" type="button"><span class="dx-ic"><i data-lucide="package-plus"></i></span><span class="dx-tx"><b>Installation <em class="dx-mode">Studio UI</em></b><span><code class="mono">installation-operator</code> applies the addon catalog, or your own Helm charts, to every cluster.</span></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="app" type="button"><span class="dx-ic"><i data-lucide="box"></i></span><span class="dx-tx"><b>Application <em class="dx-mode">Studio UI</em></b><span><code class="mono">platform-application-operator</code> turns a PlatformApplication into Deployments, Services, autoscaling and secrets.</span></span><span class="dx-bar"><i></i></span></button></div><div class="ls-win dx-win"><div class="dx-pane on" data-k="org"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">~/acme-platform · zsh</span><span class="dx-mtag">CLI</span></div><div class="dx-body"><div class="an " style="--d:0ms"><span class="p">$</span> kubectl apply -f organizations/demo-org.yaml</div><div class="an " style="--d:500ms">organization.meta.p6m.dev/<span class="k">demo-org</span> created</div><div class="an " style="--d:1200ms"><span class="p">$</span> kubectl get events --for organization/demo-org</div><div class="an " style="--d:1800ms"><span class="k">REASON              MESSAGE</span></div><div class="an " style="--d:2100ms">Reconciling         platform-organization-operator picked up demo-org</div><div class="an " style="--d:2450ms">NamespaceCreated    demo-org</div><div class="an " style="--d:2800ms">RBACApplied         roles: org-admin, developer, viewer</div><div class="an " style="--d:3150ms">OperatorsDeployed   platform-cluster-operator, installation-operator</div><div class="an " style="--d:3500ms"><span class="ok">Ready</span>               organization reconciled <span class="d">· 41s</span></div></div></div><div class="dx-pane" data-k="cluster"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">~/acme-platform · zsh</span><span class="dx-mtag">CLI</span></div><div class="dx-body"><div class="an " style="--d:0ms"><span class="p">$</span> kubectl describe platformcluster prd-eus</div><div class="an " style="--d:500ms"><span class="k">Provider</span>:     azure · eastus · kubernetes 1.31</div><div class="an " style="--d:800ms"><span class="k">Managed by</span>:   Crossplane + Cluster API</div><div class="an " style="--d:1100ms"><span class="k">Conditions</span>:</div><div class="an " style="--d:1500ms">  InfrastructureReady   <span class="ok">True</span>   <span class="d">VNet, subnets, managed identity</span></div><div class="an " style="--d:1900ms">  ControlPlaneReady     <span class="ok">True</span>   <span class="d">AKS control plane</span></div><div class="an " style="--d:2300ms">  NodePoolsReady        <span class="ok">True</span>   <span class="d">general 3/3 · min 3 · max 12</span></div><div class="an " style="--d:2700ms">  AddonsApplied         <span class="ok">True</span>   <span class="d">handed to installation-operator</span></div><div class="an " style="--d:3100ms">  Ready                 <span class="ok">True</span></div><div class="an " style="--d:3600ms"><span class="dx-toast"><span class="ok">✓</span> drift check every reconcile · manual changes reverted to Git <span class="d">· last sync 30s ago</span></span></div></div></div><div class="dx-pane" data-k="install"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">studio.ybor.ai / catalog / installables</span><span class="dx-mtag">Studio UI</span></div><div class="ls-frame" style="flex:1"><div class="sf" data-sf="infra"></div><span class="ls-step"><span class="ls-n">1/5</span><span class="ls-t">Installables catalog</span></span></div></div><div class="dx-pane" data-k="app"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">studio.ybor.ai / applications / orders-api</span><span class="dx-mtag">Studio UI</span></div><div class="dx-body light"><div class="gv"><div class="an " style="--d:0ms"><div class="gv-h"><b>ORDERS-API</b><span>demo-org · orders-platform</span></div></div><div class="gv-grid"><div class="an " style="--d:400ms"><div class="gv-card"><small>DEV</small><b><em class="gv-ok">Healthy</em> · In Sync</b><span>v1.1.0 · a41f9c2</span></div></div><div class="an " style="--d:750ms"><div class="gv-card"><small>STG</small><b><em class="gv-ok">Healthy</em> · In Sync</b><span>v1.0.0 · 7c2d1e8</span></div></div><div class="an " style="--d:1100ms"><div class="gv-card"><small>PRD</small><b><em class="gv-ok">Healthy</em> · In Sync</b><span>v1.0.0 · 7c2d1e8</span></div></div></div><div class="an " style="--d:1600ms"><div class="gv-sub">Workloads</div></div><div class="an " style="--d:1900ms"><div class="gv-row"><span class="gv-u">dev</span><span>running</span><code>demo-org-orders-api-dev</code><span class="gv-t">1m ago</span></div></div><div class="an " style="--d:2250ms"><div class="gv-row"><span class="gv-u">stg</span><span>running</span><code>demo-org-orders-api-stg</code><span class="gv-t">3h ago</span></div></div><div class="an " style="--d:2600ms"><div class="gv-row"><span class="gv-u">prd</span><span>running</span><code>demo-org-orders-api-prd</code><span class="gv-t">3h ago</span></div></div><div class="an " style="--d:3000ms"><div class="gv-sub" style="margin-top:10px">Operator events</div></div><div class="an " style="--d:3300ms"><div class="gv-row"><span class="gv-u">operator</span><span>reconciled</span><code>Application orders-api · 3 environments</code><span class="gv-t">1m ago</span></div></div><div class="an " style="--d:3650ms"><div class="gv-row"><span class="gv-u">kargo</span><span>promoted</span><code>v1.0.0 stg → prd · approvals 2/2</code><span class="gv-t">3h ago</span></div></div></div></div></div></div></div>
+    <p class="center hide-v1" style="margin-top:28px"><a class="link-arrow" href="https://developer.p6m.dev/docs/platform/infrastructure/" target="_blank" rel="noopener">Operator reference docs <i data-lucide="arrow-up-right"></i></a></p>
+  </div>
+</section>
+
+<!-- LIFECYCLE -->
+<section class="section bg-white" style="position:relative;overflow:hidden">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> the lifecycle</span>
+      <h2 class="display-md balance">From archetect render to a production pod.</h2>
+      <p class="body muted pretty">Eight steps, four operators, one audit trail. Here's a first release of orders-api as Studio records it.</p>
+    </div>
+    <div class="lifeflow" style="margin-top:56px">
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="layout-template"></i></span><span class="life-num">01</span></div><p><b>Scaffold</b>: <code class="mono">archetect render</code> generates the repo + manifests</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="git-branch"></i></span><span class="life-num">02</span></div><p><b>Build</b>: push runs CI: test, build, sign, scan</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="shield-check"></i></span><span class="life-num">03</span></div><p><b>Promote</b>: Kargo gates each hop on policy and approvals</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="git-merge"></i></span><span class="life-num">04</span></div><p><b>Deploy</b>: ArgoCD syncs the Application to its Environment</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="boxes"></i></span><span class="life-num">05</span></div><p><b>Reconcile</b>: operators provision the Cluster via Crossplane + Cluster API</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="lock"></i></span><span class="life-num">06</span></div><p><b>Bootstrap</b>: the addon catalog is installed</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="waypoints"></i></span><span class="life-num">07</span></div><p><b>Schedule</b>: each Environment gets its namespace and RBAC</p></div>
+      <div class="life"><span class="life-arrow">→</span><div class="life-top"><span class="life-ic"><i data-lucide="activity"></i></span><span class="life-num">08</span></div><p><b>Govern</b>: policies active, audit log written, observability live</p></div>
+    </div>
+    <div class="ls-win dx-win tr-win" data-trace style="margin-top:32px"><div class="dx-pane on"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">studio.ybor.ai / applications / orders-api / activity</span><span class="dx-mtag">Studio UI</span></div><div class="dx-body light tr-body"><div class="an " style="--d:0ms"><div class="gv-h"><b>Activity</b><span>orders-api · first release, dev → prd</span></div></div><div class="an tr-row" style="--d:400ms" data-step="01"><span class="tr-n">01</span><span class="tr-s">Scaffold</span><span class="tr-a">m.chen</span><span class="tr-m">archetect render · repo + manifests created</span><span class="gv-t">0:00</span></div><div class="an tr-row" style="--d:1000ms" data-step="02"><span class="tr-n">02</span><span class="tr-s">Build</span><span class="tr-a">ci-bot</span><span class="tr-m">test, build, sign, scan · image v1.0.0</span><span class="gv-t">0:04</span></div><div class="an tr-row" style="--d:1600ms" data-step="03"><span class="tr-n">03</span><span class="tr-s">Promote</span><span class="tr-a">kargo</span><span class="tr-m">policy + approval gates passed · stg → prd</span><span class="gv-t">0:09</span></div><div class="an tr-row" style="--d:2200ms" data-step="04"><span class="tr-n">04</span><span class="tr-s">Deploy</span><span class="tr-a">argocd</span><span class="tr-m">orders-api synced to prd</span><span class="gv-t">0:11</span></div><div class="an tr-row" style="--d:2800ms" data-step="05"><span class="tr-n">05</span><span class="tr-s">Reconcile</span><span class="tr-a">platform-cluster-operator</span><span class="tr-m">prd-eus Ready</span><span class="gv-t">0:11</span></div><div class="an tr-row" style="--d:3400ms" data-step="06"><span class="tr-n">06</span><span class="tr-s">Bootstrap</span><span class="tr-a">installation-operator</span><span class="tr-m">addon catalog applied · 10/10</span><span class="gv-t">0:12</span></div><div class="an tr-row" style="--d:4000ms" data-step="07"><span class="tr-n">07</span><span class="tr-s">Schedule</span><span class="tr-a">platform-cluster-operator</span><span class="tr-m">namespace demo-org-orders-api-prd · RBAC</span><span class="gv-t">0:12</span></div><div class="an tr-row" style="--d:4600ms" data-step="08"><span class="tr-n">08</span><span class="tr-s">Govern</span><span class="tr-a">kyverno</span><span class="tr-m">14/14 policies passing · audit log → SIEM</span><span class="gv-t">0:13</span></div></div></div></div>
+    <p class="center mono" style="font-size:12px;color:var(--neutral-500);margin-top:16px">// elapsed minutes, illustrative first release</p>
+  </div>
+</section>
+
+<!-- ADDON CATALOG -->
+<section class="section bg-ink-grad">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> addon catalog</span>
+      <h2 class="display-md balance" style="color:#fff">What comes in the box.</h2>
+      <p class="body-lg muted-d pretty">Every installable that ships on every workload cluster, applied by the installation-operator. This is the full list, not a highlight reel.</p>
+    </div>
+    <div class="matrix-wrap" tabindex="0" role="region" aria-label="Addon catalog table" style="margin-top:48px;background:var(--ink-soft);border:1px solid var(--stroke-dark);border-radius:var(--r-xl);overflow-x:auto">
+      <table class="matrix addon-matrix">
+        <thead><tr><th>Addon</th><th>Category</th><th>Purpose</th><th>Version</th></tr></thead>
+        <tbody>
+          <tr class="grouprow"><td colspan="4">Networking</td></tr>
+          <tr><td class="mono">istio</td><td>Networking</td><td>Service mesh, mTLS, traffic policy</td><td class="mono">1.22</td></tr>
+          <tr><td class="mono">cert-manager</td><td>Networking</td><td>Certificate issuance &amp; rotation</td><td class="mono">1.15</td></tr>
+          <tr class="grouprow"><td colspan="4">Policy &amp; Security</td></tr>
+          <tr><td class="mono">kyverno</td><td>Policy</td><td>Best-practice policy enforcement</td><td class="mono">1.12</td></tr>
+          <tr><td class="mono">vault</td><td>Security</td><td>Secret storage &amp; injection</td><td class="mono">1.17</td></tr>
+          <tr class="grouprow"><td colspan="4">Observability</td></tr>
+          <tr><td class="mono">opentelemetry</td><td>Observability</td><td>Traces, metrics, logs collection</td><td class="mono">0.103</td></tr>
+          <tr><td class="mono">grafana</td><td>Observability</td><td>Dashboards &amp; alerting</td><td class="mono">11.1</td></tr>
+          <tr><td class="mono">prometheus</td><td>Observability</td><td>Metrics store</td><td class="mono">2.53</td></tr>
+          <tr class="grouprow"><td colspan="4">CI/CD</td></tr>
+          <tr><td class="mono">argocd</td><td>CI/CD</td><td>GitOps continuous delivery</td><td class="mono">2.11</td></tr>
+          <tr><td class="mono">kargo</td><td>CI/CD</td><td>Environment promotion gating</td><td class="mono">0.8</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="center mono" style="font-size:12px;color:var(--neutral-500);margin-top:24px">Versions illustrative.</p>
+  </div>
+</section>
+
+<!-- MULTI-CLOUD TOPOLOGY -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> multi-cloud</span>
+      <h2 class="display-md balance">One control plane. Azure today, AWS next.</h2>
+      <p class="body muted pretty">One control plane reconciles every workload cluster fleet, each running the same addon stack. Customer deployments run on Azure today; AWS customer accounts are coming soon.</p>
+    </div>
+    <div style="max-width:620px;margin:56px auto 0">
+      <div class="topo">
+        <div class="topo-cp"><i data-lucide="box"></i><span>Ybor Control Plane</span></div>
+        <svg class="topo-lines" viewBox="0 0 400 70" preserveAspectRatio="none" aria-hidden="true" style="width: 570px;">
+          <g fill="none" stroke="var(--neutral-200)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M200 0 V20"/>
+            <path d="M200 20 H108 Q100 20 100 28 V53"/>
+            <path d="M200 20 H292 Q300 20 300 28 V53" stroke-dasharray="4 4" opacity=".6"/>
+            <path d="M93 48 L100 56 L107 48"/>
+            <path d="M293 48 L300 56 L307 48" opacity=".6"/>
+          </g>
+        </svg>
+        <div class="topo-clusters" style="grid-template-columns:repeat(2,1fr)">
+          <div class="topo-node"><span class="topo-name">Azure</span><span class="topo-cloud">aks · addons</span><img class="topo-logo" src="assets/logos/azure.webp" alt="Microsoft Azure"><div class="pods"><span></span><span></span><span></span></div></div>
+          <div class="topo-node is-soon"><span class="topo-name">AWS</span><span class="topo-cloud">eks · addons</span><img class="topo-logo" src="assets/logos/aws.png" alt="AWS"><span class="soon-tag">coming soon</span></div>        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:700px;margin-inline:auto">Want the deep architecture walkthrough?</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:640px;margin:20px auto 0">60 minutes with our platform team. We'll go entity-by-entity through the object model on your stack.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="contact.html?intent=architecture-demo">Book the architecture walkthrough <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg hide-v1" href="https://developer.p6m.dev/docs/platform/" target="_blank" rel="noopener">Read the architecture docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-mark"><img src="assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor"></div>
+        <p class="footer-tagline">The internal developer platform, delivered as a service.</p>
+        <div class="footer-badges"><span class="logo-chip"><img src="assets/logos/linux-foundation.png" alt="Linux Foundation"></span><span class="logo-chip"><img src="assets/logos/cncf.svg" alt="CNCF"></span></div>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/ybor-technology-llc" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 9.5H5.67V18.5h2.67V9.5zM7 5.75a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM18.33 18.5v-4.93c0-2.64-1.41-3.87-3.29-3.87-1.52 0-2.2.84-2.58 1.43V9.5h-2.67c.04.75 0 9 0 9h2.67v-5.02c0-.27.02-.54.1-.73.21-.54.7-1.1 1.53-1.1 1.08 0 1.51.82 1.51 2.02v4.83h2.67z"/></svg></a>
+          <a class="hide-v1" href="https://github.com/p6m-dev" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.91 0 1.38-.01 2.49-.01 2.83 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>Platform</h4><div class="footer-links"><a href="platform.html#infrastructure">Platform Infrastructure</a><a href="platform.html#delivery">Application Delivery</a><a href="how-it-works.html">How it Works</a><a href="pricing.html">Pricing</a><a class="hide-v1" href="platform.html#integrations">Integrations</a></div></div>
+      <div><h4>Company</h4><div class="footer-links"><a href="about.html">About</a><a href="customers.html" style="display:none">Customers</a><a href="careers.html">Careers</a><a href="contact.html">Contact</a><a href="security.html">Security</a><a class="hide-v1" href="blog.html">Blog</a></div></div>
+      <div class="hide-v1"><h4>Resources</h4><div class="footer-links"><a class="ext" href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a><a class="ext" href="https://platform.p6m.dev" target="_blank" rel="noopener">Platform Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a><a class="ext" href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></a></div>
+        <form class="newsletter" data-newsletter style="margin-top:18px"><input class="input" type="email" placeholder="you@company.com" aria-label="Email for newsletter"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2024–2026 Ybor Technology LLC. All rights reserved.</div>
+      <div class="footer-bottom-links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="trust-center.html">Security Trust Center</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js" defer></script>
+<script>(function(){var M=window.yborMotion||{later:function(f,t){return setTimeout(f,t);},clear:function(x){clearTimeout(x);}};var w=document.querySelector('[data-trace]');if(!w)return;var p=w.querySelector('.dx-pane'),lives=[].slice.call(document.querySelectorAll('.lifeflow .life')),tms=[],rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function run(){tms.forEach(M.clear);tms=[];p.classList.remove('play');lives.forEach(function(l){l.classList.remove('lit')});void p.offsetWidth;p.classList.add('play');
+[].forEach.call(w.querySelectorAll('.tr-row'),function(r,i){tms.push(M.later(function(){lives.forEach(function(l,j){l.classList.toggle('lit',j<=i)})},rm?0:parseInt(r.style.getPropertyValue('--d'))+200));});
+if(!rm)tms.push(M.later(run,11000));}
+new IntersectionObserver(function(e){if(e[0].isIntersecting)run();else{tms.forEach(M.clear);}},{threshold:.35}).observe(w);})();</script>
+</body>
+</html>

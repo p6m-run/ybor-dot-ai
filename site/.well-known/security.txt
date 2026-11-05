@@ -1,0 +1,5 @@
+Contact: mailto:security@ybor.ai
+Expires: 2027-10-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://www.ybor.ai/.well-known/security.txt
+Policy: https://www.ybor.ai/security
