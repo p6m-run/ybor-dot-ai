@@ -95,26 +95,29 @@
       }
     })();
 
-    /* ---- Solid CTA expanding-chevron interaction ---- */
+    /* ---- Solid CTA expanding-icon interaction ----
+       The button's own icon (arrow, download...) moves into the square on the
+       right; buttons without one get an arrow. Runs before Lucide draws icons. */
     (function () {
-      var CHEV =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"' +
-        ' stroke="currentColor" stroke-width="2" stroke-linecap="round"' +
-        ' stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+      var ARROW = '<i data-lucide="arrow-right" class="ic"></i>';
       document.querySelectorAll(".btn-primary, .btn-dark, .btn-onpurple").forEach(function (btn) {
         if (btn.dataset.fx) return;
-        var label = (btn.textContent || "").replace(/\s+/g, " ").trim();
-        if (!label) return; // skip icon-only buttons
+        if (!(btn.textContent || "").trim()) return; // skip icon-only buttons
         btn.dataset.fx = "1";
         btn.classList.add("btn-fx");
-        btn.textContent = "";
+        var icon = btn.querySelector("i[data-lucide], svg");
         var span = document.createElement("span");
         span.className = "btn-fx-label";
-        span.textContent = label;
-        var chev = document.createElement("i");
+        Array.prototype.slice.call(btn.childNodes).forEach(function (n) {
+          if (n !== icon) span.appendChild(n);
+        });
+        span.normalize();
+        if (span.lastChild && span.lastChild.nodeType === 3) span.lastChild.nodeValue = span.lastChild.nodeValue.replace(/\s+$/, "");
+        if (span.firstChild && span.firstChild.nodeType === 3) span.firstChild.nodeValue = span.firstChild.nodeValue.replace(/^\s+/, "");
+        var chev = document.createElement("span");
         chev.className = "btn-fx-chev";
         chev.setAttribute("aria-hidden", "true");
-        chev.innerHTML = CHEV;
+        if (icon) chev.appendChild(icon); else chev.innerHTML = ARROW;
         btn.appendChild(span);
         btn.appendChild(chev);
       });
