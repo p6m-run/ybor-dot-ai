@@ -1554,22 +1554,28 @@ p, li, h1, h2, h3, h4, dd, td, figcaption { overflow-wrap: break-word; }
 [data-motion="paused"] .status-healthy .led { animation: none; }
 [data-motion="paused"] .logobar-track { animation: none; justify-content: center; }
 [data-motion="paused"] .logobar-group ~ .logobar-group { display: none; }
+/* Floating pause / play button, bottom-right. Only added on pages that animate. */
 .motion-toggle {
-  width: 38px; height: 38px; flex: none; transition: all 150ms ease-out; display: inline-flex; align-items: center; justify-content: center;
-  border: 1px solid var(--neutral-100); border-radius: var(--r-md); background: transparent; color: var(--neutral-700); cursor: pointer;
-  margin-left: 4px;
+  position: fixed; z-index: 90;
+  right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+  width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--neutral-100); border-radius: var(--r-full);
+  background: rgba(255,255,255,.86); color: var(--neutral-700); cursor: pointer;
+  backdrop-filter: saturate(180%) blur(12px); -webkit-backdrop-filter: saturate(180%) blur(12px);
+  box-shadow: var(--shadow-md); transition: background 150ms ease-out, color 150ms ease-out;
+  view-transition-name: motion-toggle;
 }
-@media (max-width: 1020px) {
-  .motion-toggle { margin-left: auto; }
-  .motion-toggle + .theme-toggle { margin-left: 4px; }
-}
-.motion-toggle:hover { background: var(--stroke-light); color: var(--ink); }
+.motion-toggle:hover { background: #fff; color: var(--ink); }
 .motion-toggle svg { width: 18px; height: 18px; }
 .motion-toggle .mi-play { display: none; }
 [data-motion="paused"] .motion-toggle .mi-play { display: block; }
 [data-motion="paused"] .motion-toggle .mi-pause { display: none; }
-[data-theme="dark"] .motion-toggle { border-color: var(--border-d2); color: var(--text-1); }
-[data-theme="dark"] .motion-toggle:hover { background: rgba(255,255,255,.06); color: var(--text-0); }
+[data-theme="dark"] .motion-toggle { background: rgba(28,30,36,.86); border-color: var(--border-d2); color: var(--text-1); }
+[data-theme="dark"] .motion-toggle:hover { background: var(--ink-soft); color: var(--text-0); }
+::view-transition-group(motion-toggle),
+::view-transition-old(motion-toggle),
+::view-transition-new(motion-toggle) { animation: none; }
+@media print { .motion-toggle { display: none; } }
 
 /* Contact form honeypot: off-screen for people, still in the form for bots */
 .hp-field { position: absolute !important; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }

@@ -74,7 +74,11 @@
             mb.title = p ? "Play animations" : "Pause animations";
           };
           mb.addEventListener("click", function () { M.set(!M.paused()); syncMotion(); });
-          header.insertBefore(mb, t);
+          /* Floats in the bottom-right corner, but sits right after the skip
+             link in the page so keyboard users reach it on the second Tab. */
+          var skip = document.querySelector(".skip-link");
+          if (skip) skip.insertAdjacentElement("afterend", mb);
+          else document.body.insertBefore(mb, document.body.firstChild);
           syncMotion();
         }
       }
