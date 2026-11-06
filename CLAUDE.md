@@ -13,7 +13,7 @@ Will is a designer, not a developer. Explain what you're doing in plain language
 - `site/styles/site.css` holds the design tokens (CSS variables) and all shared styles. Dark mode works through `[data-theme="dark"]` on `<html>`; the theme is chosen in an inline script at the top of each page.
 - `site/js/site.js` runs menus, the theme toggle, copy buttons, the contact form and the `?intent=` prefill on Contact.
 - Page-specific animations: `studio-flows.js` and `.css` (Studio UI demos), `modes.js` (the "three ways in" tabs on Platform), `delivery-explorer.js`.
-- Icons come from `js/lucide.min.js`, which turns `<i data-lucide="name">` into SVGs.
+- Icons come from `js/icons.js`, which turns `<i data-lucide="name">` into SVGs. It holds only the icons the site uses: after adding a new icon name anywhere, run `node tools/build-icons.mjs` to rebuild it (the full Lucide library lives in `tools/`, which isn't published).
 
 ## Conventions to keep
 

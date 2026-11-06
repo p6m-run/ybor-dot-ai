@@ -6,14 +6,12 @@
 /* ---------- Fonts ---------- */
 @font-face {
   font-family: "Manrope";
-  src: url("../fonts/Manrope-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/Manrope-VariableFont_wght.ttf") format("truetype");
+  src: url("../fonts/Manrope-VariableFont_wght.woff2") format("woff2");
   font-weight: 200 800; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: "JetBrains Mono";
-  src: url("../fonts/JetBrainsMono-VariableFont_wght.ttf") format("truetype-variations"),
-       url("../fonts/JetBrainsMono-VariableFont_wght.ttf") format("truetype");
+  src: url("../fonts/JetBrainsMono-VariableFont_wght.woff2") format("woff2");
   font-weight: 100 800; font-style: normal; font-display: swap;
 }
 
@@ -506,7 +504,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .step-line { position: absolute; top: 41px; right: -23px; width: 24px; height: 24px; z-index: 3; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 18px; color: var(--neutral-300); }
 .step-line::after { content: "\2192"; }
 .step:last-child .step-line { display: none; }
-.step h4 { font-size: 17px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.01em; }
+.step h3, .step h4 { font-size: 17px; font-weight: 600; margin-bottom: 6px; letter-spacing: -0.01em; }
 .step p { font-size: 13.5px; color: var(--neutral-700); line-height: 1.55; }
 .step-cmd { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--stroke-light); font-family: var(--font-mono); font-size: 12px; color: var(--neutral-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; max-width: 100%; }
 .step p { margin-bottom: 16px; }
@@ -516,7 +514,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .bg-tint .step { background: #fff; }
 .bg-ink .step, .bg-ink-grad .step { background: var(--ink-soft); border-color: var(--stroke-dark); }
 .bg-ink .step-ic, .bg-ink-grad .step-ic { background: rgba(140,100,218,.18); color: #C0A8EF; }
-.bg-ink .step h4, .bg-ink-grad .step h4 { color: #fff; }
+.bg-ink .step h3, .bg-ink-grad .step h3, .bg-ink .step h4, .bg-ink-grad .step h4 { color: #fff; }
 .bg-ink .step p, .bg-ink-grad .step p { color: var(--neutral-300); }
 .bg-ink .step-num, .bg-ink-grad .step-num { color: #C0A8EF; }
 .bg-ink .step-line, .bg-ink-grad .step-line { color: var(--neutral-500); }
@@ -663,7 +661,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* v1 launch: hidden until a later rollout (Resources nav, footer column, Home section). Remove the hide-v1 class to restore. */
 .hide-v1 { display: none !important; }
 @media (min-width: 1021px) { .footer-top:has(> .hide-v1) { grid-template-columns: 1.6fr 1fr 1fr; } }
-.footer h4 { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--neutral-500); margin-bottom: 16px; }
+.footer h2, .footer h4 { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--neutral-500); margin-bottom: 16px; }
 .footer a { color: var(--off-white); font-size: 14px; }
 .footer a:hover { color: #fff; }
 .footer-links { display: flex; flex-direction: column; gap: 11px; }
@@ -925,7 +923,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .life-num { font-family: var(--font-mono); font-weight: 600; font-size: 13px; color: var(--neutral-500); }
 .life p { font-size: 13.5px; color: var(--neutral-700); line-height: 1.5; margin: 0; }
 .life p code { font-size: 12.5px; color: var(--purple-dark); }
-.life-arrow { position: absolute; top: 41px; right: -19px; z-index: 3; font-family: var(--font-mono); font-size: 16px; color: var(--neutral-300); line-height: 1; }
+.life-arrow { position: absolute; top: 41px; right: -19px; z-index: 3; font-family: var(--font-mono); font-size: 16px; color: var(--neutral-500); line-height: 1; }
 .life:nth-child(4n) .life-arrow, .life:last-child .life-arrow { display: none; }
 @media (max-width: 1020px) { .lifeflow { grid-template-columns: repeat(2, 1fr); } .life:nth-child(4n) .life-arrow { display: block; } .life:nth-child(2n) .life-arrow { display: none; } }
 @media (max-width: 560px) { .lifeflow { grid-template-columns: 1fr; } .life-arrow { display: none !important; } }

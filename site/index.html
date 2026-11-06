@@ -19,11 +19,13 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="fonts/Manrope-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/JetBrainsMono-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles/site.css">
 <script>(function(){try{var t=localStorage.getItem("ybor-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
 <script src="js/motion.js"></script>
 <script src="js/posthog.js" defer></script>
-<script src="js/lucide.min.js" defer></script>
+<script src="js/icons.js" defer></script>
 <template id="__bundler_thumbnail" data-bg-color="#8C64DA">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
     <rect width="1200" height="800" fill="#8C64DA"/>
@@ -485,11 +487,11 @@
       <p class="body muted pretty">Every service your teams ship follows the same backbone: a layered object model, Kubernetes operators that reconcile it, and an addon catalog on every cluster. Your developers ship; Ybor handles the wiring.</p>
     </div>
     <div class="steps" style="margin-top:64px">
-      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="layout-template"></i></span><span class="step-num">01</span></div><h4>Scaffold</h4><p>Pick a vetted archetype. One CLI command creates the repo, CI workflow, and base manifests.</p><div class="step-cmd"><span class="p">$</span> <span class="c">archetect render</span></div></div>
-      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="git-branch"></i></span><span class="step-num">02</span></div><h4>Commit</h4><p>Push to GitHub. CI runs the matching workflow: test, scan, build, sign.</p><div class="step-cmd"><span class="p">$</span> <span class="c">git push origin main</span></div></div>
-      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="boxes"></i></span><span class="step-num">03</span></div><h4>Provision</h4><p>Ybor reconciles Crossplane compositions. New environment, cluster, or namespace: operators handle it.</p><div class="step-cmd"><span class="p">✓</span> <span class="c">stg · provisioned</span></div></div>
-      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="rocket"></i></span><span class="step-num">04</span></div><h4>Deploy</h4><p>ArgoCD promotes the artifact through environments. Kargo gates each hop on policy, tests, approvals.</p><div class="step-cmd"><span class="p">$</span> <span class="c">argocd app sync</span></div></div>
-      <div class="step"><div class="step-top"><span class="step-ic"><i data-lucide="activity"></i></span><span class="step-num">05</span></div><h4>Observe</h4><p>OpenTelemetry, Grafana, and Datadog come pre-wired. Audit logs ship to your SIEM.</p><div class="step-cmd"><span class="p">✓</span> <span class="c">traces · live</span></div></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="layout-template"></i></span><span class="step-num">01</span></div><h3>Scaffold</h3><p>Pick a vetted archetype. One CLI command creates the repo, CI workflow, and base manifests.</p><div class="step-cmd"><span class="p">$</span> <span class="c">archetect render</span></div></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="git-branch"></i></span><span class="step-num">02</span></div><h3>Commit</h3><p>Push to GitHub. CI runs the matching workflow: test, scan, build, sign.</p><div class="step-cmd"><span class="p">$</span> <span class="c">git push origin main</span></div></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="boxes"></i></span><span class="step-num">03</span></div><h3>Provision</h3><p>Ybor reconciles Crossplane compositions. New environment, cluster, or namespace: operators handle it.</p><div class="step-cmd"><span class="p">✓</span> <span class="c">stg · provisioned</span></div></div>
+      <div class="step"><span class="step-line"></span><div class="step-top"><span class="step-ic"><i data-lucide="rocket"></i></span><span class="step-num">04</span></div><h3>Deploy</h3><p>ArgoCD promotes the artifact through environments. Kargo gates each hop on policy, tests, approvals.</p><div class="step-cmd"><span class="p">$</span> <span class="c">argocd app sync</span></div></div>
+      <div class="step"><div class="step-top"><span class="step-ic"><i data-lucide="activity"></i></span><span class="step-num">05</span></div><h3>Observe</h3><p>OpenTelemetry, Grafana, and Datadog come pre-wired. Audit logs ship to your SIEM.</p><div class="step-cmd"><span class="p">✓</span> <span class="c">traces · live</span></div></div>
     </div>
     <div class="center" style="margin-top:56px">
       <a class="btn btn-primary" href="how-it-works.html">See how the platform works <i data-lucide="arrow-right" class="ic"></i></a>
@@ -679,7 +681,7 @@
         </div>
       </div>
       <div>
-        <h4>Platform</h4>
+        <h2>Platform</h2>
         <div class="footer-links">
           <a href="platform.html#infrastructure">Platform Infrastructure</a>
           <a href="platform.html#delivery">Application Delivery</a>
@@ -689,7 +691,7 @@
         </div>
       </div>
       <div>
-        <h4>Company</h4>
+        <h2>Company</h2>
         <div class="footer-links">
           <a href="about.html">About</a>
           <a href="customers.html" style="display:none">Customers</a>
@@ -700,7 +702,7 @@
         </div>
       </div>
       <div class="hide-v1">
-        <h4>Resources</h4>
+        <h2>Resources</h2>
         <div class="footer-links">
           <a class="ext" href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
           <a class="ext" href="https://platform.p6m.dev" target="_blank" rel="noopener">Platform Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
