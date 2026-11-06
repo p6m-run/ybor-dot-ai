@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Ybor Platform: from infrastructure to production | Ybor</title>
+<meta name="description" content="Ybor provisions production Kubernetes on Azure (AWS coming soon) and delivers your applications onto it. Commit to production in minutes, governed by default.">
+<link rel="canonical" href="https://www.ybor.ai/platform">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ybor">
+<meta property="og:title" content="The Ybor Platform: from infrastructure to production | Ybor">
+<meta property="og:description" content="Ybor provisions production Kubernetes on Azure (AWS coming soon) and delivers your applications onto it. Commit to production in minutes, governed by default.">
+<meta property="og:url" content="https://www.ybor.ai/platform">
+<meta property="og:image" content="https://www.ybor.ai/assets/og/ybor-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Your people build. Ybor runs the rest. The internal developer platform, as a service.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="fonts/Manrope-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/JetBrainsMono-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles/site.css">
+<script>(function(){try{var t=localStorage.getItem("ybor-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script src="js/motion.js"></script>
+<script src="js/posthog.js" defer></script>
+<script src="js/icons.js" defer></script>
+<style>
+  /* Stacked layers (delivery on foundation) */
+  .platform-stack { display: flex; flex-direction: column; }
+  .layer { position: relative; display: grid; grid-template-columns: 1.15fr 1fr; gap: 32px 40px; align-items: start; border-color: var(--stroke-dark); }
+  .layer-main { display: flex; flex-direction: column; }
+  .layer-list { align-self: center; }
+  .layer-tag { font-size: 12px; color: var(--neutral-500); letter-spacing: .06em; margin-bottom: 6px; }
+  .layer-delivery { border-top: 2px solid var(--green); background: rgba(124,228,131,.035); }
+  .layer-foundation { border-top: 2px solid var(--orange); background: rgba(255,131,69,.035); }
+  .layer-joint { display: flex; align-items: center; gap: 16px; padding: 14px 0; }
+  .layer-joint-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--stroke-dark), transparent); }
+  .layer-joint-pill { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--neutral-300); border: 1px solid var(--stroke-dark); border-radius: 999px; padding: 7px 16px; background: var(--ink); white-space: nowrap; }
+  .layer-joint-pill svg { width: 14px; height: 14px; color: var(--green); }
+  @media (max-width: 760px) { .layer { grid-template-columns: 1fr; gap: 20px; } .layer-list { align-self: start; } }
+
+  /* Hero combined visual - layered (theme-aware overrides below): delivery pipeline lands on foundation clusters */
+  .combo-glow { position:absolute; inset:24px 12px auto 12px; height:170px; border-radius:var(--r-xl); box-shadow:var(--shadow-glow); z-index:0; }
+  .combo-card { position:relative; z-index:1; }
+  .combo-tag { font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; margin-bottom:13px; display:flex; align-items:center; gap:8px; }
+  .combo-tag.d { color:#8FE39A; } .combo-tag.f { color:#FF9F6B; }
+  .combo-tag .ct-dot { width:7px; height:7px; border-radius:999px; background:currentColor; box-shadow:0 0 8px currentColor; }
+  .combo-pipe { display:flex; align-items:center; gap:5px; flex-wrap:wrap; }
+  .combo-node { display:inline-flex; align-items:center; gap:6px; padding:7px 10px; border:1px solid var(--stroke-dark); border-radius:var(--r-md); background:rgba(255,255,255,.035); font-family:var(--font-mono); font-size:11.5px; color:var(--neutral-300); }
+  .combo-node svg { width:13px; height:13px; color:#8FE39A; filter:drop-shadow(0 0 5px rgba(124,228,131,.55)); }
+  .combo-sep { display:inline-flex; color:var(--neutral-500); }
+  .combo-sep svg { width:12px; height:12px; }
+  @keyframes combo-pulse { 0%,100%{opacity:.45} 50%{opacity:1} }
+  @keyframes combo-pod { 0%,100%{opacity:.3} 50%{opacity:.95} }
+  @media (prefers-reduced-motion:no-preference){
+    .combo-node svg { animation:combo-pulse 2.2s ease-in-out infinite; }
+    .combo-node:nth-of-type(2) svg{animation-delay:.25s} .combo-node:nth-of-type(3) svg{animation-delay:.5s} .combo-node:nth-of-type(4) svg{animation-delay:.75s} .combo-node:nth-of-type(5) svg{animation-delay:1s} .combo-node:nth-of-type(6) svg{animation-delay:1.25s}
+    .combo-cloud .pods span { animation:combo-pod 1.9s ease-in-out infinite; }
+    .combo-cloud:nth-child(2) .pods span{animation-delay:.3s} .combo-cloud:nth-child(3) .pods span{animation-delay:.6s}
+  }
+  .combo-seam { display:flex; align-items:center; justify-content:center; gap:12px; padding:14px 0; position:relative; z-index:1; }
+  .combo-seam .ln { flex:1; height:1px; background:var(--stroke-dark); }
+  .combo-seam .pill { display:inline-flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#fff; background:var(--purple); border-radius:999px; padding:7px 15px; box-shadow:0 0 20px rgba(140,100,218,.55); }
+  .combo-seam .pill svg { width:13px; height:13px; }
+  .combo-clouds { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .combo-cloud { border:1px solid var(--stroke-dark); border-radius:var(--r-lg); padding:13px 8px 12px; text-align:center; background:rgba(255,255,255,.025); }
+  .combo-cloud .cn { display:block; font-family:var(--font-mono); font-weight:600; font-size:15px; color:#FF9F6B; }
+  .combo-cloud img { height:15px; width:auto; max-width:60px; object-fit:contain; margin:7px auto 0; display:block; }
+  .combo-cloud .pods { display:flex; gap:4px; justify-content:center; margin-top:10px; }
+  .combo-cloud .pods span { width:9px; height:9px; border-radius:2px; background:var(--orange); opacity:.4; }
+  /* Light theme: swap the dark-tuned greys and neon accents for light-surface values */
+  html:not([data-theme="dark"]) .combo-tag.d { color:var(--green-dark); }
+  html:not([data-theme="dark"]) .combo-tag.f { color:var(--orange-dark); }
+  html:not([data-theme="dark"]) .combo-tag .ct-dot { box-shadow:none; }
+  html:not([data-theme="dark"]) .combo-node { border-color:var(--neutral-100); background:var(--stroke-light); color:var(--neutral-700); }
+  html:not([data-theme="dark"]) .combo-node svg { color:var(--green-dark); filter:none; }
+  html:not([data-theme="dark"]) .combo-sep { color:var(--neutral-300); }
+  html:not([data-theme="dark"]) .combo-seam .ln { background:var(--neutral-100); }
+  html:not([data-theme="dark"]) .combo-seam .pill { box-shadow:0 4px 14px rgba(140,100,218,.28); }
+  html:not([data-theme="dark"]) .combo-cloud { border-color:var(--neutral-100); background:var(--stroke-light); }
+  html:not([data-theme="dark"]) .combo-cloud .cn { color:var(--orange-dark); }
+  /* Dark theme: use the dark surface tokens so nodes, seams and status read on #1E2127 cards */
+  [data-theme="dark"] .combo-node { border-color:var(--border-d2); background:var(--surface-3); color:var(--text-1); }
+  [data-theme="dark"] .combo-sep { color:var(--text-2); }
+  [data-theme="dark"] .combo-seam .ln { background:var(--border-d2); }
+  [data-theme="dark"] .combo-cloud { border-color:var(--border-d2); background:var(--surface-3); }
+  [data-theme="dark"] .combo-card .status-healthy { background:rgba(124,228,131,.14); color:#8FE39A; }
+
+  /* section accent tints for the two layer-detail bands */
+  .lay-detail .icon-chip { background: var(--tint); color: var(--accent); }
+  .lay-d { --tint: #E9F9EA; --accent: var(--green-dark); }
+  .lay-f { --tint: #FBEDE4; --accent: var(--orange-dark); }
+  [data-theme="dark"] .lay-d .icon-chip { background: rgba(124,228,131,.16); color: #8FE39A; }
+  [data-theme="dark"] .lay-f .icon-chip { background: rgba(255,131,69,.16); color: #FF9F6B; }
+  .lay-detail .step-ic { background: var(--tint); color: var(--accent); }
+  .runs-band { text-align: center; }
+  .runs-band .rb-pill { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 13px; letter-spacing: .04em; color: #fff; background: var(--purple); border-radius: 999px; padding: 12px 22px; }
+  .runs-band .rb-pill svg { width: 16px; height: 16px; }
+</style>
+<link rel="stylesheet" href="studio-flows.css">
+<script src="studio-flows.js" defer></script>
+<script src="modes.js" defer></script>
+<script src="delivery-explorer.js" defer></script>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo" aria-label="Ybor home"><img src="assets/logos/Ybor.ai_mark_blk.svg" alt="Ybor"></a>
+    <nav class="nav" aria-label="Primary">
+      <div class="nav-item has-dd">
+        <button class="nav-link active" aria-expanded="false">Platform <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="platform.html"><span class="dd-ic"><i data-lucide="layers"></i></span><span><span class="dd-title">The Platform</span><span class="dd-desc">What Ybor runs for you, from infrastructure to production.</span></span></a>
+          <div class="dd-sub"><a href="platform.html#ways-in">Three ways in</a><a href="platform.html#delivery">Application Delivery</a><a href="platform.html#infrastructure">Platform Infrastructure</a></div>
+          <a class="dd-item" href="how-it-works.html"><span class="dd-ic"><i data-lucide="workflow"></i></span><span><span class="dd-title">How it Works</span><span class="dd-desc">The architecture: object model, operators, lifecycle.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item" style="display:none"><a class="nav-link" href="customers.html">Customers</a></div>
+      <div class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></div>
+      <div class="nav-item has-dd">
+        <button class="nav-link" aria-expanded="false">Security <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="security.html"><span class="dd-ic"><i data-lucide="shield-check"></i></span><span><span class="dd-title">Security &amp; Compliance</span><span class="dd-desc">SOC 2® report, mTLS, policy enforcement, and the controls behind the platform.</span></span></a>
+          <a class="dd-item" href="trust-center.html"><span class="dd-ic"><i data-lucide="badge-check"></i></span><span><span class="dd-title">Trust Center</span><span class="dd-desc">Download attestations and review continuously monitored controls.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item has-dd hide-v1"><!-- Resources hidden for v1 launch - remove hide-v1 to restore -->
+        <button class="nav-link" aria-expanded="false">Resources <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="https://developer.p6m.dev" target="_blank" rel="noopener"><span class="dd-ic"><i data-lucide="book-open"></i></span><span><span class="dd-title">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">REST, gRPC, GraphQL guides and the archetype catalog.</span></span></a>
+          <a class="dd-item hide-v1" href="blog.html"><span class="dd-ic"><i data-lucide="file-text"></i></span><span><span class="dd-title">Blog</span><span class="dd-desc">Platform engineering patterns from the team.</span></span></a>
+          <a class="dd-item" href="https://platform.p6m.dev/status" target="_blank" rel="noopener"><span class="dd-ic"><i data-lucide="activity"></i></span><span><span class="dd-title">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">Live uptime and incident history.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item has-dd">
+        <button class="nav-link" aria-expanded="false">Company <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="about.html"><span class="dd-ic"><i data-lucide="building-2"></i></span><span><span class="dd-title">About</span><span class="dd-desc">Platform engineering, built by platform engineers.</span></span></a>
+          <a class="dd-item" href="careers.html"><span class="dd-ic"><i data-lucide="users"></i></span><span><span class="dd-title">Careers</span><span class="dd-desc">Help build the platform layer for enterprise software.</span></span></a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn-secondary btn-sm hide-v1" href="https://developer.p6m.dev" target="_blank" rel="noopener">View docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
+      <a class="btn btn-primary btn-sm" href="contact.html?intent=demo">Book a demo</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><i data-lucide="menu"></i></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true">
+  <div class="mm-top"><img src="assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor"><button class="mm-close" id="mmClose" aria-label="Close menu"><i data-lucide="x"></i></button></div>
+  <div class="mm-body">
+    <div class="mm-acc open"><button class="mm-acc-head" aria-expanded="false">Platform <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="platform.html">The Platform</a><a class="mm-sub" href="platform.html#ways-in">Three ways in</a><a class="mm-sub" href="platform.html#delivery">Application Delivery</a><a class="mm-sub" href="platform.html#infrastructure">Platform Infrastructure</a><a href="how-it-works.html">How it Works</a></div></div>
+    <div class="mm-acc" style="display:none"><a class="mm-acc-head" href="customers.html">Customers</a></div>
+    <div class="mm-acc"><a class="mm-acc-head" href="pricing.html">Pricing</a></div>
+    <div class="mm-acc"><button class="mm-acc-head" aria-expanded="false">Security <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="security.html">Security &amp; Compliance</a><a href="trust-center.html">Trust Center</a></div></div>
+    <div class="mm-acc hide-v1"><button class="mm-acc-head" aria-expanded="false">Resources <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs ↗</a><a class="hide-v1" href="blog.html">Blog</a><a href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status ↗</a></div></div>
+    <div class="mm-acc"><button class="mm-acc-head" aria-expanded="false">Company <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="about.html">About</a><a href="careers.html">Careers</a></div></div>
+  </div>
+  <div class="mm-foot"><a class="btn btn-ondark btn-block hide-v1" href="https://developer.p6m.dev" target="_blank" rel="noopener">View docs ↗</a><a class="btn btn-primary btn-block" href="contact.html?intent=demo">Book a demo</a></div>
+</div>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero bg-tint-soft">
+  <div class="container" style="position:relative;z-index:1">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="slash">//</span> the platform</span>
+        <h1 class="display-lg balance">One platform, from infrastructure to production.</h1>
+        <p class="body-lg muted pretty" style="max-width:600px">Ybor provisions production Kubernetes in your cloud, then delivers your applications onto it. Commit to production in minutes, governed by default. Your team owns the source code, the clusters, and the data, on open foundations you can walk away with.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-glow" href="contact.html?intent=demo">Book a demo <i data-lucide="arrow-right" class="ic"></i></a>
+          <a class="btn btn-secondary" href="#delivery">See how it fits together <i data-lucide="arrow-down" class="ic"></i></a>
+        </div>
+        <ul class="proof-row" aria-label="Proof points">
+          <li><span class="pr-vis"><a class="pr-soc-link" href="https://www.aicpa.org/soc4so" target="_blank" rel="noopener" aria-label="AICPA SOC for Service Organizations: aicpa.org/soc4so"><img class="pr-soc" src="assets/aicpa-soc-logo.jpg" alt="AICPA SOC for Service Organizations logo" width="36" height="36"></a></span><span class="pr-txt"><b>SOC 2 Type 2</b></span></li>
+          <li><span class="pr-vis pr-clouds"><span><img src="assets/logos/azure.webp" alt="Azure"></span></span><span class="pr-txt"><b>Runs in your Azure</b>Your accounts · AWS coming soon</span></li>
+          <li><span class="pr-vis"><span class="pr-ic"><i data-lucide="lock-open"></i></span></span><span class="pr-txt"><b>No lock-in</b>Open-source core</span></li>
+        </ul>
+      </div>
+      <div class="hero-copy">
+        <div class="ui-stack reveal">
+          <div class="combo-glow"></div>
+          <div class="ui-card combo-card" style="box-shadow:var(--shadow-lg)">
+            <div class="ui-card-head"><i data-lucide="rocket" style="width:15px;height:15px"></i> delivery · pipeline</div>
+            <div class="ui-card-body">
+              <div class="combo-tag d"><span class="ct-dot"></span>delivery layer</div>
+              <div class="combo-pipe">
+                <span class="combo-node"><i data-lucide="git-branch"></i>commit</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="play-circle"></i>ci</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="package"></i>build</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="shield-check"></i>scan</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="rocket"></i>deploy</span>
+                <span class="combo-sep"><i data-lucide="chevron-right"></i></span>
+                <span class="combo-node"><i data-lucide="check-circle-2"></i>live</span>
+              </div>
+              <div class="kv" style="margin-top:16px"><span class="k">status</span><span class="status-pill status-healthy"><span class="led"></span>Deployed to prod · a3f9c12</span></div>
+            </div>
+          </div>
+          <div class="combo-seam"><span class="ln"></span><span class="pill"><i data-lucide="arrow-down"></i> runs on the foundation</span><span class="ln"></span></div>
+          <div class="ui-card combo-card">
+            <div class="ui-card-head"><i data-lucide="server" style="width:15px;height:15px"></i> foundation · clusters</div>
+            <div class="ui-card-body">
+              <div class="combo-tag f"><span class="ct-dot"></span>foundation layer</div>
+              <div class="combo-clouds">
+                <div class="combo-cloud"><span class="cn">AKS</span><img src="assets/logos/azure.webp" alt="Microsoft Azure"><div class="pods"><span></span><span></span><span></span></div></div>
+                <div class="combo-cloud is-soon"><span class="cn">EKS</span><img src="assets/logos/aws.png" alt="AWS"><span class="soon-tag">coming soon</span></div>              </div>
+              <div class="kv" style="margin-top:16px"><span class="k">control plane</span><span class="status-pill status-healthy"><span class="led"></span>reconciling · 12/12 in sync</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MULTI-MODAL / PERSONAS -->
+<section class="section bg-white" id="ways-in">
+  <div class="container" data-modes>
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> three ways in</span>
+      <h2 class="display-md balance">Same platform. Use it the way you work.</h2>
+      <p class="body muted pretty">Click through Ybor Studio, script it from a terminal, or edit manifests in your IDE. Every path ends in the same place: a pull request to Git that operators reconcile.</p>
+    </div>
+    <div class="md-tabs" role="tablist">
+      <button class="md-tab on" role="tab" aria-selected="true" data-k="ui"><b>Click through it</b><small>// Ybor Studio UI</small></button>
+      <button class="md-tab" role="tab" aria-selected="false" data-k="cli"><b>Script it</b><small>// terminal + CLI</small></button>
+      <button class="md-tab" role="tab" aria-selected="false" data-k="ide"><b>Code it in Git</b><small>// IDE + Git</small></button>
+    </div>
+    <div class="md-panel on" data-k="ui">
+      <div class="ls-win"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">studio.ybor.ai / catalog / blueprints</span></div><div class="ls-frame"><div class="sf" data-sf="delivery"></div><span class="ls-step"><span class="ls-n">1/5</span><span class="ls-t">Browse maintained blueprints</span></span></div></div>
+      <div class="md-who"><span class="md-skill"><i class="f"></i><i></i><i></i>&nbsp;no Kubernetes needed</span><h3>Pick a blueprint. Get a running service.</h3><p>Business builders and new developers work entirely in Studio. Guided steps, sensible defaults, nothing to configure that they don't need to see.</p><ul><li>Blueprints with the pipeline built in</li><li>Databases attached in a click</li><li>Promotion and health at a glance</li></ul></div>
+    </div>
+    <div class="md-panel" data-k="cli">
+      <div class="ls-win"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">~/code · zsh</span></div><div class="md-term"></div></div>
+      <div class="md-who"><span class="md-skill"><i class="f"></i><i class="f"></i><i></i>&nbsp;comfortable with git + CLI</span><h3>Stay in the terminal.</h3><p>Developers render the same blueprints from the CLI, push to GitHub, and query state with the tools they already use. No context switch to a browser.</p><ul><li><code>archetect render</code> for any blueprint</li><li>CI runs on every push</li><li>Platform resources are plain Kubernetes objects</li></ul></div>
+    </div>
+    <div class="md-panel" data-k="ide">
+      <div class="ls-win"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">acme/.platform · editor</span></div><div class="md-ide"><div class="md-files">.platform/
+  installables/
+<span class="on">    redis.yaml</span>
+    istio.yaml
+  applications/
+    orders-api.yaml
+  policies/</div><div class="md-code"><span class="ln">1</span><span class="k">apiVersion</span>: platform.ybor.ai/v1
+<span class="ln">2</span><span class="k">kind</span>: InstallableSource
+<span class="ln">3</span><span class="k">metadata</span>:
+<span class="ln">4</span>  <span class="k">name</span>: redis
+<span class="ln">5</span><span class="k">spec</span>:
+<span class="ln">6</span>  <span class="k">chart</span>: <span class="s">oci://registry.acme.dev/charts/redis</span>
+<span class="ln">7</span>  <span class="k">version</span>: <span class="s">"20.6.*"</span>
+<span class="add"><span class="ln">8</span>  <span class="k">destinations</span>: [dev, stg, prd]</span><span class="add"><span class="ln">9</span>  <span class="k">promotion</span>: kargo</span><span class="add"><span class="ln">10</span>  <span class="k">overrides</span>:</span><span class="add"><span class="ln">11</span>    <span class="k">prd</span>: { replica.replicaCount: 3 }</span><div class="md-toast"><span class="ok">●</span> PR #1482 opened · 4 checks passed</div><div class="md-toast"><span class="ok">✓</span> Merged · ArgoCD synced to DEV → STG → PRD</div></div></div></div>
+      <div class="md-who"><span class="md-skill"><i class="f"></i><i class="f"></i><i class="f"></i>&nbsp;owns the platform</span><h3>Everything is a manifest.</h3><p>Platform engineers work in the <code>.platform</code> repo, the same files Studio writes. Review in pull requests, extend with your own compositions and installables.</p><ul><li>Git is the record of every change</li><li>Custom installables and blueprints</li><li>Policy and RBAC as code</li></ul></div>
+    </div>
+    <div class="md-same"><div><b>// one source of truth</b>Studio, the CLI and your IDE all write to the same Git repos.</div><div><b>// one review path</b>Every change is a pull request with checks, whoever made it.</div><div><b>// one reconciler</b>Operators apply what merged. No drift between doors.</div></div>
+  </div>
+</section>
+
+<!-- DELIVERY LAYER DETAIL -->
+<section class="section bg-white lay-detail lay-d" id="delivery">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow green"><span class="slash">//</span> delivery layer</span>
+      <h2 class="display-md balance">Less wiring. More shipping.</h2>
+      <p class="body muted pretty">Everything a service needs to reach production (scaffolding, pipelines, secrets) generated once and enforced on every commit.</p>
+    </div>
+    <div class="dx" data-dx style="margin-top:56px"><div class="dx-list"><button class="dx-item on" data-k="scaffold" type="button"><span class="dx-ic"><i data-lucide="layout-template"></i></span><span class="dx-tx"><b>Scaffold</b><span>One command creates the repo, CI workflow and manifests from a maintained blueprint.</span><small>Java · .NET · Python · Rust · TypeScript · Data/AI</small></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="build" type="button"><span class="dx-ic"><i data-lucide="git-pull-request"></i></span><span class="dx-tx"><b>Build</b><span>Every push runs a generated pipeline that passes your security review: signed, scanned, policy-checked.</span><small>GitHub Actions · Sigstore · SBOM</small></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="promote" type="button"><span class="dx-ic"><i data-lucide="route"></i></span><span class="dx-tx"><b>Promote</b><span>Kargo moves each release DEV → STG → PRD, gated on health, tests and approval.</span><small>ArgoCD · Kargo</small></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="secrets" type="button"><span class="dx-ic"><i data-lucide="key-round"></i></span><span class="dx-tx"><b>Inject secrets</b><span>Two lines of YAML. Ybor fetches the secret at deploy time and rotates it on schedule. Nothing in Git.</span><small>Vault · External Secrets · audit-logged</small></span><span class="dx-bar"><i></i></span></button></div><div class="ls-win dx-win"><div class="dx-pane on" data-k="scaffold"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">~/code · zsh</span></div><div class="dx-body"><div class="an " style="--d:0ms"><span class="p">$</span> archetect render python-fastapi-service --name orders-api</div><div class="an " style="--d:700ms"><span class="d">  fetching ybor-studio/archetypes@2.0.1</span></div><div class="an " style="--d:1100ms">orders-api/</div><div class="an " style="--d:1300ms">├── .github/workflows/<span class="k">build.yml</span>  <span class="k">promote.yml</span></div><div class="an " style="--d:1500ms">├── app/main.py  app/models.py</div><div class="an " style="--d:1700ms">├── tests/test_health.py</div><div class="an " style="--d:1900ms">├── deploy/<span class="k">platform-application.yaml</span></div><div class="an " style="--d:2100ms">└── Dockerfile  README.md</div><div class="an " style="--d:2600ms"><span class="ok">✓</span> 19 files · ready to push</div></div></div><div class="dx-pane" data-k="build"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">acme/orders-api · actions</span></div><div class="dx-body"><div class="an " style="--d:0ms"><span class="d">push to main · a3f9c12 · run #214</span></div><div class="an row" style="--d:500ms"><span class="ci"><span class="ok">✓</span> test</span><span class="d">38s</span></div><div class="an row" style="--d:950ms"><span class="ci"><span class="ok">✓</span> build image</span><span class="d">1m 02s</span></div><div class="an row" style="--d:1400ms"><span class="ci"><span class="ok">✓</span> sign (Sigstore)</span><span class="d">4s</span></div><div class="an row" style="--d:1850ms"><span class="ci"><span class="ok">✓</span> generate SBOM</span><span class="d">6s</span></div><div class="an row" style="--d:2300ms"><span class="ci"><span class="ok">✓</span> scan image</span><span class="d">21s</span></div><div class="an row" style="--d:2750ms"><span class="ci"><span class="ok">✓</span> policy check (Kyverno)</span><span class="d">3s</span></div><div class="an " style="--d:3400ms"><span class="ok">✓ all checks passed</span> <span class="d">· image registry.acme.dev/demo-org/orders-api:a3f9c12</span></div></div></div><div class="dx-pane" data-k="promote"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">kargo · orders-api</span></div><div class="dx-body"><div class="dx-chain"><div class="an dx-c" style="--d:300ms"><div class="dx-env"><b>DEV</b><span class="dx-ok">Healthy</span><small>auto on merge</small></div></div><div class="an dx-c" style="--d:1400ms"><div class="dx-env"><b>STG</b><span class="dx-ok">Healthy</span><small>green for 2h · tests passed</small></div></div><div class="an dx-c" style="--d:2500ms"><div class="dx-env"><b>PRD</b><span class="dx-ok">Healthy</span><small>approved by on-call</small></div></div></div><div class="an " style="--d:3600ms"><span class="ok">✓</span> v1.0.0 promoted to production <span class="d">· a3f9c12 · 3 gates passed</span></div></div></div><div class="dx-pane" data-k="secrets"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">deploy/platform-application.yaml</span></div><div class="dx-body"><div class="an " style="--d:0ms"><span class="k">env</span>:</div><div class="an " style="--d:200ms">  <span class="k">vault</span>:</div><div class="an add" style="--d:500ms">    DATABASE_URL: <span class="s">orders-api/db#url</span></div><div class="an add" style="--d:800ms">    STRIPE_KEY: <span class="s">orders-api/stripe#key</span></div><div class="an " style="--d:1700ms"><span class="d">──────────── at deploy ────────────</span></div><div class="an " style="--d:2200ms"><span class="ok">✓</span> DATABASE_URL  injected  <span class="d">vault · rotated 3d ago</span></div><div class="an " style="--d:2600ms"><span class="ok">✓</span> STRIPE_KEY    injected  <span class="d">vault · rotates in 27d</span></div><div class="an " style="--d:3100ms"><span class="ok">✓</span> 0 secrets in Git <span class="d">· audit event written</span></div></div></div></div></div>
+  </div>
+</section>
+
+<!-- RUNS ON BAND -->
+<section class="section-tight bg-tint runs-band">
+  <div class="container">
+    <span class="rb-pill"><i data-lucide="arrow-down"></i> every deploy above lands on the foundation below</span>
+  </div>
+</section>
+
+<!-- FOUNDATION LAYER DETAIL -->
+<section class="section bg-white lay-detail lay-f" id="infrastructure">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow orange"><span class="slash">//</span> foundation layer</span>
+      <h2 class="display-md balance">Provision once. Govern forever.</h2>
+      <p class="body muted pretty">The clusters, policies, and secrets every delivery lands on, declared in Git, reconciled by operators, defensible in an audit.</p>
+    </div>
+    <div class="dx dx-o" data-dx style="margin-top:56px"><div class="dx-list"><button class="dx-item on" data-k="reconcile" type="button"><span class="dx-ic"><i data-lucide="refresh-cw"></i></span><span class="dx-tx"><b>Reconcile <em class="dx-mode">IDE</em></b><span>Declare a cluster in Git. On merge, platform-cluster-operator provisions it with Crossplane and Cluster API.</span><small>AKS · Crossplane · Cluster API · EKS soon</small></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="bootstrap" type="button"><span class="dx-ic"><i data-lucide="package-plus"></i></span><span class="dx-tx"><b>Bootstrap <em class="dx-mode">Studio UI</em></b><span>installation-operator applies the add-on catalog to every cluster, or your own Helm charts as custom installables.</span><small>Istio · Kyverno · ArgoCD · Vault · OTel</small></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="schedule" type="button"><span class="dx-ic"><i data-lucide="calendar-clock"></i></span><span class="dx-tx"><b>Schedule <em class="dx-mode">CLI</em></b><span>Environments are scheduled onto clusters. Each Application gets its own namespace per environment.</span><small>Enterprise → Organization → Application → Environment</small></span><span class="dx-bar"><i></i></span></button><button class="dx-item" data-k="govern" type="button"><span class="dx-ic"><i data-lucide="shield-check"></i></span><span class="dx-tx"><b>Govern <em class="dx-mode">Studio UI</em></b><span>RBAC, mTLS and policy enforcement are on from the first deploy. Every change lands in the audit log.</span><small>Kyverno · Istio · RBAC · SIEM-ready</small></span><span class="dx-bar"><i></i></span></button></div><div class="ls-win dx-win"><div class="dx-pane on" data-k="reconcile"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">acme/.platform · clusters/prd-use1.yaml</span><span class="dx-mtag">IDE</span></div><div class="dx-body"><div class="an " style="--d:0ms"><span class="d">1</span>  <span class="k">apiVersion</span>: platform.ybor.ai/v1</div><div class="an " style="--d:0ms"><span class="d">2</span>  <span class="k">kind</span>: PlatformCluster</div><div class="an " style="--d:0ms"><span class="d">3</span>  <span class="k">metadata</span>: { name: <span class="s">prd-use1</span> }</div><div class="an " style="--d:0ms"><span class="d">4</span>  <span class="k">spec</span>:</div><div class="an add" style="--d:500ms"><span class="d">5</span>    <span class="k">provider</span>: azure</div><div class="an add" style="--d:800ms"><span class="d">6</span>    <span class="k">region</span>: eastus</div><div class="an add" style="--d:1100ms"><span class="d">7</span>    <span class="k">kubernetes</span>: <span class="s">"1.31"</span></div><div class="an add" style="--d:1400ms"><span class="d">8</span>    <span class="k">nodePools</span>: [{ name: general, min: 3, max: 12 }]</div><div class="an " style="--d:2300ms"><span class="dx-toast"><span class="ok">✓</span> PR #311 merged · platform-cluster-operator: <span class="ok">Ready</span> <span class="d">· 14m</span></span></div></div></div><div class="dx-pane" data-k="bootstrap"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">studio.ybor.ai / catalog / installables</span><span class="dx-mtag">Studio UI</span></div><div class="ls-frame" style="flex:1"><div class="sf" data-sf="infra"></div><span class="ls-step"><span class="ls-n">1/5</span><span class="ls-t">Installables catalog</span></span></div></div><div class="dx-pane" data-k="schedule"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">~/ · zsh</span><span class="dx-mtag">CLI</span></div><div class="dx-body"><div class="an " style="--d:0ms"><span class="p">$</span> kubectl get environments -n demo-org</div><div class="an " style="--d:600ms"><span class="k">NAME       CLUSTER     APPS   STATUS</span></div><div class="an " style="--d:900ms">dev        dev-use2    14     <span class="ok">Ready</span></div><div class="an " style="--d:1150ms">stg        stg-use2    14     <span class="ok">Ready</span></div><div class="an " style="--d:1400ms">prd        prd-use1    12     <span class="ok">Ready</span></div><div class="an " style="--d:2000ms"><span class="p">$</span> kubectl get ns -l app=orders-api</div><div class="an " style="--d:2600ms"><span class="k">NAME                         STATUS</span></div><div class="an " style="--d:2900ms">demo-org-orders-api-dev      <span class="ok">Active</span></div><div class="an " style="--d:3150ms">demo-org-orders-api-stg      <span class="ok">Active</span></div><div class="an " style="--d:3400ms">demo-org-orders-api-prd      <span class="ok">Active</span></div></div></div><div class="dx-pane" data-k="govern"><div class="ls-bar"><span class="ls-dots"><span></span><span></span><span></span></span><span class="ls-url">studio.ybor.ai / settings / governance</span><span class="dx-mtag">Studio UI</span></div><div class="dx-body light"><div class="gv"><div class="an " style="--d:0ms"><div class="gv-h"><b>Governance</b><span>demo-org · all environments</span></div></div><div class="gv-grid"><div class="an " style="--d:400ms"><div class="gv-card"><small>Policies</small><b>14 / 14 passing</b><span>audit mode · enforce when ready</span></div></div><div class="an " style="--d:750ms"><div class="gv-card"><small>mTLS</small><b>Strict</b><span>Istio · every workload</span></div></div><div class="an " style="--d:1100ms"><div class="gv-card"><small>RBAC</small><b>Scoped</b><span>Organization → Application</span></div></div></div><div class="an " style="--d:1600ms"><div class="gv-sub">Audit log</div></div><div class="an " style="--d:1900ms"><div class="gv-row"><span class="gv-u">j.rivera</span><span>merged</span><code>installables/redis.yaml</code><span class="gv-t">2m ago</span></div></div><div class="an " style="--d:2300ms"><div class="gv-row"><span class="gv-u">ci-bot</span><span>promoted</span><code>orders-api v1.0.0 → prd</code><span class="gv-t">6m ago</span></div></div><div class="an " style="--d:2700ms"><div class="gv-row"><span class="gv-u">m.chen</span><span>updated</span><code>policy require-probes</code><span class="gv-t">1h ago</span></div></div></div></div></div></div></div>
+  </div>
+</section>
+
+<!-- OBJECT MODEL - the bridge -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> the connective tissue</span>
+      <h2 class="display-md balance">One object model ties delivery to infrastructure.</h2>
+      <p class="body muted pretty">The same primitives the delivery layer scaffolds are the primitives the foundation layer schedules. An Application deploys to Environments; Environments are scheduled onto Clusters. Enterprise to Cluster, it's one model.</p>
+    </div>
+    <div class="center" style="margin-top:32px"><a class="btn btn-secondary" href="how-it-works.html#object-model">See the object model <i data-lucide="arrow-right" class="ic"></i></a></div>
+  </div>
+</section>
+
+<!-- INTEGRATIONS -->
+<section class="section bg-white" id="integrations">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> integrations</span>
+      <h2 class="display-md balance">Built on open source. Plays with what you already run.</h2>
+    </div>
+    <div class="tabs" data-tabs style="margin-top:48px">
+      <div class="tablist" role="tablist">
+        <button class="tab active" data-target="t-cloud" role="tab" aria-selected="true">Cloud Providers</button>
+        <button class="tab" data-target="t-lang" role="tab" aria-selected="false">Languages</button>
+        <button class="tab" data-target="t-cicd" role="tab" aria-selected="false">CI/CD</button>
+        <button class="tab" data-target="t-net" role="tab" aria-selected="false">Networking &amp; Security</button>
+        <button class="tab" data-target="t-obs" role="tab" aria-selected="false">Observability</button>
+      </div>
+      <div class="tabpanel active" id="t-cloud">
+        <div class="intgrid" style="grid-template-columns:repeat(2,1fr);max-width:520px;margin:0 auto">
+          <div class="intcard"><span class="int-logo"><img src="assets/logos/azure.webp" alt="Microsoft Azure"></span><span class="ic-name">Azure</span><span class="ic-sub">AKS</span></div>
+          <div class="intcard is-soon"><span class="int-logo"><img src="assets/logos/aws.png" alt="AWS"></span><span class="ic-name">AWS</span><span class="ic-sub">EKS</span><span class="soon-tag">coming soon</span></div>        </div>
+      </div>
+      <div class="tabpanel" id="t-lang">
+        <div class="intgrid" style="grid-template-columns:repeat(5,1fr)">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="coffee"></i></span><span class="ic-name">Java</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="hash"></i></span><span class="ic-name">.NET</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="braces"></i></span><span class="ic-name">Python</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="cog"></i></span><span class="ic-name">Rust</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="file-code-2"></i></span><span class="ic-name">TypeScript</span></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="t-cicd">
+        <div class="intgrid">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="play"></i></span><span class="ic-name">GitHub Actions</span><span class="ic-sub">CI</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="git-branch"></i></span><span class="ic-name">ArgoCD</span><span class="ic-sub">GitOps deploy</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="git-merge"></i></span><span class="ic-name">Kargo</span><span class="ic-sub">promotion</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="container"></i></span><span class="ic-name">Harbor</span><span class="ic-sub">registry</span></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="t-net">
+        <div class="intgrid">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="waypoints"></i></span><span class="ic-name">Istio</span><span class="ic-sub">service mesh</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="shield-check"></i></span><span class="ic-name">Kyverno</span><span class="ic-sub">policy</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="key-round"></i></span><span class="ic-name">Vault</span><span class="ic-sub">secrets</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="badge-check"></i></span><span class="ic-name">cert-manager</span><span class="ic-sub">certificates</span></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="t-obs">
+        <div class="intgrid">
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="activity"></i></span><span class="ic-name">OpenTelemetry</span><span class="ic-sub">traces</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="line-chart"></i></span><span class="ic-name">Grafana</span><span class="ic-sub">dashboards</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="gauge"></i></span><span class="ic-name">Prometheus</span><span class="ic-sub">metrics</span></div>
+          <div class="intcard"><span class="ic-glyph"><i data-lucide="radar"></i></span><span class="ic-name">Datadog</span><span class="ic-sub">optional</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="center" style="margin-top:40px;max-width:680px;margin-inline:auto">
+      <p class="body muted">Don't see your tool? Ybor is extensible by design: add a Crossplane composition for any cloud resource, register a custom installable for any cluster addon, generate an archetype for any stack.</p>
+      <p class="hide-v1" style="margin-top:16px"><a class="link-arrow" href="https://developer.p6m.dev/docs/platform/infrastructure/installable" target="_blank" rel="noopener">See the full reference <i data-lucide="arrow-up-right"></i></a></p>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER STORY - HIDDEN until case study is approved; remove style="display:none" to restore -->
+<section class="section bg-tint" style="display:none">
+  <div class="container">
+    <div class="split split-7-5">
+      <div>
+        <span class="quote-mark">"</span>
+        <blockquote class="display-md balance" style="margin:8px 0 28px;font-weight:700">Working with Ybor has been a turning point for Ashley. The platform gave us the structure to modernize confidently, without disrupting operations, and laid the groundwork for an AI-first roadmap.</blockquote>
+        <div style="margin-bottom:24px"><div class="heading-sm">Rich Teachout</div><div class="body-sm muted">CTO, Ashley Furniture Industries</div></div>
+        <a class="link-arrow" href="ashley-furniture.html">Read the Ashley case study <i data-lucide="arrow-right"></i></a>
+      </div>
+      <div>
+        <img class="testi-photo" src="assets/img/rich-teachout.jpg" alt="Rich Teachout, CTO, Ashley Furniture">
+        <img class="logo-img tall" src="assets/logos/ashley.png" alt="Ashley Furniture" style="margin-top:18px;filter:none;opacity:1">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY TEASER -->
+<section class="section-tight bg-ink">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
+      <div style="max-width:720px">
+        <span class="eyebrow"><span class="slash">//</span> security</span>
+        <h2 class="display-md balance" style="color:#fff;margin-bottom:14px">Security your reviewers can verify.</h2>
+        <p class="body-lg muted-d">Ybor's own controls are covered by a SOC 2 Type 2 report. On your clusters, signed deploys, Kyverno policies, mTLS, Vault-backed secrets and audit logs to your SIEM are on by default, reviewed once by your security team.</p>
+      </div>
+      <a class="btn btn-primary" href="security.html">Read the security overview <i data-lucide="arrow-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:680px;margin-inline:auto">See the whole platform reconcile a cluster and ship a service.</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:640px;margin:20px auto 0">Bring your stack. We'll walk the object model, bring a real cluster up live, ship a service onto it commit-to-prod, and let your security team grill us.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="contact.html?intent=demo">Book a demo <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg hide-v1" href="https://developer.p6m.dev/docs/platform/" target="_blank" rel="noopener">Open the architecture docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-mark"><img src="assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor"></div>
+        <p class="footer-tagline">The internal developer platform, delivered as a service.</p>
+        <div class="footer-badges"><span class="logo-chip"><img src="assets/logos/linux-foundation.png" alt="Linux Foundation"></span><span class="logo-chip"><img src="assets/logos/cncf.svg" alt="CNCF"></span></div>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/ybor-technology-llc" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 9.5H5.67V18.5h2.67V9.5zM7 5.75a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM18.33 18.5v-4.93c0-2.64-1.41-3.87-3.29-3.87-1.52 0-2.2.84-2.58 1.43V9.5h-2.67c.04.75 0 9 0 9h2.67v-5.02c0-.27.02-.54.1-.73.21-.54.7-1.1 1.53-1.1 1.08 0 1.51.82 1.51 2.02v4.83h2.67z"/></svg></a>
+          <a class="hide-v1" href="https://github.com/p6m-dev" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.91 0 1.38-.01 2.49-.01 2.83 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+        </div>
+      </div>
+      <div><h2>Platform</h2><div class="footer-links"><a href="platform.html">Platform Overview</a><a href="platform.html#delivery">Application Delivery</a><a href="platform.html#infrastructure">Platform Infrastructure</a><a href="how-it-works.html">How it Works</a><a href="pricing.html">Pricing</a><a class="hide-v1" href="platform.html#integrations">Integrations</a></div></div>
+      <div><h2>Company</h2><div class="footer-links"><a href="about.html">About</a><a href="customers.html" style="display:none">Customers</a><a href="careers.html">Careers</a><a href="contact.html">Contact</a><a href="security.html">Security</a><a class="hide-v1" href="blog.html">Blog</a></div></div>
+      <div class="hide-v1"><h2>Resources</h2><div class="footer-links"><a class="ext" href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a><a class="ext" href="https://platform.p6m.dev" target="_blank" rel="noopener">Platform Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a><a class="ext" href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></a></div>
+        <form class="newsletter" data-newsletter style="margin-top:18px"><input class="input" type="email" placeholder="you@company.com" aria-label="Email for newsletter"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2024–2026 Ybor Technology LLC. All rights reserved.</div>
+      <div class="footer-bottom-links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="trust-center.html">Security Trust Center</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js" defer></script>
+</body>
+</html>

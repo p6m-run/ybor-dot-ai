@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pricing | Ybor</title>
+<meta name="description" content="Ybor is an annual enterprise subscription scoped to your clusters, environments, and teams. Contact us for pricing.">
+<link rel="canonical" href="https://www.ybor.ai/pricing">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ybor">
+<meta property="og:title" content="Pricing | Ybor">
+<meta property="og:description" content="Ybor is an annual enterprise subscription scoped to your clusters, environments, and teams. Contact us for pricing.">
+<meta property="og:url" content="https://www.ybor.ai/pricing">
+<meta property="og:image" content="https://www.ybor.ai/assets/og/ybor-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Your people build. Ybor runs the rest. The internal developer platform, as a service.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="fonts/Manrope-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/JetBrainsMono-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles/site.css">
+<script>(function(){try{var t=localStorage.getItem("ybor-theme");if(!t)t=(window.matchMedia&&window.matchMedia("(prefers-color-scheme:dark)").matches)?"dark":"light";document.documentElement.setAttribute("data-theme",t);}catch(e){}})();</script>
+<script src="js/motion.js"></script>
+<script src="js/posthog.js" defer></script>
+<script src="js/icons.js" defer></script>
+<style>
+  /* Single enterprise plan card */
+  .ent-plan { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; max-width: 980px; margin-inline: auto; padding: 36px; border-color: var(--purple); box-shadow: var(--shadow-md); }
+  .ent-plan-lead { display: flex; flex-direction: column; padding-right: 40px; border-right: 1px solid var(--stroke-light); }
+  .ent-plan-lead .price-sub { min-height: 0; }
+  .ent-plan-feats .price-feats li { font-size: 14.5px; line-height: 1.5; }
+  .ent-plan-feats .price-feats b { font-weight: 600; color: var(--ink); }
+  [data-theme="dark"] .ent-plan-lead { border-right-color: var(--border-d); }
+  [data-theme="dark"] .ent-plan-feats .price-feats b { color: var(--text-0); }
+  @media (max-width: 860px) { .ent-plan { grid-template-columns: 1fr; gap: 28px; padding: 28px 22px; } .ent-plan-lead { padding-right: 0; border-right: 0; padding-bottom: 28px; border-bottom: 1px solid var(--stroke-light); } [data-theme="dark"] .ent-plan-lead { border-bottom-color: var(--border-d); } }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo" aria-label="Ybor home"><img src="assets/logos/Ybor.ai_mark_blk.svg" alt="Ybor"></a>
+    <nav class="nav" aria-label="Primary">
+      <div class="nav-item has-dd">
+        <button class="nav-link" aria-expanded="false">Platform <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="platform.html"><span class="dd-ic"><i data-lucide="layers"></i></span><span><span class="dd-title">The Platform</span><span class="dd-desc">What Ybor runs for you, from infrastructure to production.</span></span></a>
+          <div class="dd-sub"><a href="platform.html#ways-in">Three ways in</a><a href="platform.html#delivery">Application Delivery</a><a href="platform.html#infrastructure">Platform Infrastructure</a></div>
+          <a class="dd-item" href="how-it-works.html"><span class="dd-ic"><i data-lucide="workflow"></i></span><span><span class="dd-title">How it Works</span><span class="dd-desc">The architecture: object model, operators, lifecycle.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item" style="display:none"><a class="nav-link" href="customers.html">Customers</a></div>
+      <div class="nav-item"><a class="nav-link active" href="pricing.html">Pricing</a></div>
+      <div class="nav-item has-dd">
+        <button class="nav-link" aria-expanded="false">Security <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="security.html"><span class="dd-ic"><i data-lucide="shield-check"></i></span><span><span class="dd-title">Security &amp; Compliance</span><span class="dd-desc">SOC 2® report, mTLS, policy enforcement, and the controls behind the platform.</span></span></a>
+          <a class="dd-item" href="trust-center.html"><span class="dd-ic"><i data-lucide="badge-check"></i></span><span><span class="dd-title">Trust Center</span><span class="dd-desc">Download attestations and review continuously monitored controls.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item has-dd hide-v1"><!-- Resources hidden for v1 launch - remove hide-v1 to restore -->
+        <button class="nav-link" aria-expanded="false">Resources <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="https://developer.p6m.dev" target="_blank" rel="noopener"><span class="dd-ic"><i data-lucide="book-open"></i></span><span><span class="dd-title">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">REST, gRPC, GraphQL guides and the archetype catalog.</span></span></a>
+          <a class="dd-item hide-v1" href="blog.html"><span class="dd-ic"><i data-lucide="file-text"></i></span><span><span class="dd-title">Blog</span><span class="dd-desc">Platform engineering patterns from the team.</span></span></a>
+          <a class="dd-item" href="https://platform.p6m.dev/status" target="_blank" rel="noopener"><span class="dd-ic"><i data-lucide="activity"></i></span><span><span class="dd-title">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></span><span class="dd-desc">Live uptime and incident history.</span></span></a>
+        </div>
+      </div>
+      <div class="nav-item has-dd">
+        <button class="nav-link" aria-expanded="false">Company <i data-lucide="chevron-down" class="chev"></i></button>
+        <div class="dropdown">
+          <a class="dd-item" href="about.html"><span class="dd-ic"><i data-lucide="building-2"></i></span><span><span class="dd-title">About</span><span class="dd-desc">Platform engineering, built by platform engineers.</span></span></a>
+          <a class="dd-item" href="careers.html"><span class="dd-ic"><i data-lucide="users"></i></span><span><span class="dd-title">Careers</span><span class="dd-desc">Help build the platform layer for enterprise software.</span></span></a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-cta">
+      <a class="btn btn-secondary btn-sm hide-v1" href="https://developer.p6m.dev" target="_blank" rel="noopener">View docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a>
+      <a class="btn btn-primary btn-sm" href="contact.html?intent=pricing">Talk to Sales</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false"><i data-lucide="menu"></i></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Site menu" aria-hidden="true">
+  <div class="mm-top"><img src="assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor"><button class="mm-close" id="mmClose" aria-label="Close menu"><i data-lucide="x"></i></button></div>
+  <div class="mm-body">
+    <div class="mm-acc"><button class="mm-acc-head" aria-expanded="false">Platform <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="platform.html">The Platform</a><a class="mm-sub" href="platform.html#ways-in">Three ways in</a><a class="mm-sub" href="platform.html#delivery">Application Delivery</a><a class="mm-sub" href="platform.html#infrastructure">Platform Infrastructure</a><a href="how-it-works.html">How it Works</a></div></div>
+    <div class="mm-acc" style="display:none"><a class="mm-acc-head" href="customers.html">Customers</a></div>
+    <div class="mm-acc"><a class="mm-acc-head" href="pricing.html">Pricing</a></div>
+    <div class="mm-acc"><button class="mm-acc-head" aria-expanded="false">Security <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="security.html">Security &amp; Compliance</a><a href="trust-center.html">Trust Center</a></div></div>
+    <div class="mm-acc hide-v1"><button class="mm-acc-head" aria-expanded="false">Resources <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs ↗</a><a class="hide-v1" href="blog.html">Blog</a><a href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status ↗</a></div></div>
+    <div class="mm-acc"><button class="mm-acc-head" aria-expanded="false">Company <i data-lucide="chevron-down"></i></button><div class="mm-acc-body"><a href="about.html">About</a><a href="careers.html">Careers</a></div></div>
+  </div>
+  <div class="mm-foot"><a class="btn btn-ondark btn-block hide-v1" href="https://developer.p6m.dev" target="_blank" rel="noopener">View docs ↗</a><a class="btn btn-primary btn-block" href="contact.html?intent=pricing">Talk to Sales</a></div>
+</div>
+
+<main id="main">
+
+<!-- HERO + PLAN share one continuous background -->
+<div class="price-top bg-tint-soft">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container center" style="position:relative;z-index:1;padding-block:88px 48px">
+    <div style="max-width:760px;margin:0 auto">
+      <span class="eyebrow"><span class="slash">//</span> pricing</span>
+      <h1 class="display-lg balance">Enterprise pricing, scoped to your platform.</h1>
+      <p class="body-lg muted pretty" style="max-width:640px;margin:22px auto 0">Ybor is an annual enterprise subscription. Every engagement is sized to the clusters, environments, and teams you run, so we don't publish list prices. Tell us about your stack and we'll come back with a number.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px">
+        <a class="btn btn-primary" href="contact.html?intent=pricing">Contact Us <i data-lucide="arrow-right" class="ic"></i></a>
+        <a class="btn btn-secondary" href="contact.html?intent=demo">Book a demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SINGLE ENTERPRISE PLAN -->
+<section class="section-tight" style="padding-top:0">
+  <div class="container">
+    <div class="card ent-plan">
+      <div class="ent-plan-lead">
+        <div class="price-name">Enterprise</div>
+        <p class="price-sub">For organizations running production workloads on Kubernetes.</p>
+        <div class="price-amt">Custom pricing</div>
+        <p class="price-fine">Annual subscription · scoped to your platform</p>
+        <a class="btn btn-primary btn-block" href="contact.html?intent=pricing" style="margin-top:28px">Contact Us</a>
+        <p class="price-fine" style="margin-top:12px;text-align:center">We respond within one business day.</p>
+      </div>
+      <div class="ent-plan-feats">
+        <p class="label" style="color:var(--neutral-500);margin-bottom:14px">// every plan includes</p>
+        <ul class="price-feats" style="margin:0">
+          <li><i data-lucide="check" class="ck"></i><span><b>Platform Infrastructure</b>: production Kubernetes in your cloud accounts (Azure today, AWS coming soon)</span></li>
+          <li><i data-lucide="check" class="ck"></i><span><b>Application Delivery</b>: archetypes, generated CI, ArgoCD and Kargo promotions</span></li>
+          <li><i data-lucide="check" class="ck"></i><span><b>Security defaults</b>: mTLS, Kyverno policy checks, RBAC, Vault-backed secrets</span></li>
+          <li><i data-lucide="check" class="ck"></i><span><b>Your accounts, your data</b>: the platform runs inside your cloud boundary</span></li>
+          <li><i data-lucide="check" class="ck"></i><span><b>SOC 2® Type 2 report</b>: available under mutual NDA</span></li>
+          <li><i data-lucide="check" class="ck"></i><span><b>Hands-on onboarding</b>: set up alongside our platform engineers</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.price-top -->
+
+<!-- HOW PRICING WORKS -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> how pricing works</span>
+      <h2 class="display-md balance">One subscription, sized to what you run.</h2>
+    </div>
+    <div class="grid grid-3" style="margin-top:48px">
+      <div class="card"><span class="icon-chip"><i data-lucide="server"></i></span><h3 class="heading-sm" style="margin:14px 0 8px">Clusters &amp; environments</h3><p class="body-sm muted">How many workload clusters and environments Ybor provisions and keeps in sync for you.</p></div>
+      <div class="card"><span class="icon-chip"><i data-lucide="users"></i></span><h3 class="heading-sm" style="margin:14px 0 8px">Teams &amp; applications</h3><p class="body-sm muted">How many teams build on the platform, and how many services they ship through Application Delivery.</p></div>
+      <div class="card"><span class="icon-chip"><i data-lucide="shield-check"></i></span><h3 class="heading-sm" style="margin:14px 0 8px">Support &amp; compliance</h3><p class="body-sm muted">The support coverage and security reviews your organization needs. Multi-year terms are available.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT HAPPENS NEXT -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> what happens next</span>
+      <h2 class="display-md balance">From first message to a number.</h2>
+    </div>
+    <div class="grid grid-3" style="margin-top:48px">
+      <div class="card"><p class="step-num">01</p><h3 class="heading-sm" style="margin:10px 0 8px">Tell us about your stack</h3><p class="body-sm muted">Share your clouds, team size, and what you want to ship. It takes two minutes.</p></div>
+      <div class="card"><p class="step-num">02</p><h3 class="heading-sm" style="margin:10px 0 8px">30-minute scoping call</h3><p class="body-sm muted">We walk through your platform and compliance needs, and show Ybor on real clusters.</p></div>
+      <div class="card"><p class="step-num">03</p><h3 class="heading-sm" style="margin:10px 0 8px">Get a proposal</h3><p class="body-sm muted">A clear annual price for your scope, ready for procurement.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PREVIOUS TIER MODEL (Starter / Scale / Enterprise) - hidden until pricing is final. Remove hide-v1 to restore. -->
+<div class="hide-v1">
+<!-- HERO + TIERS share one continuous background -->
+<div class="price-top bg-tint-soft">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container center" style="position:relative;z-index:1;padding-block:88px 56px">
+    <div style="max-width:760px;margin:0 auto">
+      <span class="eyebrow"><span class="slash">//</span> pricing</span>
+      <h1 class="display-lg balance">Priced for the size of your platform.</h1>
+      <p class="body-lg muted pretty" style="max-width:640px;margin:22px auto 0">Three tiers, scoped to clusters, environments, and developer seats. Pick the tier that maps to your stage. We'll handle the rest in a 30-minute sales conversation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="section-tight" style="padding-top:0">
+  <div class="container">
+    <div class="price-grid">
+      <div class="card price-card">
+        <div class="price-name">Starter</div>
+        <p class="price-sub">For teams running their first platform.</p>
+        <div class="price-amt">Custom</div>
+        <p class="price-fine">Annual contract. Talk to sales.</p>
+        <ul class="price-feats">
+          <li><i data-lucide="check" class="ck"></i><span>Up to 3 workload clusters</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Up to 25 Applications</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>1 cloud provider (Azure · AWS coming soon)</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2 controls included</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Email + Slack support, 24h response</span></li>
+        </ul>
+        <a class="btn btn-secondary btn-block" href="contact.html?intent=pricing">Talk to Sales</a>
+      </div>
+      <div class="card price-card featured">
+        <span class="price-tag">MOST POPULAR</span>
+        <div class="price-name">Scale</div>
+        <p class="price-sub">For platform teams running production at scale.</p>
+        <div class="price-amt">Custom</div>
+        <p class="price-fine">Annual contract. Talk to sales.</p>
+        <ul class="price-feats">
+          <li><i data-lucide="check" class="ck"></i><span>Up to 25 workload clusters</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Up to 250 Applications</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>All 3 cloud providers</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2 audit report on request</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Dedicated platform engineer, 4h response</span></li>
+        </ul>
+        <a class="btn btn-primary btn-block" href="contact.html?intent=pricing">Talk to Sales</a>
+      </div>
+      <div class="card price-card">
+        <div class="price-name">Enterprise</div>
+        <p class="price-sub">For multi-tenant, multi-region, regulated workloads.</p>
+        <div class="price-amt">Custom</div>
+        <p class="price-fine">Annual contract. Multi-year available.</p>
+        <ul class="price-feats">
+          <li><i data-lucide="check" class="ck"></i><span>Unlimited clusters and Applications</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Multi-cloud and hybrid (on-prem connectors)</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>SOC 2, FedRAMP roadmap, custom reviews</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>Co-designed reference architecture</span></li>
+          <li><i data-lucide="check" class="ck"></i><span>24/7 named on-call, 1h critical response</span></li>
+        </ul>
+        <a class="btn btn-secondary btn-block" href="contact.html?intent=pricing">Talk to Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.price-top -->
+
+<!-- COMPARISON MATRIX -->
+<section class="section bg-white">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> compare</span>
+      <h2 class="display-md balance">Every feature, every tier.</h2>
+    </div>
+    <div class="matrix-wrap" tabindex="0" role="region" aria-label="Feature comparison table" style="margin-top:48px">
+      <table class="matrix">
+        <thead><tr><th>Feature</th><th class="tier">Starter</th><th class="tier">Scale</th><th class="tier">Enterprise</th></tr></thead>
+        <tbody>
+          <tr class="grouprow"><td colspan="4">Platform</td></tr>
+          <tr><td>Workload clusters</td><td>3</td><td>25</td><td>Unlimited</td></tr>
+          <tr><td>Applications</td><td>25</td><td>250</td><td>Unlimited</td></tr>
+          <tr><td>Environments per app</td><td>3</td><td>5</td><td>Unlimited</td></tr>
+          <tr><td>Cloud providers</td><td>1</td><td>3</td><td>3 + hybrid</td></tr>
+          <tr class="grouprow"><td colspan="4">Object Model</td></tr>
+          <tr><td>Multi-tenancy (Organizations)</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Solutions per Organization</td><td>5</td><td>25</td><td>Unlimited</td></tr>
+          <tr><td>RBAC scoped to object model</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Custom RBAC roles</td><td class="no">×</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr class="grouprow"><td colspan="4">Security &amp; Compliance</td></tr>
+          <tr><td>SOC 2 Type 2 coverage</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>SOC 2 audit report on request</td><td class="no">×</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>mTLS (Istio) by default</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Kyverno policy library</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Custom policy engineering</td><td class="no">×</td><td class="no">×</td><td class="yes">✓</td></tr>
+          <tr><td>FedRAMP roadmap consultation</td><td class="no">×</td><td class="no">×</td><td class="yes">✓</td></tr>
+          <tr class="grouprow"><td colspan="4">Delivery</td></tr>
+          <tr><td>Generated CI workflows</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>ArgoCD + Kargo</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Image signing (Sigstore)</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Custom archetypes</td><td class="no">×</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr class="grouprow"><td colspan="4">Support</td></tr>
+          <tr><td>Email + Slack</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Named platform engineer</td><td class="no">×</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>24/7 on-call</td><td class="no">×</td><td class="no">×</td><td class="yes">✓</td></tr>
+          <tr><td>Quarterly architecture review</td><td class="no">×</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Co-designed reference architecture</td><td class="no">×</td><td class="no">×</td><td class="yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ADD-ONS -->
+<section class="section bg-tint">
+  <div class="container">
+    <div class="sec-head center">
+      <span class="eyebrow"><span class="slash">//</span> add-ons</span>
+      <h2 class="display-md balance">Extend the platform as you grow.</h2>
+    </div>
+    <div class="grid grid-2" style="margin-top:48px;max-width:760px;margin-inline:auto">
+      <div class="card"><h3 class="heading-sm" style="margin-bottom:8px">Dedicated control plane</h3><p class="body-sm muted" style="margin-bottom:12px">Single-tenant control plane in your VPC.</p><p class="mono" style="font-size:12px;color:var(--purple-text)">Enterprise only</p></div>
+      <div class="card"><h3 class="heading-sm" style="margin-bottom:8px">Custom archetypes</h3><p class="body-sm muted" style="margin-bottom:12px">Our team designs archetypes for your stack.</p><p class="mono" style="font-size:12px;color:var(--purple-text)">Scale &amp; Enterprise</p></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- FAQ -->
+<section class="section bg-white">
+  <div class="container" style="max-width:840px">
+    <div class="sec-head center" style="margin-inline:auto">
+      <span class="eyebrow"><span class="slash">//</span> pricing faq</span>
+      <h2 class="display-md balance">The questions procurement asks.</h2>
+    </div>
+    <div class="accordion" style="margin-top:48px">
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">How is Ybor priced?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">As an annual enterprise subscription, scoped to the clusters, environments, and teams you run. We don't publish list prices; your proposal reflects your scope.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Do you have a free tier or sandbox?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Not today. We run a guided demo on a shared sandbox environment during the sales process. Reach out to walk through Platform Infrastructure and Application Delivery on real clusters.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Can we self-host?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Yes. The platform runs in your cloud accounts. We never store customer data outside your VPC.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Can we see your SOC 2 report?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Yes. Our SOC 2 Type 2 report is available once a mutual NDA is in place.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">What's the implementation timeline?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Typical first cluster in week 1. First Application Delivery service deployed by end of week 2. Production rollout depends on the customer.</div></div></div>
+      <div class="acc-item"><button class="acc-head" aria-expanded="false">Can we keep our existing CI/CD?<i data-lucide="plus" class="pm"></i></button><div class="acc-body"><div class="acc-body-inner">Yes. Application Delivery generates GitHub Actions workflows, but the platform is workflow-agnostic. Existing CI integrates via the standard Application manifest.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="section bg-purple-grad">
+  <div class="container center">
+    <h2 class="display-md balance" style="color:#fff;max-width:640px;margin-inline:auto">Let's scope your platform.</h2>
+    <p class="body-lg" style="color:rgba(255,255,255,.85);max-width:600px;margin:20px auto 0">30 minutes with our team. We'll size your platform, walk through compliance, and send you a proposal.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+      <a class="btn btn-onpurple btn-lg" href="contact.html?intent=pricing">Contact Us <i data-lucide="arrow-right" class="ic"></i></a>
+      <a class="btn btn-ondark btn-lg hide-v1" href="https://developer.p6m.dev/docs/platform/" target="_blank" rel="noopener">Read the Architecture Docs <i data-lucide="arrow-up-right" class="ic"></i></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-mark"><img src="assets/logos/Ybor.ai_mark_wte.svg" alt="Ybor"></div>
+        <p class="footer-tagline">The internal developer platform, delivered as a service.</p>
+        <div class="footer-badges"><span class="logo-chip"><img src="assets/logos/linux-foundation.png" alt="Linux Foundation"></span><span class="logo-chip"><img src="assets/logos/cncf.svg" alt="CNCF"></span></div>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/company/ybor-technology-llc" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 9.5H5.67V18.5h2.67V9.5zM7 5.75a1.55 1.55 0 1 0 0 3.1 1.55 1.55 0 0 0 0-3.1zM18.33 18.5v-4.93c0-2.64-1.41-3.87-3.29-3.87-1.52 0-2.2.84-2.58 1.43V9.5h-2.67c.04.75 0 9 0 9h2.67v-5.02c0-.27.02-.54.1-.73.21-.54.7-1.1 1.53-1.1 1.08 0 1.51.82 1.51 2.02v4.83h2.67z"/></svg></a>
+          <a class="hide-v1" href="https://github.com/p6m-dev" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.91 0 1.38-.01 2.49-.01 2.83 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg></a>
+        </div>
+      </div>
+      <div><h2>Platform</h2><div class="footer-links"><a href="platform.html#infrastructure">Platform Infrastructure</a><a href="platform.html#delivery">Application Delivery</a><a href="how-it-works.html">How it Works</a><a href="pricing.html">Pricing</a><a class="hide-v1" href="platform.html#integrations">Integrations</a></div></div>
+      <div><h2>Company</h2><div class="footer-links"><a href="about.html">About</a><a href="customers.html" style="display:none">Customers</a><a href="careers.html">Careers</a><a href="contact.html">Contact</a><a href="security.html">Security</a><a class="hide-v1" href="blog.html">Blog</a></div></div>
+      <div class="hide-v1"><h2>Resources</h2><div class="footer-links"><a class="ext" href="https://developer.p6m.dev" target="_blank" rel="noopener">Developer Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a><a class="ext" href="https://platform.p6m.dev" target="_blank" rel="noopener">Platform Docs <i data-lucide="arrow-up-right" class="ext-arrow"></i></a><a class="ext" href="https://platform.p6m.dev/status" target="_blank" rel="noopener">Platform Status <i data-lucide="arrow-up-right" class="ext-arrow"></i></a></div>
+        <form class="newsletter" data-newsletter style="margin-top:18px"><input class="input" type="email" placeholder="you@company.com" aria-label="Email for newsletter"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2024–2026 Ybor Technology LLC. All rights reserved.</div>
+      <div class="footer-bottom-links"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="trust-center.html">Security Trust Center</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/site.js" defer></script>
+</body>
+</html>

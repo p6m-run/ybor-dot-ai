@@ -1,119 +1,69 @@
-# Ybor.ai - Enterprise Cloud Platform
+# Ybor website (v1)
 
-> **Build and deploy enterprise-grade applications faster than ever**
+The new ybor.ai marketing site, exported from the "Ybor Website v.01" prototype on 4 Nov 2026. It's ready to open in Claude Code and turn into the real site.
 
-Ybor.ai is a modern cloud platform that provides end-to-end automation and orchestration for the entire Software Development Lifecycle (SDLC) process. Our platform helps organizations manage new and existing workloads to optimize costs while unlocking the full potential of cloud infrastructure.
+## What's in this folder
 
-## 🚀 Features
+| Folder or file | What it is |
+|---|---|
+| `site/` | The website. Everything here is what gets published. |
+| `site/*.html` | One file per page (Home is `index.html`). |
+| `site/styles/site.css` | The shared look: colors, type, layout, dark mode. |
+| `site/js/site.js` | Shared behavior: menus, theme switch, contact form. |
+| `site/assets/` | Logos, photos, the SOC 2 logo, and the product video. |
+| `site/fonts/` | Manrope and JetBrains Mono, served from the site itself. |
+| `site/robots.txt`, `site/sitemap.xml` | Tell search engines what to index. |
+| `site/404.html` | The "page not found" page. |
+| `site/favicon.ico`, `site/favicon.svg`, `site/apple-touch-icon.png` | Browser-tab icon, and the icon iPhones and message apps show (white Ybor mark on brand purple). |
+| `site/assets/og/ybor-og.jpg` | The 1200×630 image shown when a ybor.ai link is shared. |
+| `site/.well-known/security.txt` | Tells security researchers how to report a problem. Renew the `Expires` date before October 2027. |
+| `site/js/motion.js` | The "Pause animations" button's shared logic. |
+| `api/contact.js` | The contact form's server code. Runs on Vercel and emails salesinquiries@ybor.ai through Resend. |
+| `vercel.json` | Hosting settings: publish only `site/`, clean addresses, redirects from the old site, security headers. |
+| `docs/source-assets/` | Full-size originals of images that were shrunk for the web. Not published. |
+| `CLAUDE.md` | Instructions Claude Code reads automatically when you open the folder. |
+| `LAUNCH-CHECKLIST.md` | What still has to happen before ybor.ai can switch over. |
+| `docs/reference/` | The AICPA SOC logo and communications guidelines, plus the Ybor tone-of-voice guide. |
 
-- **End-to-End SDLC Automation**: Complete orchestration of your development lifecycle
-- **Multi-Cloud Deployment**: Deploy to any cloud provider seamlessly
-- **Cost Optimization**: Manage and optimize cloud workloads for maximum efficiency
-- **Enterprise Security**: Built with enterprise-grade security standards
-- **Modern Tech Stack**: Built with Astro, React, and TypeScript
+The site is plain HTML, CSS and JavaScript. There's no build step, framework, or install. The one piece of server code is the contact form function in `api/`.
 
-## 🛠️ Tech Stack
+## See it on your computer
 
-- **Framework**: [Astro](https://astro.build/) - Modern static site generator
-- **UI Library**: [React](https://reactjs.org/) - Component-based UI
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- **Forms**: [React Hook Form](https://react-hook-form.com/) - Performant forms
-- **Validation**: [Zod](https://zod.dev/) - TypeScript-first schema validation
-- **Deployment**: [Vercel](https://vercel.com/) - Cloud platform for static sites
-- **Analytics**: [Vercel Analytics](https://vercel.com/analytics) - Web analytics
-
-## 📦 Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-org/ybor-dot-dev.git
-   cd ybor-dot-dev
+1. Unzip this folder somewhere easy, like your Desktop.
+2. Open Terminal and go into the `site` folder:
    ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
+   cd ~/Desktop/ybor-website/site
    ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
+3. Start a small local web server (Python comes with macOS):
    ```
+   python3 -m http.server 8080
+   ```
+4. Open http://localhost:8080 in your browser.
+5. To stop the server, go back to Terminal and press Ctrl + C.
 
-4. **Open your browser**
-   Navigate to `http://localhost:4321`
+Double-clicking an `.html` file mostly works too, but the video and a few scripts behave better through the local server.
 
-## 🧞 Available Scripts
+## Hand it to Claude Code
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+1. Open Terminal in the `ybor-website` folder (the one with this README) and run `claude`.
+2. Claude Code reads `CLAUDE.md` first, so it already knows the project's rules.
+3. A good first message: *"Read LAUNCH-CHECKLIST.md and help me work through the engineering items, starting with the contact form."*
 
-## 🏗️ Project Structure
+## Hidden for v1
 
-```
-ybor-dot-dev/
-├── public/                 # Static assets
-├── src/
-│   ├── components/         # React and Astro components
-│   │   ├── ui/            # Reusable UI components
-│   │   ├── Brand.tsx      # Ybor.ai logo component
-│   │   ├── Form.tsx       # Contact form component
-│   │   └── Terminal.astro # Terminal-style landing page
-│   ├── hooks/             # Custom React hooks
-│   ├── layouts/           # Page layouts
-│   ├── pages/             # Astro pages and API routes
-│   │   └── api/           # API endpoints
-│   └── styles/            # Global styles
-├── astro.config.mjs       # Astro configuration
-└── package.json           # Dependencies and scripts
-```
+Some content is switched off for launch but kept in the code so it's easy to bring back: Resources, Blog, Customers, the Integrations footer link, "View docs", the old pricing tiers, open roles, "How we hire", and "The package". Everything hidden carries the `hide-v1` class. Remove that class to show it again. The hidden pages (Blog, the three blog posts, Customers, Ashley case study) also carry a `noindex` tag so search engines skip them; remove it when each page goes live.
 
-## 🌐 Deployment
+## Hosting (Vercel)
 
-This application is deployed on [Vercel](https://vercel.com/upsight-llc/ybor-dot-dev) and automatically builds from the main branch.
+The site deploys to Vercel, replacing the old Astro site in the `p6m-run/ybor-dot-ai` repo. `vercel.json` does the setup:
 
-### Environment Variables
+- **Publishes only `site/`.** `docs/`, `CLAUDE.md` and the rest stay out of the website. They're still visible in the repo, though, because it's public.
+- **Clean addresses.** `/platform` serves `platform.html`, and `/platform.html` redirects to `/platform`. Links inside the pages still end in `.html`, so the local preview keeps working.
+- **Redirects** send every page of the old site to its new home (for example `/culture-and-careers` goes to `/careers`).
+- **Security headers:** HTTPS only, a Content Security Policy, and no framing.
 
-Create a `.env` file in the root directory:
+In the Vercel project settings, set **Framework Preset** to **Other** (it's Astro today), and make sure `RESEND_API_KEY` is set as an environment variable. Never put the key in a file.
 
-```env
-# Add your environment variables here
-NOTION_API_KEY=your_notion_api_key
-NOTION_DATABASE_ID=your_notion_database_id
-RESEND_API_KEY=your_resend_api_key
-```
+**The contact form** posts to `/api/contact`. That function emails the submission to salesinquiries@ybor.ai from no-reply@ybor.ai through Resend. The local Python server can't run it, so locally the form falls back to opening your email app. To test it for real, use a Vercel preview link.
 
-## 🤝 Contributing
-
-We welcome contributions! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
-
-- **Website**: [ybor.ai](https://ybor.ai)
-- **Email**: security@ybor.ai
-- **Demo**: Schedule a demo through our [contact form](https://ybor.ai)
-
-## 🙏 Acknowledgments
-
-- Built with [Astro](https://astro.build/) for blazing fast performance
-- Styled with [Tailwind CSS](https://tailwindcss.com/) for beautiful, responsive design
-- Deployed on [Vercel](https://vercel.com/) for seamless hosting
-
----
-
-**Unlock the cloud, schedule a demo today!** 🚀
+**If you add analytics or any outside script,** add its domain to the `Content-Security-Policy` header in `vercel.json`, or the browser will block it.
